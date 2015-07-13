@@ -6,8 +6,8 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * PointCollecte
- *
- * @ORM\Table(name="t_ptscollecte", indexes={@ORM\Index(name="IDX_C3F488B8FA122EBC", columns={"id_com"}), @ORM\Index(name="IDX_C3F488B8FA32C528", columns={"id_photo"}), @ORM\Index(name="IDX_C3F488B86B3CA4B", columns={"id_user"})})
+ * 
+ * @ORM\Table(name="t_ptscollecte", indexes={@ORM\Index(name="IDX_C3F488B8FA122EBC", columns={"id_com"}), et dans @ORM\Index(name="IDX_C3F488B86B3CA4B", columns={"id_user"})})
  * @ORM\Entity
  * @ORM\Entity(repositoryClass="Geograph\ProgdechBundle\Repository\PointCollecteRepository")
  */
@@ -77,32 +77,41 @@ class PointCollecte
      *
      * @ORM\ManyToOne(targetEntity="Commune", inversedBy="pointsCollecte")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="id_com", referencedColumnName="id_com")
+     *   @ORM\JoinColumn(name="id_com", referencedColumnName="id_com", onDelete="restrict")
      * })
      */
     private $commune;
 
     /**
-     * @var \TPhotos
+     * @var \User
      *
-     * @ORM\ManyToOne(targetEntity="TPhotos")
+     * @ORM\ManyToOne(targetEntity="User")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="id_photo", referencedColumnName="id_photo")
-     * })
-     */
-    private $photo;
-
-    /**
-     * @var \TUsers
-     *
-     * @ORM\ManyToOne(targetEntity="TUsers")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="id_user", referencedColumnName="id_user")
+     *   @ORM\JoinColumn(name="id_user", referencedColumnName="id_user", onDelete="restrict")
      * })
      */
     private $user;
+    
+    /**
+     * @ORM\OneToMany(targetEntity="Photo", mappedBy="pointcollecte")
+     */
+    protected $photos;
+    
+    /**
+     * @ORM\OneToMany(targetEntity="Observation", mappedBy="pointcollecte")
+     */
+    protected $observations;
 
     public $marker = null;
+
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->photos = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->observations = new \Doctrine\Common\Collections\ArrayCollection();
+    }
 
     /**
      * Get id
@@ -299,35 +308,12 @@ class PointCollecte
     }
 
     /**
-     * Set photo
-     *
-     * @param \Geograph\ProgdechBundle\Entity\TPhotos $photo
-     * @return PointCollecte
-     */
-    public function setPhoto(\Geograph\ProgdechBundle\Entity\TPhotos $photo = null)
-    {
-        $this->photo = $photo;
-
-        return $this;
-    }
-
-    /**
-     * Get photo
-     *
-     * @return \Geograph\ProgdechBundle\Entity\TPhotos 
-     */
-    public function getPhoto()
-    {
-        return $this->photo;
-    }
-
-    /**
      * Set user
      *
-     * @param \Geograph\ProgdechBundle\Entity\TUsers $user
+     * @param \Geograph\ProgdechBundle\Entity\User $user
      * @return PointCollecte
      */
-    public function setUser(\Geograph\ProgdechBundle\Entity\TUsers $user = null)
+    public function setUser(\Geograph\ProgdechBundle\Entity\User $user = null)
     {
         $this->user = $user;
 
@@ -337,10 +323,76 @@ class PointCollecte
     /**
      * Get user
      *
-     * @return \Geograph\ProgdechBundle\Entity\TUsers 
+     * @return \Geograph\ProgdechBundle\Entity\User 
      */
     public function getUser()
     {
         return $this->user;
+    }
+
+    /**
+     * Add photos
+     *
+     * @param \Geograph\ProgdechBundle\Entity\Photo $photos
+     * @return PointCollecte
+     */
+    public function addPhoto(\Geograph\ProgdechBundle\Entity\Photo $photos)
+    {
+        $this->photos[] = $photos;
+
+        return $this;
+    }
+
+    /**
+     * Remove photos
+     *
+     * @param \Geograph\ProgdechBundle\Entity\Photo $photos
+     */
+    public function removePhoto(\Geograph\ProgdechBundle\Entity\Photo $photos)
+    {
+        $this->photos->removeElement($photos);
+    }
+
+    /**
+     * Get photos
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getPhotos()
+    {
+        return $this->photos;
+    }
+
+    /**
+     * Add observations
+     *
+     * @param \Geograph\ProgdechBundle\Entity\Observation $observations
+     * @return PointCollecte
+     */
+    public function addObservation(\Geograph\ProgdechBundle\Entity\Observation $observations)
+    {
+        $this->observations[] = $observations;
+
+        return $this;
+    }
+
+    /**
+     * Remove observations
+     *
+     * @param \Geograph\ProgdechBundle\Entity\Observation $observations
+     */
+    public function removeObservation(\Geograph\ProgdechBundle\Entity\Observation $observations)
+    {
+        $this->observations->removeElement($observations);
+    }
+
+    /**
+     * Get observations
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getObservations()
+    {
+        return $this->observations;
     }
 }

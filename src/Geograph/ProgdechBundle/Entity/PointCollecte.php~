@@ -1,0 +1,107 @@
+<?php
+
+namespace Geograph\ProgdechBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * PointCollecte
+ * 
+ * @ORM\Table(name="t_ptscollecte", indexes={@ORM\Index(name="IDX_C3F488B8FA122EBC", columns={"id_com"}), @ORM\Index(name="IDX_C3F488B8FA32C528", columns={"id_photo"}), @ORM\Index(name="IDX_C3F488B86B3CA4B", columns={"id_user"})})
+ * @ORM\Entity
+ * @ORM\Entity(repositoryClass="Geograph\ProgdechBundle\Repository\PointCollecteRepository")
+ */
+class PointCollecte
+{
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="id_ptcollecte", type="integer", nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="SEQUENCE")
+     * @ORM\SequenceGenerator(sequenceName="t_ptscollecte_id_ptcollecte_seq", allocationSize=1, initialValue=1)
+     */
+    private $id;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="ref_ptcollecte", type="string", length=20, nullable=false)
+     */
+    private $ref;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="nom_ptcollecte", type="string", length=50, nullable=true)
+     */
+    private $nom;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="adresse_ptcollecte", type="string", length=100, nullable=true)
+     */
+    private $adresse;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="lat_ptcollecte", type="decimal", precision=9, scale=6, nullable=false)
+     */
+    private $latitude;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="lng_ptcollecte", type="decimal", precision=9, scale=6, nullable=false)
+     */
+    private $longitude;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="emplacement_ptcollecte", type="decimal", precision=2, scale=0, nullable=true)
+     */
+    private $emplacement;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="date_ptcollecte", type="date", nullable=false)
+     */
+    private $date;
+
+    /**
+     * @var \Commune
+     *
+     * @ORM\ManyToOne(targetEntity="Commune", inversedBy="pointsCollecte")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="id_com", referencedColumnName="id_com", onDelete="restrict")
+     * })
+     */
+    private $commune;
+
+    /**
+     * @var \User
+     *
+     * @ORM\ManyToOne(targetEntity="User")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="id_user", referencedColumnName="id_user", onDelete="restrict")
+     * })
+     */
+    private $user;
+    
+    /**
+     * @ORM\OneToMany(targetEntity="Photo", mappedBy="pointcollecte")
+     */
+    protected $photos;
+    
+    /**
+     * @ORM\OneToMany(targetEntity="Observation", mappedBy="pointcollecte")
+     */
+    protected $observations;
+
+    public $marker = null;
+
+}
