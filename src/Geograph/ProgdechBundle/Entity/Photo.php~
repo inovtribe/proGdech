@@ -6,8 +6,8 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * Photo
- *
- * @ORM\Table(name="t_photos", indexes={@ORM\Index(name="IDX_211198272D8A6AB4", columns={"id_ptcollecte"})})
+ *  
+ * @ORM\Table(name="t_photos")
  * @ORM\Entity
  */
 class Photo
@@ -46,4 +46,83 @@ class Photo
      */
     private $pointcollecte;
 
+
+    /**
+     * Get id
+     *
+     * @return integer 
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set url
+     *
+     * @param string $url
+     * @return Photo
+     */
+    public function setUrl($url)
+    {
+        $this->url = $url;
+
+        return $this;
+    }
+
+    /**
+     * Get url
+     *
+     * @return string 
+     */
+    public function getUrl()
+    {
+        return $this->url;
+    }
+
+    /**
+     * Set date
+     *
+     * @param \DateTime $date
+     * @return Photo
+     */
+    public function setDate($date)
+    {
+        $this->date = $date;
+
+        return $this;
+    }
+
+    /**
+     * Get date
+     *
+     * @return \DateTime 
+     */
+    public function getDate()
+    {
+        return $this->date;
+    }
+
+    /**
+     * Set pointcollecte
+     *
+     * @param \Geograph\ProgdechBundle\Entity\PointCollecte $pointcollecte
+     * @return Photo
+     */
+    public function setPointcollecte(\Geograph\ProgdechBundle\Entity\PointCollecte $pointcollecte = null)
+    {
+        $this->pointcollecte = $pointcollecte;
+
+        return $this;
+    }
+
+    /**
+     * Get pointcollecte
+     *
+     * @return \Geograph\ProgdechBundle\Entity\PointCollecte 
+     */
+    public function getPointcollecte()
+    {
+        return $this->pointcollecte;
+    }
 }

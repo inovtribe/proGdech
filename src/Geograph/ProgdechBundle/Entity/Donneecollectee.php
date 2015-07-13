@@ -6,8 +6,8 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * Donneecollectee
- *
- * @ORM\Table(name="t_donneescollectes", indexes={@ORM\Index(name="IDX_48ED2E61356BD40E", columns={"id_tournee"}), @ORM\Index(name="IDX_48ED2E616B3CA4B", columns={"id_user"})})
+ * 
+ * @ORM\Table(name="t_donneescollectes")
  * @ORM\Entity
  */
 class Donneecollectee
@@ -66,16 +66,6 @@ class Donneecollectee
      * })
      */
     private $idTournee;
-
-    /**
-     * @var \User
-     *
-     * @ORM\ManyToOne(targetEntity="User")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="id_user", referencedColumnName="id_user", onDelete="restrict")
-     * })
-     */
-    private $user;
 
 
     /**
@@ -224,28 +214,5 @@ class Donneecollectee
     public function getIdTournee()
     {
         return $this->idTournee;
-    }
-
-    /**
-     * Set user
-     *
-     * @param \Geograph\ProgdechBundle\Entity\User $user
-     * @return Donneecollectee
-     */
-    public function setUser(\Geograph\ProgdechBundle\Entity\User $user = null)
-    {
-        $this->user = $user;
-
-        return $this;
-    }
-
-    /**
-     * Get user
-     *
-     * @return \Geograph\ProgdechBundle\Entity\User 
-     */
-    public function getUser()
-    {
-        return $this->user;
     }
 }

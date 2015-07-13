@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * PointCollecte
  * 
- * @ORM\Table(name="t_ptscollecte", indexes={@ORM\Index(name="IDX_C3F488B8FA122EBC", columns={"id_com"}), @ORM\Index(name="IDX_C3F488B8FA32C528", columns={"id_photo"}), @ORM\Index(name="IDX_C3F488B86B3CA4B", columns={"id_user"})})
+ * @ORM\Table(name="t_ptscollecte")
  * @ORM\Entity
  * @ORM\Entity(repositoryClass="Geograph\ProgdechBundle\Repository\PointCollecteRepository")
  */
@@ -104,4 +104,295 @@ class PointCollecte
 
     public $marker = null;
 
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->photos = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->observations = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    /**
+     * Get id
+     *
+     * @return integer 
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set ref
+     *
+     * @param string $ref
+     * @return PointCollecte
+     */
+    public function setRef($ref)
+    {
+        $this->ref = $ref;
+
+        return $this;
+    }
+
+    /**
+     * Get ref
+     *
+     * @return string 
+     */
+    public function getRef()
+    {
+        return $this->ref;
+    }
+
+    /**
+     * Set nom
+     *
+     * @param string $nom
+     * @return PointCollecte
+     */
+    public function setNom($nom)
+    {
+        $this->nom = $nom;
+
+        return $this;
+    }
+
+    /**
+     * Get nom
+     *
+     * @return string 
+     */
+    public function getNom()
+    {
+        return $this->nom;
+    }
+
+    /**
+     * Set adresse
+     *
+     * @param string $adresse
+     * @return PointCollecte
+     */
+    public function setAdresse($adresse)
+    {
+        $this->adresse = $adresse;
+
+        return $this;
+    }
+
+    /**
+     * Get adresse
+     *
+     * @return string 
+     */
+    public function getAdresse()
+    {
+        return $this->adresse;
+    }
+
+    /**
+     * Set latitude
+     *
+     * @param string $latitude
+     * @return PointCollecte
+     */
+    public function setLatitude($latitude)
+    {
+        $this->latitude = $latitude;
+
+        return $this;
+    }
+
+    /**
+     * Get latitude
+     *
+     * @return string 
+     */
+    public function getLatitude()
+    {
+        return $this->latitude;
+    }
+
+    /**
+     * Set longitude
+     *
+     * @param string $longitude
+     * @return PointCollecte
+     */
+    public function setLongitude($longitude)
+    {
+        $this->longitude = $longitude;
+
+        return $this;
+    }
+
+    /**
+     * Get longitude
+     *
+     * @return string 
+     */
+    public function getLongitude()
+    {
+        return $this->longitude;
+    }
+
+    /**
+     * Set emplacement
+     *
+     * @param string $emplacement
+     * @return PointCollecte
+     */
+    public function setEmplacement($emplacement)
+    {
+        $this->emplacement = $emplacement;
+
+        return $this;
+    }
+
+    /**
+     * Get emplacement
+     *
+     * @return string 
+     */
+    public function getEmplacement()
+    {
+        return $this->emplacement;
+    }
+
+    /**
+     * Set date
+     *
+     * @param \DateTime $date
+     * @return PointCollecte
+     */
+    public function setDate($date)
+    {
+        $this->date = $date;
+
+        return $this;
+    }
+
+    /**
+     * Get date
+     *
+     * @return \DateTime 
+     */
+    public function getDate()
+    {
+        return $this->date;
+    }
+
+    /**
+     * Set commune
+     *
+     * @param \Geograph\ProgdechBundle\Entity\Commune $commune
+     * @return PointCollecte
+     */
+    public function setCommune(\Geograph\ProgdechBundle\Entity\Commune $commune = null)
+    {
+        $this->commune = $commune;
+
+        return $this;
+    }
+
+    /**
+     * Get commune
+     *
+     * @return \Geograph\ProgdechBundle\Entity\Commune 
+     */
+    public function getCommune()
+    {
+        return $this->commune;
+    }
+
+    /**
+     * Set user
+     *
+     * @param \Geograph\ProgdechBundle\Entity\User $user
+     * @return PointCollecte
+     */
+    public function setUser(\Geograph\ProgdechBundle\Entity\User $user = null)
+    {
+        $this->user = $user;
+
+        return $this;
+    }
+
+    /**
+     * Get user
+     *
+     * @return \Geograph\ProgdechBundle\Entity\User 
+     */
+    public function getUser()
+    {
+        return $this->user;
+    }
+
+    /**
+     * Add photos
+     *
+     * @param \Geograph\ProgdechBundle\Entity\Photo $photos
+     * @return PointCollecte
+     */
+    public function addPhoto(\Geograph\ProgdechBundle\Entity\Photo $photos)
+    {
+        $this->photos[] = $photos;
+
+        return $this;
+    }
+
+    /**
+     * Remove photos
+     *
+     * @param \Geograph\ProgdechBundle\Entity\Photo $photos
+     */
+    public function removePhoto(\Geograph\ProgdechBundle\Entity\Photo $photos)
+    {
+        $this->photos->removeElement($photos);
+    }
+
+    /**
+     * Get photos
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getPhotos()
+    {
+        return $this->photos;
+    }
+
+    /**
+     * Add observations
+     *
+     * @param \Geograph\ProgdechBundle\Entity\Observation $observations
+     * @return PointCollecte
+     */
+    public function addObservation(\Geograph\ProgdechBundle\Entity\Observation $observations)
+    {
+        $this->observations[] = $observations;
+
+        return $this;
+    }
+
+    /**
+     * Remove observations
+     *
+     * @param \Geograph\ProgdechBundle\Entity\Observation $observations
+     */
+    public function removeObservation(\Geograph\ProgdechBundle\Entity\Observation $observations)
+    {
+        $this->observations->removeElement($observations);
+    }
+
+    /**
+     * Get observations
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getObservations()
+    {
+        return $this->observations;
+    }
 }

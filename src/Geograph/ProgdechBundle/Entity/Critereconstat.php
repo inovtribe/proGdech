@@ -6,8 +6,8 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * Critereconstat
- *
- * @ORM\Table(name="t_critereconstats", uniqueConstraints={@ORM\UniqueConstraint(name="t_criteres_nom_critere_key", columns={"nom_critere"})})
+ * 
+ * @ORM\Table(name="t_critereconstats")
  * @ORM\Entity
  */
 class Critereconstat
