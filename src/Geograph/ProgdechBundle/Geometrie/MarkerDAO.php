@@ -6,8 +6,8 @@ use Geograph\ProgdechBundle\Geometrie\Marker;
 
 class MarkerDAO
 {
-    public function setInactifMarker(){
-        $row['iconurl'] = '/imgs/markers/pointcollecte_defaut.png';
+    public function setInactifMarker() {
+        $row['iconurl'] = '/bundles/geographprogdech/images/markers/pointcollecte_defaut.png';
         $row['iconsize'] = '[21, 32]';
         $row['iconanchor'] = '[10, 32]';
         $row['popupanchor'] = '[0, -32]';
@@ -16,7 +16,7 @@ class MarkerDAO
     }
     
     public function setActifMarker(){
-        $row['iconurl'] = '/imgs/markers/pointcollecte.png';
+        $row['iconurl'] = '/bundles/geographprogdech/images/markers/pointcollecte.png';
         $row['iconsize'] = '[29, 44]';
         $row['iconanchor'] = '[14, 44]';
         $row['popupanchor'] = '[0, -44]';
@@ -26,7 +26,7 @@ class MarkerDAO
     
     public function setMarker_volontaire(){
         $marker = "inactif_marker = L.icon({
-            iconUrl: '/imgs/markers/ptcollecte_volontaire.png',
+            iconUrl: ''/bundles/geographprogdech/images/markers/ptcollecte_volontaire.png',
 
             iconSize:     [29, 32], // size of the icon
             iconAnchor:   [22, 32], // point of the icon which will correspond to marker's location
