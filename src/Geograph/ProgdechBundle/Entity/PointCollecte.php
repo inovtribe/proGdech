@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * PointCollecte
  * 
- * @ORM\Table(name="t_ptscollecte", indexes={@ORM\Index(name="IDX_C3F488B8FA122EBC", columns={"id_com"}), et dans @ORM\Index(name="IDX_C3F488B86B3CA4B", columns={"id_user"})})
+ * @ORM\Table(name="t_ptscollecte", indexes={@ORM\Index(name="IDX_C3F488B8FA122EBC", columns={"id_com"}), @ORM\Index(name="IDX_C3F488B86B3CA4B", columns={"id_user"})})
  * @ORM\Entity
  * @ORM\Entity(repositoryClass="Geograph\ProgdechBundle\Repository\PointCollecteRepository")
  */

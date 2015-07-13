@@ -8,3 +8,5 @@
 /bin/
 /composer.phar
 /nbproject/private/
+*~
+*swp
