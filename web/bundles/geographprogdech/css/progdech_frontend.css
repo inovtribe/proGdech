@@ -1,0 +1,62 @@
+html, body {
+    box-sizing: border-box;
+    height: 100%;
+}
+
+*,
+*::after,
+*::before {
+    box-sizing: inherit;
+}
+body { 
+}
+
+.footer {
+    border-top: 1px solid #ccc;
+    padding-top: 10px;
+    text-align: center;
+}
+
+.articleTitle:hover, .articleTitle:focus {
+    text-decoration: none;
+}
+
+.adminTable {
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+article {
+}
+#content {
+    margin: 15px 0px 15px 0px;
+}
+#map {
+    width: calc(100% + 15px); height: 800px;
+    border: 1px solid gray;
+}
+#errorPanel {
+    padding-top: 30px;
+    padding-bottom: 10px;
+}
+
+@media (min-width: 1200px) {
+  .container {
+    width: 100%; height: 100%;
+  }
+}
+
+.info {
+    padding: 6px 8px;
+    font: 14px/16px Arial, Helvetica, sans-serif;
+    background: white;
+    background: rgba(255,255,255,0.8);
+    box-shadow: 0 0 15px rgba(0,0,0,0.2);
+    border-radius: 5px;
+    width: 200px;
+    text-align: center;
+}
+.info h4 {
+    margin: 0 0 5px;
+    color: #777;
+    text-align: right;
+}

@@ -7,4 +7,4 @@
 /app/phpunit.xml
 /bin/
 /composer.phar
-/web/bundles/
+/nbproject/private/
