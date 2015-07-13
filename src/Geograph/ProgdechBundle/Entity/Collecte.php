@@ -7,7 +7,8 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * TCollectes
  *
- * @ORM\Table(name="t_collectes", indexes={@ORM\Index(name="IDX_C85974A6356BD40E", columns={"id_tournee"}), @ORM\Index(name="IDX_C85974A66B3CA4B", columns={"id_user"})})
+ * @ORM\Table(name="t_collectes", indexes={@ORM\Index(name="IDX_C85974A682EB4402", columns={"id_bac"}), @ORM\Index(name="IDX_C85974A6356BD40E", columns={"id_tournee"}), @ORM\Index(name="IDX_C85974A66B3CA4B", columns={"id_user"})})
+
  * @ORM\Entity
  */
 class Collecte
@@ -28,6 +29,16 @@ class Collecte
      * @ORM\Column(name="position_collecte", type="integer", nullable=false)
      */
     private $position;
+
+    /**
+     * @var \Bac
+     *
+     * @ORM\ManyToOne(targetEntity="Bac")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="id_bac", referencedColumnName="id_bac")
+     * })
+     */
+    private $bac;
     
     /**
      * @ORM\OneToMany(targetEntity="Bac", mappedBy="collecte")
