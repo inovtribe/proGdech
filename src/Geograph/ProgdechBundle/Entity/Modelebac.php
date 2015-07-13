@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * TModelesbacs
  *
- * @ORM\Table(name="t_modelesbacs")
+ * @ORM\Table(name="t_modelesbacs", indexes={@ORM\Index(name="IDX_EC45CB42F88DC732", columns={"id_format"}), @ORM\Index(name="IDX_EC45CB42C373A28C", columns={"id_ouverture"}), @ORM\Index(name="IDX_EC45CB426DF522B4", columns={"id_typeflux"}), @ORM\Index(name="IDX_EC45CB426B3CA4B", columns={"id_user"})})
  * @ORM\Entity
  */
 class Modelebac

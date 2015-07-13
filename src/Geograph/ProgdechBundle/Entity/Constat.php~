@@ -6,7 +6,8 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * Constat
- * @ORM\Table(name="t_constats")
+ *
+ * @ORM\Table(name="t_constats", indexes={@ORM\Index(name="IDX_31C2A6FA82EB4402", columns={"id_bac"}), @ORM\Index(name="IDX_31C2A6FAA1F72923", columns={"id_critere"}), @ORM\Index(name="IDX_31C2A6FA6B3CA4B", columns={"id_user"})})
  * @ORM\Entity
  */
 class Constat

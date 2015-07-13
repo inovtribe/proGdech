@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Tournee
  *
- * @ORM\Table(name="t_tournees")
+ * @ORM\Table(name="t_tournees", indexes={@ORM\Index(name="IDX_78B979175137C5C7", columns={"id_jour"}), @ORM\Index(name="IDX_78B979176B3CA4B", columns={"id_user"})})
  * @ORM\Entity
  */
 class Tournee
@@ -45,6 +45,16 @@ class Tournee
      * })
      */
     private $jour;
+
+    /**
+     * @var \User
+     *
+     * @ORM\ManyToOne(targetEntity="User")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="id_user", referencedColumnName="id_user", onDelete="restrict")
+     * })
+     */
+    private $user;
     
     /**
      * @ORM\OneToMany(targetEntity="Collecte", mappedBy="tournee")
@@ -142,6 +152,29 @@ class Tournee
     public function getJour()
     {
         return $this->jour;
+    }
+
+    /**
+     * Set user
+     *
+     * @param \Geograph\ProgdechBundle\Entity\User $user
+     * @return Tournee
+     */
+    public function setUser(\Geograph\ProgdechBundle\Entity\User $user = null)
+    {
+        $this->user = $user;
+
+        return $this;
+    }
+
+    /**
+     * Get user
+     *
+     * @return \Geograph\ProgdechBundle\Entity\User 
+     */
+    public function getUser()
+    {
+        return $this->user;
     }
 
     /**

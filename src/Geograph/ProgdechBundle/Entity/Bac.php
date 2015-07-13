@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Bac
  *
- * @ORM\Table(name="t_bacs")
+ * @ORM\Table(name="t_bacs", indexes={@ORM\Index(name="IDX_C4D43013575A6A8", columns={"id_collecte"}), @ORM\Index(name="IDX_C4D43013562F6245", columns={"id_modelebac"}), @ORM\Index(name="IDX_C4D430132D8A6AB4", columns={"id_ptcollecte"}), @ORM\Index(name="IDX_C4D430136B3CA4B", columns={"id_user"})})
  * @ORM\Entity
  */
 class Bac
@@ -27,7 +27,7 @@ class Bac
      *
      * @ORM\Column(name="ref_bac", type="string", length=20, nullable=false)
      */
-    private $reference;
+    private $ref;
 
     /**
      * @var integer
@@ -42,6 +42,16 @@ class Bac
      * @ORM\Column(name="date_bac", type="date", nullable=true)
      */
     private $date;
+
+    /**
+     * @var \Collecte
+     *
+     * @ORM\ManyToOne(targetEntity="Collecte")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="id_collecte", referencedColumnName="id_collecte", onDelete="restrict")
+     * })
+     */
+    private $collecte;
 
     /**
      * @var \Modelebac
@@ -77,13 +87,6 @@ class Bac
      */
     protected $constats;
 
-    /**
-     * Constructor
-     */
-    public function __construct()
-    {
-        $this->constats = new \Doctrine\Common\Collections\ArrayCollection();
-    }
 
     /**
      * Get id
@@ -96,26 +99,26 @@ class Bac
     }
 
     /**
-     * Set reference
+     * Set ref
      *
-     * @param string $reference
+     * @param string $ref
      * @return Bac
      */
-    public function setReference($reference)
+    public function setRef($ref)
     {
-        $this->reference = $reference;
+        $this->ref = $ref;
 
         return $this;
     }
 
     /**
-     * Get reference
+     * Get ref
      *
      * @return string 
      */
-    public function getReference()
+    public function getRef()
     {
-        return $this->reference;
+        return $this->ref;
     }
 
     /**
@@ -165,12 +168,35 @@ class Bac
     }
 
     /**
-     * Set modeleBac
+     * Set collecte
      *
-     * @param \Geograph\ProgdechBundle\Entity\Modelebac $modeleBac
+     * @param \Geograph\ProgdechBundle\Entity\Collecte $collecte
      * @return Bac
      */
-    public function setModeleBac(\Geograph\ProgdechBundle\Entity\Modelebac $modeleBac = null)
+    public function setCollecte(\Geograph\ProgdechBundle\Entity\Collecte $collecte = null)
+    {
+        $this->collecte = $collecte;
+
+        return $this;
+    }
+
+    /**
+     * Get collecte
+     *
+     * @return \Geograph\ProgdechBundle\Entity\Collecte 
+     */
+    public function getCollecte()
+    {
+        return $this->collecte;
+    }
+
+    /**
+     * Set modeleBac
+     *
+     * @param \Geograph\ProgdechBundle\Entity\ModeleBac $modeleBac
+     * @return Bac
+     */
+    public function setModeleBac(\Geograph\ProgdechBundle\Entity\ModeleBac $modeleBac = null)
     {
         $this->modeleBac = $modeleBac;
 
@@ -180,7 +206,7 @@ class Bac
     /**
      * Get modeleBac
      *
-     * @return \Geograph\ProgdechBundle\Entity\Modelebac 
+     * @return \Geograph\ProgdechBundle\Entity\ModeleBac 
      */
     public function getModeleBac()
     {
@@ -231,6 +257,13 @@ class Bac
     public function getUser()
     {
         return $this->user;
+    }
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->constats = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     /**

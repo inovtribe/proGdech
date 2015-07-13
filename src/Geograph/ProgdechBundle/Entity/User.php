@@ -76,6 +76,10 @@ class User
      */
     protected $bacs;
     
+    /**
+     * @ORM\OneToMany(targetEntity="Collecte", mappedBy="user")
+     */
+    protected $collectes;
     
     /**
      * @ORM\OneToMany(targetEntity="Modelebac", mappedBy="user")
@@ -91,6 +95,16 @@ class User
      * @ORM\OneToMany(targetEntity="Constat", mappedBy="user")
      */
     protected $constats;
+    
+    /**
+     * @ORM\OneToMany(targetEntity="DonneeCollectee", mappedBy="user")
+     */
+    protected $donneescollectees;
+    
+    /**
+     * @ORM\OneToMany(targetEntity="Tournee", mappedBy="user")
+     */
+    protected $tournees;
     
     /**
      * @ORM\OneToMany(targetEntity="Observation", mappedBy="user")

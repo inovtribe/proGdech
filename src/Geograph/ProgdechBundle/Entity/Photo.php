@@ -6,8 +6,8 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * Photo
- *  
- * @ORM\Table(name="t_photos")
+ *
+ * @ORM\Table(name="t_photos", indexes={@ORM\Index(name="IDX_211198272D8A6AB4", columns={"id_ptcollecte"})})
  * @ORM\Entity
  */
 class Photo

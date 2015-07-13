@@ -7,9 +7,8 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * TCollectes
  *
- * @ORM\Table(name="t_collectes")
+ * @ORM\Table(name="t_collectes", indexes={@ORM\Index(name="IDX_C85974A6356BD40E", columns={"id_tournee"}), @ORM\Index(name="IDX_C85974A66B3CA4B", columns={"id_user"})})
  * @ORM\Entity
- * 
  */
 class Collecte
 {
@@ -29,6 +28,11 @@ class Collecte
      * @ORM\Column(name="position_collecte", type="integer", nullable=false)
      */
     private $position;
+    
+    /**
+     * @ORM\OneToMany(targetEntity="Bac", mappedBy="collecte")
+     */
+    protected $bacs;
 
     /**
      * @var \Tournee
@@ -39,7 +43,24 @@ class Collecte
      * })
      */
     private $tournee;
+
+    /**
+     * @var \User
+     *
+     * @ORM\ManyToOne(targetEntity="User")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="id_user", referencedColumnName="id_user", onDelete="restrict")
+     * })
+     */
+    private $user;
     
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->bacs = new \Doctrine\Common\Collections\ArrayCollection();
+    }
 
     /**
      * Get id
@@ -75,6 +96,39 @@ class Collecte
     }
 
     /**
+     * Add bacs
+     *
+     * @param \Geograph\ProgdechBundle\Entity\Bac $bacs
+     * @return Collecte
+     */
+    public function addBac(\Geograph\ProgdechBundle\Entity\Bac $bacs)
+    {
+        $this->bacs[] = $bacs;
+
+        return $this;
+    }
+
+    /**
+     * Remove bacs
+     *
+     * @param \Geograph\ProgdechBundle\Entity\Bac $bacs
+     */
+    public function removeBac(\Geograph\ProgdechBundle\Entity\Bac $bacs)
+    {
+        $this->bacs->removeElement($bacs);
+    }
+
+    /**
+     * Get bacs
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getBacs()
+    {
+        return $this->bacs;
+    }
+
+    /**
      * Set tournee
      *
      * @param \Geograph\ProgdechBundle\Entity\Tournee $tournee
@@ -95,5 +149,28 @@ class Collecte
     public function getTournee()
     {
         return $this->tournee;
+    }
+
+    /**
+     * Set user
+     *
+     * @param \Geograph\ProgdechBundle\Entity\User $user
+     * @return Collecte
+     */
+    public function setUser(\Geograph\ProgdechBundle\Entity\User $user = null)
+    {
+        $this->user = $user;
+
+        return $this;
+    }
+
+    /**
+     * Get user
+     *
+     * @return \Geograph\ProgdechBundle\Entity\User 
+     */
+    public function getUser()
+    {
+        return $this->user;
     }
 }
