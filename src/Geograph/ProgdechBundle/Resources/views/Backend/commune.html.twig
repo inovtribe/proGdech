@@ -1,0 +1,40 @@
+{% extends 'GeographProgdechBundle:Backend:backend_layout.html.twig' %}
+{% set adminMenu = true %}
+
+{% block content %}
+        <h2 class="text-center">{{ block('title') }}</h2>
+        <article class="col-sm-9">
+            <div id="map" class="h800"></div>
+        </article>
+        {% autoescape 'js'%}
+        <script>     
+            {{ carte|raw }}
+
+            geojson = L.geoJson(geometriescommunales, {
+                filter: filtre, style: style}).addTo(map); 
+            map.fitBounds(geojson.getBounds()).setMaxBounds(geojson.getBounds());
+            {% for pointcollecte in pointscollecte %}
+                marker = L.icon({
+                    iconUrl: '{{pointcollecte.marker.iconurl|raw}}',
+
+                    iconSize:     {{pointcollecte.marker.iconsize|raw}}, // size of the icon
+                    iconAnchor:   {{pointcollecte.marker.iconanchor|raw}}, // point of the icon which will correspond to marker's location
+                    popupAnchor:  {{pointcollecte.marker.popupanchor|raw}} // point from which the popup should open relative to the iconAnchor
+                });
+                L.marker([{{ pointcollecte.latitude }}, {{ pointcollecte.longitude }}], {icon: marker}).bindPopup("<a href=\"/admin/pointcollecte/{{pointcollecte.id}}\">{{ pointcollecte.nom }}</a>").addTo(map);
+            {% endfor %}
+            function style (feature){
+                return {
+                fillColor: 'green',
+                fillOpacity: 0.15,
+                weight: 1,
+                opacity: 1,
+                color: 'green',
+                dashArray: '1'};
+            }
+            function filtre(feature, layer) {
+                return feature.properties.INSEE == {{ commune.insee }};
+            }
+        </script>
+        {% endautoescape %}
+{% endblock %}

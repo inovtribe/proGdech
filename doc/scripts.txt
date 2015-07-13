@@ -1,0 +1,9 @@
+# Generating Getters and Setters
+php app/console doctrine:generate:entities GeographProgdechBundle
+
+# Update Database Tables/Schema
+php app/console doctrine:schema:update --dump-sql
+php app/console doctrine:schema:update --force
+
+# Générer les assets
+php app/console assets:install web --symlink

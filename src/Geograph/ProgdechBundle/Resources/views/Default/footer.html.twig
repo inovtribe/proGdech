@@ -1,0 +1,9 @@
+<footer class="footer">
+    <p><a href="{{ path('home') }}" alt="Retourner à l'accueil">Accueil</a> | 
+        {% if app.security.token and is_granted('IS_AUTHENTICATED_FULLY') %}
+            <a href="{{ path('admin') }}" alt="Accéder à l'espace d'administration">Administration</a> | <a href="{{ path('logout') }}">Déconnexion</a> |
+        {% else %}
+            <a href="{{ path('login') }}" alt="Vous identifier">Connexion</a> | 
+        {% endif %}
+            <a href="http://geograph.fr">proGdech</a> est une application métier orientée gestion des points de collecte.
+        </footer>
