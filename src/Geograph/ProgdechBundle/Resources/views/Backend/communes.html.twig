@@ -25,15 +25,16 @@
         var aerial = L.tileLayer("{{ aeriallayer.url|raw }}", {attribution: "{{ aeriallayer.attribution|raw }}"});
         var baseMaps = {"Carte": topo, "Vue aerienne": aerial};
         var overlayMaps = {};
-        var map = L.map('{{ carte.div|raw }}', {center: [{{ carte.latitudeview|raw }}, {{ carte.longitudeview|raw }}], zoom: {{ carte.zoom|raw }}, layers: [topo, geojson]});
+        var map = L.map('{{ carte.div|raw }}', {layers: [topo, geojson]});
         L.control.layers(baseMaps, overlayMaps).addTo(map);
+        map.fitBounds(geojson.getBounds()).setMaxBounds(geojson.getBounds());
+        
         {% for commune in communes %}
             commune{{ commune.insee|raw }} = new Array("{{ commune.getNom()|raw }}", "{{ commune.insee|raw }}", "{{ commune.superficie|raw }}");
         {% endfor %}
         geojson = L.geoJson(geometriescommunales, {
             style: style,
             onEachFeature: onEachFeature,}).addTo(map); 
-        map.fitBounds(geojson.getBounds()).setMaxBounds(geojson.getBounds());
 
         function style(feature) {
             return { 
@@ -57,11 +58,9 @@
             if (!L.Browser.ie && !L.Browser.opera) {
                 layer.bringToFront();
             }
-            $("#donneescommune").text(/*Variable du nom de la commune*/);
         }
         function resetHighlight(e) {
             geojson.resetStyle(e.target);
-            $("#donneescommune").text("Survolez une commune");
         }
         function zoomToFeature(e) {
             //map.fitBounds(e.target.getBounds());
