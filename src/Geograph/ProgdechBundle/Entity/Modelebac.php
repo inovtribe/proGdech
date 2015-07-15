@@ -53,7 +53,7 @@ class Modelebac
     /**
      * @var \Format
      *
-     * @ORM\ManyToOne(targetEntity="Format")
+     * @ORM\ManyToOne(targetEntity="Format", inversedBy="formats")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="id_format", referencedColumnName="id_format", onDelete="restrict")
      * })
@@ -63,7 +63,7 @@ class Modelebac
     /**
      * @var \Ouverture
      *
-     * @ORM\ManyToOne(targetEntity="Ouverture")
+     * @ORM\ManyToOne(targetEntity="Ouverture", inversedBy="ouvertures")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="id_ouverture", referencedColumnName="id_ouverture", onDelete="restrict")
      * })
@@ -73,7 +73,7 @@ class Modelebac
     /**
      * @var \Typeflux
      *
-     * @ORM\ManyToOne(targetEntity="Typeflux")
+     * @ORM\ManyToOne(targetEntity="Typeflux", inversedBy="modelesbac")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="id_typeflux", referencedColumnName="id_typeflux", onDelete="restrict")
      * })

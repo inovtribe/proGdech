@@ -67,7 +67,6 @@ class CommuneController extends Controller
 		$commune = $this->getDoctrine()
 			->getRepository('GeographProgdechBundle:Commune')
 			->findOneByInsee($commune_insee);
-
 		$marker = $this->get('geometrie_marker')
 			->setMarker("pointcollecte");
                 $marker = $this->get('geometrie_marker')

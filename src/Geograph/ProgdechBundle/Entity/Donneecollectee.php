@@ -60,12 +60,12 @@ class Donneecollectee
     /**
      * @var \Tournee
      *
-     * @ORM\ManyToOne(targetEntity="Tournee")
+     * @ORM\ManyToOne(targetEntity="Tournee", inversedBy="donneescollectees")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="id_tournee", referencedColumnName="id_tournee", onDelete="restrict")
      * })
      */
-    private $idTournee;
+    private $tournee;
 
     /**
      * @var \User

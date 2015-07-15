@@ -32,7 +32,7 @@ class Ouverture
     /**
      * @ORM\OneToMany(targetEntity="Modelebac", mappedBy="ouverture")
      */
-    protected $modelesbac;
+    protected $ouvertures;
 
     /**
      * Constructor

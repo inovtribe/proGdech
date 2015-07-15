@@ -46,7 +46,7 @@ class Constat
     /**
      * @var \Bac
      *
-     * @ORM\ManyToOne(targetEntity="Bac")
+     * @ORM\ManyToOne(targetEntity="Bac", inversedBy="constats")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="id_bac", referencedColumnName="id_bac", onDelete="restrict")
      * })
@@ -56,12 +56,12 @@ class Constat
     /**
      * @var \Critereconstat
      *
-     * @ORM\ManyToOne(targetEntity="Critereconstat")
+     * @ORM\ManyToOne(targetEntity="Critereconstat", inversedBy="constats")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="id_critere", referencedColumnName="id_critere", onDelete="restrict")
      * })
      */
-    private $idCritere;
+    private $critereconstat;
 
     /**
      * @var \User

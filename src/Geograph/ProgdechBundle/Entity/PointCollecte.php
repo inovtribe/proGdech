@@ -28,7 +28,7 @@ class PointCollecte
      *
      * @ORM\Column(name="ref_ptcollecte", type="string", length=20, nullable=false)
      */
-    private $ref;
+    private $reference;
 
     /**
      * @var string
@@ -394,5 +394,28 @@ class PointCollecte
     public function getObservations()
     {
         return $this->observations;
+    }
+
+    /**
+     * Set reference
+     *
+     * @param string $reference
+     * @return PointCollecte
+     */
+    public function setReference($reference)
+    {
+        $this->reference = $reference;
+    
+        return $this;
+    }
+
+    /**
+     * Get reference
+     *
+     * @return string 
+     */
+    public function getReference()
+    {
+        return $this->reference;
     }
 }

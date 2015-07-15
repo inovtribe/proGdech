@@ -33,6 +33,7 @@ class Format
      * @ORM\OneToMany(targetEntity="Modelebac", mappedBy="format")
      */
     protected $formats;
+    
     /**
      * Constructor
      */

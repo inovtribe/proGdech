@@ -28,7 +28,7 @@ class PointCollecte
      *
      * @ORM\Column(name="ref_ptcollecte", type="string", length=20, nullable=false)
      */
-    private $ref;
+    private $reference;
 
     /**
      * @var string

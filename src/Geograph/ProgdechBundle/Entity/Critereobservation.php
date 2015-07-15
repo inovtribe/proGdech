@@ -32,7 +32,7 @@ class Critereobservation
     /**
      * @ORM\OneToMany(targetEntity="Observation", mappedBy="critereobservation")
      */
-    protected $observations;
+    protected $criteresobservation;
 
     /**
      * Constructor

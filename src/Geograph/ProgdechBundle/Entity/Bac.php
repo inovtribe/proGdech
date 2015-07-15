@@ -46,7 +46,7 @@ class Bac
     /**
      * @var \Collecte
      *
-     * @ORM\ManyToOne(targetEntity="Collecte")
+     * @ORM\ManyToOne(targetEntity="Collecte", inversedBy="bacs")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="id_collecte", referencedColumnName="id_collecte", onDelete="restrict")
      * })
@@ -55,12 +55,12 @@ class Bac
 
     /**
      * @var \Modelebac
-     * @ORM\ManyToOne(targetEntity="Modelebac")
+     * @ORM\ManyToOne(targetEntity="Modelebac", inversedBy="bacs")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="id_modelebac", referencedColumnName="id_modelebac", onDelete="restrict")
      * })
      */
-    private $modeleBac;
+    private $modelebac;
 
     /**
      * @var \PointCollecte
@@ -70,7 +70,7 @@ class Bac
      *   @ORM\JoinColumn(name="id_ptcollecte", referencedColumnName="id_ptcollecte")
      * })
      */
-    private $pointCollecte;
+    private $pointcollecte;
 
     /**
      * @var \User

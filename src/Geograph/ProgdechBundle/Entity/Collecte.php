@@ -29,17 +29,7 @@ class Collecte
      * @ORM\Column(name="position_collecte", type="integer", nullable=false)
      */
     private $position;
-
-    /**
-     * @var \Bac
-     *
-     * @ORM\ManyToOne(targetEntity="Bac")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="id_bac", referencedColumnName="id_bac")
-     * })
-     */
-    private $bac;
-    
+   
     /**
      * @ORM\OneToMany(targetEntity="Bac", mappedBy="collecte")
      */
@@ -48,7 +38,7 @@ class Collecte
     /**
      * @var \Tournee
      *
-     * @ORM\ManyToOne(targetEntity="Tournee")
+     * @ORM\ManyToOne(targetEntity="Tournee", inversedBy="collectes")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="id_tournee", referencedColumnName="id_tournee", onDelete="restrict")
      * })

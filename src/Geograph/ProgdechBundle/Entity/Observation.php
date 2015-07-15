@@ -46,12 +46,12 @@ class Observation
     /**
      * @var \Critereobservation
      *
-     * @ORM\ManyToOne(targetEntity="Critereobservation")
+     * @ORM\ManyToOne(targetEntity="Critereobservation", inversedBy="criteresobservation")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="id_critere", referencedColumnName="id_critere", onDelete="restrict")
      * })
      */
-    private $critere;
+    private $critereobservation;
 
     /**
      * @var \PointCollecte
