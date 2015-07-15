@@ -16,14 +16,23 @@ class AdminController extends Controller
      * @Template("GeographProgdechBundle:Backend:admin.html.twig");
      */
     public function indexAction() {
-/*
+	$carte = $this->get('geometrie_carte')
+                ->setMap();
+        $topolayer = $this->getDoctrine()
+                ->getRepository('GeographProgdechBundle:FondCarte')
+                ->findOneById(1);
+        $aeriallayer = $this->getDoctrine()
+                ->getRepository('GeographProgdechBundle:FondCarte')
+                ->findOneById(4);
 
-        $marker = $app['geometrie.marker']->setMarker();
-        $marker = $app['geometrie.marker']->setMarkerInactif($marker);
-        return $app['twig']->render('/backend/admin.html.twig', array(
-            'marker' => $marker
-            ));
-*/
-	return array();
+        $communes = $this->getDoctrine()
+                ->getRepository('GeographProgdechBundle:Commune')
+                ->findAll();
+        return array(
+                        'carte' => $carte,
+                        'topolayer' => $topolayer,
+                        'aeriallayer' => $aeriallayer,
+                        'communes' => $communes
+                    );
     }
 }
