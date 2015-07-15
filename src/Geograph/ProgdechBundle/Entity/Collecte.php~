@@ -58,7 +58,7 @@ class Collecte
     /**
      * @var \User
      *
-     * @ORM\ManyToOne(targetEntity="User")
+     * @ORM\ManyToOne(targetEntity="User", inversedBy="collectes")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="id_user", referencedColumnName="id_user", onDelete="restrict")
      * })
@@ -183,5 +183,28 @@ class Collecte
     public function getUser()
     {
         return $this->user;
+    }
+
+    /**
+     * Set bac
+     *
+     * @param \Geograph\ProgdechBundle\Entity\Bac $bac
+     * @return Collecte
+     */
+    public function setBac(\Geograph\ProgdechBundle\Entity\Bac $bac = null)
+    {
+        $this->bac = $bac;
+    
+        return $this;
+    }
+
+    /**
+     * Get bac
+     *
+     * @return \Geograph\ProgdechBundle\Entity\Bac 
+     */
+    public function getBac()
+    {
+        return $this->bac;
     }
 }

@@ -56,7 +56,7 @@ class Observation
     /**
      * @var \PointCollecte
      *
-     * @ORM\ManyToOne(targetEntity="PointCollecte")
+     * @ORM\ManyToOne(targetEntity="PointCollecte", inversedBy="observations")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="id_ptcollecte", referencedColumnName="id_ptcollecte", onDelete="restrict")
      * })
@@ -66,7 +66,7 @@ class Observation
     /**
      * @var \User
      *
-     * @ORM\ManyToOne(targetEntity="User")
+     * @ORM\ManyToOne(targetEntity="User", inversedBy="observations")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="id_user", referencedColumnName="id_user", onDelete="restrict")
      * })
