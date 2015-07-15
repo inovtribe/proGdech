@@ -39,7 +39,7 @@ class Population
     /**
      * @var \Commune
      *
-     * @ORM\ManyToOne(targetEntity="Commune")
+     * @ORM\ManyToOne(targetEntity="Commune", inversedBy="populations")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="id_com", referencedColumnName="id_com")
      * })

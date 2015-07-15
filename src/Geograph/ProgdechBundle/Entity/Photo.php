@@ -39,7 +39,7 @@ class Photo
     /**
      * @var \PointCollecte
      *
-     * @ORM\ManyToOne(targetEntity="PointCollecte")
+     * @ORM\ManyToOne(targetEntity="PointCollecte", inversedBy="photos")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="id_ptcollecte", referencedColumnName="id_ptcollecte")
      * })
