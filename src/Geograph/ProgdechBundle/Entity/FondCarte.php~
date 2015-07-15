@@ -62,7 +62,7 @@ class FondCarte
     /**
      * @var \TTypesfondscarte
      *
-     * @ORM\ManyToOne(targetEntity="TypeFondCarte", inversedBy="fondCarte")
+     * @ORM\ManyToOne(targetEntity="TypeFondCarte", inversedBy="fondsCarte")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="id_typefondcarte", referencedColumnName="id_typefondcarte", onDelete="restrict")
      * })

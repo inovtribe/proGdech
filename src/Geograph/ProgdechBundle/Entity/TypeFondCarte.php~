@@ -35,6 +35,7 @@ class TypeFondCarte
      * @ORM\OneToMany(targetEntity="FondCarte", mappedBy="typefondcarte")
      */
     protected $fondsCarte;
+    
     /**
      * Constructor
      */
