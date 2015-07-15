@@ -25,16 +25,30 @@ class PointCollecteController extends Controller
         $aeriallayer = $this->getDoctrine()
                 ->getRepository('GeographProgdechBundle:FondCarte')
                 ->findOneById(4);
+        
+        $marker = $this->get('geometrie_marker')
+                ->setMarker("pointcollecte");
+        $markeractif = $this->get('geometrie_marker')
+			->setMarkerActif($marker);
+        $markerinactif = $this->get('geometrie_marker')
+			->setMarkerInactif($marker);
 
         $pointcollecte = $this->getDoctrine()
                 ->getRepository('GeographProgdechBundle:PointCollecte')
                 ->findOneById($pointcollecte_id);
-        //var_dump($pointcollecte);
+        $pointcollecte->getBacs();
+        $commune = $pointcollecte->getCommune();
+        $user = $pointcollecte->getUser();
+        
         return array(
                         'carte' => $carte,
                         'topolayer' => $topolayer,
                         'aeriallayer' => $aeriallayer,
-                        'pointcollecte' => $pointcollecte
+                        'markeractif' => $markeractif,
+                        'markerinactif' => $markerinactif,
+                        'pointcollecte' => $pointcollecte,
+                        'commune' => $commune,
+                        'user' => $user
                     );
     }
 }

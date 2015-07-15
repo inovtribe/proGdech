@@ -107,4 +107,37 @@ class Critereobservation
     {
         return $this->observations;
     }
+
+    /**
+     * Add criteresobservation
+     *
+     * @param \Geograph\ProgdechBundle\Entity\Observation $criteresobservation
+     * @return Critereobservation
+     */
+    public function addCriteresobservation(\Geograph\ProgdechBundle\Entity\Observation $criteresobservation)
+    {
+        $this->criteresobservation[] = $criteresobservation;
+    
+        return $this;
+    }
+
+    /**
+     * Remove criteresobservation
+     *
+     * @param \Geograph\ProgdechBundle\Entity\Observation $criteresobservation
+     */
+    public function removeCriteresobservation(\Geograph\ProgdechBundle\Entity\Observation $criteresobservation)
+    {
+        $this->criteresobservation->removeElement($criteresobservation);
+    }
+
+    /**
+     * Get criteresobservation
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getCriteresobservation()
+    {
+        return $this->criteresobservation;
+    }
 }

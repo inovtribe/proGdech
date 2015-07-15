@@ -122,7 +122,7 @@ class Modelebac
     public function setReference($reference)
     {
         $this->reference = $reference;
-
+    
         return $this;
     }
 
@@ -145,7 +145,7 @@ class Modelebac
     public function setNom($nom)
     {
         $this->nom = $nom;
-
+    
         return $this;
     }
 
@@ -168,7 +168,7 @@ class Modelebac
     public function setType($type)
     {
         $this->type = $type;
-
+    
         return $this;
     }
 
@@ -191,7 +191,7 @@ class Modelebac
     public function setVolume($volume)
     {
         $this->volume = $volume;
-
+    
         return $this;
     }
 
@@ -214,7 +214,7 @@ class Modelebac
     public function setFormat(\Geograph\ProgdechBundle\Entity\Format $format = null)
     {
         $this->format = $format;
-
+    
         return $this;
     }
 
@@ -237,7 +237,7 @@ class Modelebac
     public function setOuverture(\Geograph\ProgdechBundle\Entity\Ouverture $ouverture = null)
     {
         $this->ouverture = $ouverture;
-
+    
         return $this;
     }
 
@@ -260,7 +260,7 @@ class Modelebac
     public function setTypeflux(\Geograph\ProgdechBundle\Entity\Typeflux $typeflux = null)
     {
         $this->typeflux = $typeflux;
-
+    
         return $this;
     }
 
@@ -283,7 +283,7 @@ class Modelebac
     public function setUser(\Geograph\ProgdechBundle\Entity\User $user = null)
     {
         $this->user = $user;
-
+    
         return $this;
     }
 
@@ -306,7 +306,7 @@ class Modelebac
     public function addBac(\Geograph\ProgdechBundle\Entity\Bac $bacs)
     {
         $this->bacs[] = $bacs;
-
+    
         return $this;
     }
 

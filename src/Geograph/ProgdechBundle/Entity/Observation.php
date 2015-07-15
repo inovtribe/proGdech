@@ -370,4 +370,27 @@ class Observation
     {
         return $this->user;
     }
+
+    /**
+     * Set critereobservation
+     *
+     * @param \Geograph\ProgdechBundle\Entity\Critereobservation $critereobservation
+     * @return Observation
+     */
+    public function setCritereobservation(\Geograph\ProgdechBundle\Entity\Critereobservation $critereobservation = null)
+    {
+        $this->critereobservation = $critereobservation;
+    
+        return $this;
+    }
+
+    /**
+     * Get critereobservation
+     *
+     * @return \Geograph\ProgdechBundle\Entity\Critereobservation 
+     */
+    public function getCritereobservation()
+    {
+        return $this->critereobservation;
+    }
 }

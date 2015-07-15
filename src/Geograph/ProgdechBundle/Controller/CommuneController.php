@@ -73,7 +73,6 @@ class CommuneController extends Controller
 			->setMarkerInactif($marker);
 
 		$pointsCollecte = $commune->getPointsCollecte();
-
 		$this->getDoctrine()
 			->getRepository('GeographProgdechBundle:PointCollecte')
 			->assignMarkerToPointsCollecte($pointsCollecte, $marker);

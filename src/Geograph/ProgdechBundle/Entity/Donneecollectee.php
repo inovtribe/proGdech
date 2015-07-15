@@ -248,4 +248,27 @@ class Donneecollectee
     {
         return $this->user;
     }
+
+    /**
+     * Set tournee
+     *
+     * @param \Geograph\ProgdechBundle\Entity\Tournee $tournee
+     * @return Donneecollectee
+     */
+    public function setTournee(\Geograph\ProgdechBundle\Entity\Tournee $tournee = null)
+    {
+        $this->tournee = $tournee;
+    
+        return $this;
+    }
+
+    /**
+     * Get tournee
+     *
+     * @return \Geograph\ProgdechBundle\Entity\Tournee 
+     */
+    public function getTournee()
+    {
+        return $this->tournee;
+    }
 }

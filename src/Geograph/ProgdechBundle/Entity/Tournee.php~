@@ -39,7 +39,7 @@ class Tournee
     /**
      * @var \Jour
      *
-     * @ORM\ManyToOne(targetEntity="Jour")
+     * @ORM\ManyToOne(targetEntity="Jour",inversedBy="tournees")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="id_jour", referencedColumnName="id_jour", onDelete="restrict")
      * })

@@ -65,7 +65,7 @@ class Bac
     /**
      * @var \PointCollecte
      *
-     * @ORM\ManyToOne(targetEntity="PointCollecte")
+     * @ORM\ManyToOne(targetEntity="PointCollecte", inversedBy="bacs")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="id_ptcollecte", referencedColumnName="id_ptcollecte")
      * })
@@ -86,7 +86,14 @@ class Bac
      * @ORM\OneToMany(targetEntity="Constat", mappedBy="bac")
      */
     protected $constats;
-
+    
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->constats = new \Doctrine\Common\Collections\ArrayCollection();
+    }
 
     /**
      * Get id
@@ -107,7 +114,7 @@ class Bac
     public function setRef($ref)
     {
         $this->ref = $ref;
-
+    
         return $this;
     }
 
@@ -130,7 +137,7 @@ class Bac
     public function setEmplacement($emplacement)
     {
         $this->emplacement = $emplacement;
-
+    
         return $this;
     }
 
@@ -153,7 +160,7 @@ class Bac
     public function setDate($date)
     {
         $this->date = $date;
-
+    
         return $this;
     }
 
@@ -176,7 +183,7 @@ class Bac
     public function setCollecte(\Geograph\ProgdechBundle\Entity\Collecte $collecte = null)
     {
         $this->collecte = $collecte;
-
+    
         return $this;
     }
 
@@ -191,49 +198,49 @@ class Bac
     }
 
     /**
-     * Set modeleBac
+     * Set modelebac
      *
-     * @param \Geograph\ProgdechBundle\Entity\ModeleBac $modeleBac
+     * @param \Geograph\ProgdechBundle\Entity\Modelebac $modelebac
      * @return Bac
      */
-    public function setModeleBac(\Geograph\ProgdechBundle\Entity\ModeleBac $modeleBac = null)
+    public function setModelebac(\Geograph\ProgdechBundle\Entity\Modelebac $modelebac = null)
     {
-        $this->modeleBac = $modeleBac;
-
+        $this->modelebac = $modelebac;
+    
         return $this;
     }
 
     /**
-     * Get modeleBac
+     * Get modelebac
      *
-     * @return \Geograph\ProgdechBundle\Entity\ModeleBac 
+     * @return \Geograph\ProgdechBundle\Entity\Modelebac 
      */
-    public function getModeleBac()
+    public function getModelebac()
     {
-        return $this->modeleBac;
+        return $this->modelebac;
     }
 
     /**
-     * Set pointCollecte
+     * Set pointcollecte
      *
-     * @param \Geograph\ProgdechBundle\Entity\PointCollecte $pointCollecte
+     * @param \Geograph\ProgdechBundle\Entity\PointCollecte $pointcollecte
      * @return Bac
      */
-    public function setPointCollecte(\Geograph\ProgdechBundle\Entity\PointCollecte $pointCollecte = null)
+    public function setPointcollecte(\Geograph\ProgdechBundle\Entity\PointCollecte $pointcollecte = null)
     {
-        $this->pointCollecte = $pointCollecte;
-
+        $this->pointcollecte = $pointcollecte;
+    
         return $this;
     }
 
     /**
-     * Get pointCollecte
+     * Get pointcollecte
      *
      * @return \Geograph\ProgdechBundle\Entity\PointCollecte 
      */
-    public function getPointCollecte()
+    public function getPointcollecte()
     {
-        return $this->pointCollecte;
+        return $this->pointcollecte;
     }
 
     /**
@@ -245,7 +252,7 @@ class Bac
     public function setUser(\Geograph\ProgdechBundle\Entity\User $user = null)
     {
         $this->user = $user;
-
+    
         return $this;
     }
 
@@ -258,13 +265,6 @@ class Bac
     {
         return $this->user;
     }
-    /**
-     * Constructor
-     */
-    public function __construct()
-    {
-        $this->constats = new \Doctrine\Common\Collections\ArrayCollection();
-    }
 
     /**
      * Add constats
@@ -275,7 +275,7 @@ class Bac
     public function addConstat(\Geograph\ProgdechBundle\Entity\Constat $constats)
     {
         $this->constats[] = $constats;
-
+    
         return $this;
     }
 

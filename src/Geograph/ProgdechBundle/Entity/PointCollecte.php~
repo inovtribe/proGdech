@@ -101,6 +101,11 @@ class PointCollecte
      * @ORM\OneToMany(targetEntity="Observation", mappedBy="pointcollecte")
      */
     protected $observations;
+    
+    /**
+     * @ORM\OneToMany(targetEntity="Bac", mappedBy="pointcollecte")
+     */
+    protected $bacs;
 
     public $marker = null;
 
@@ -394,5 +399,28 @@ class PointCollecte
     public function getObservations()
     {
         return $this->observations;
+    }
+
+    /**
+     * Set reference
+     *
+     * @param string $reference
+     * @return PointCollecte
+     */
+    public function setReference($reference)
+    {
+        $this->reference = $reference;
+    
+        return $this;
+    }
+
+    /**
+     * Get reference
+     *
+     * @return string 
+     */
+    public function getReference()
+    {
+        return $this->reference;
     }
 }

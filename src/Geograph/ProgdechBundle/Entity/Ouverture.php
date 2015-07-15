@@ -107,4 +107,37 @@ class Ouverture
     {
         return $this->modelesbac;
     }
+
+    /**
+     * Add ouvertures
+     *
+     * @param \Geograph\ProgdechBundle\Entity\Modelebac $ouvertures
+     * @return Ouverture
+     */
+    public function addOuverture(\Geograph\ProgdechBundle\Entity\Modelebac $ouvertures)
+    {
+        $this->ouvertures[] = $ouvertures;
+    
+        return $this;
+    }
+
+    /**
+     * Remove ouvertures
+     *
+     * @param \Geograph\ProgdechBundle\Entity\Modelebac $ouvertures
+     */
+    public function removeOuverture(\Geograph\ProgdechBundle\Entity\Modelebac $ouvertures)
+    {
+        $this->ouvertures->removeElement($ouvertures);
+    }
+
+    /**
+     * Get ouvertures
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getOuvertures()
+    {
+        return $this->ouvertures;
+    }
 }

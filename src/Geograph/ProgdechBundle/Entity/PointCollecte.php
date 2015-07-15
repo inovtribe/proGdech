@@ -101,6 +101,11 @@ class PointCollecte
      * @ORM\OneToMany(targetEntity="Observation", mappedBy="pointcollecte")
      */
     protected $observations;
+    
+    /**
+     * @ORM\OneToMany(targetEntity="Bac", mappedBy="pointcollecte")
+     */
+    protected $bacs;
 
     public $marker = null;
 
@@ -417,5 +422,38 @@ class PointCollecte
     public function getReference()
     {
         return $this->reference;
+    }
+
+    /**
+     * Add bacs
+     *
+     * @param \Geograph\ProgdechBundle\Entity\Bac $bacs
+     * @return PointCollecte
+     */
+    public function addBac(\Geograph\ProgdechBundle\Entity\Bac $bacs)
+    {
+        $this->bacs[] = $bacs;
+    
+        return $this;
+    }
+
+    /**
+     * Remove bacs
+     *
+     * @param \Geograph\ProgdechBundle\Entity\Bac $bacs
+     */
+    public function removeBac(\Geograph\ProgdechBundle\Entity\Bac $bacs)
+    {
+        $this->bacs->removeElement($bacs);
+    }
+
+    /**
+     * Get bacs
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getBacs()
+    {
+        return $this->bacs;
     }
 }

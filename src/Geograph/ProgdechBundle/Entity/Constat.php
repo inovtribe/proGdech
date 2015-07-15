@@ -221,4 +221,27 @@ class Constat
     {
         return $this->user;
     }
+
+    /**
+     * Set critereconstat
+     *
+     * @param \Geograph\ProgdechBundle\Entity\Critereconstat $critereconstat
+     * @return Constat
+     */
+    public function setCritereconstat(\Geograph\ProgdechBundle\Entity\Critereconstat $critereconstat = null)
+    {
+        $this->critereconstat = $critereconstat;
+    
+        return $this;
+    }
+
+    /**
+     * Get critereconstat
+     *
+     * @return \Geograph\ProgdechBundle\Entity\Critereconstat 
+     */
+    public function getCritereconstat()
+    {
+        return $this->critereconstat;
+    }
 }
