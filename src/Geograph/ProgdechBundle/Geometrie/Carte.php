@@ -3,27 +3,27 @@
 namespace Geograph\ProgdechBundle\Geometrie;
 
 Class Carte {
+    
     /**
-     * Carte topomap tilelayer.
+     * Carte div (Nom du calque support de l'affichage).
      *
      * @var string
      */
-    private $topomap;
+    private $div;
     
     /**
-     * Carte aerialmap tilelayer.
+     * Carte Latitude Vue.
      *
      * @var string
      */
-    private $aerialmap;
-    
+    private $latitudeview;
     
     /**
-     * Carte scale.
+     * Carte Longitude Vue.
      *
      * @var string
      */
-    private $scale;
+    private $longitudeview;
     
     /**
      * Carte zoom.
@@ -32,29 +32,25 @@ Class Carte {
      */
     private $zoom;
     
-    /**
-     * Carte view.
-     *
-     * @var string
-     */
-    private $view;
+    public function getDiv(){
+        return $this->div;
+    }
+    public function setDiv($div){
+        $this->div = $div;
+    }
     
-    public function __construct(){
-        $topolayer = "L.tileLayer('http://server.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/tile/{z}/{y}/{x}', {
-        attribution: 'Tiles &copy; Esri &mdash; Esri, DeLorme, NAVTEQ, TomTom, Intermap, iPC, USGS, FAO, NPS, NRCAN, GeoBase, Kadaster NL, Ordnance Survey, Esri Japan, METI, Esri China (Hong Kong), and the GIS User Community'
-        });";
-        $this->setTopoLayer($topolayer);
-        $aeriallayer = "L.tileLayer('http://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
-	attribution: 'Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community'
-        });";
-        $this->setAerialLayer($aeriallayer);
+    public function getLatitudeView(){
+        return $this->latitudeview;
     }
-
-    public function getView(){
-        return $this->view;
+    public function setLatitudeView($latitude){
+        $this->latitudeview = $latitude;
     }
-    public function setView($view){
-        $this->view = $view;
+    
+    public function getLongitudeView(){
+        return $this->longitudeview;
+    }
+    public function setLongitudeView($longitude){
+        $this->longitudeview = $longitude;
     }
     
     public function getZoom(){
@@ -62,26 +58,5 @@ Class Carte {
     }
     public function setZoom($zoom){
         $this->zoom = $zoom;
-    }
-    
-    public function getTopoLayer(){
-        return $this->topomap;
-    }
-    public function setTopoLayer($topolayer){
-        $this->topomap = $topolayer;
-    }
-    
-    public function getAerialLayer(){
-        return $this->aerialmap;
-    }
-    public function setAerialLayer($aeriallayer){
-        $this->aerialmap = $aeriallayer;
-    }
-    
-    public function getScale(){
-        return $this->scale;
-    }
-    public function setScale($scale){
-        $this->scale = $scale;
     }
 }

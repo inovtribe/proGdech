@@ -2,42 +2,44 @@
 
 namespace Geograph\ProgdechBundle\Geometrie;
 
-Class Marker extends Carte {
-    /**icon.
-     *
-     * @var string
-     */
-    private $iconurl;
+Class Marker {
     
-    /**shadow.
+    /** Marker type.
      *
      * @var string
      */
-    private $shadowurl;
+    private $type;
     
-    /**icon size.
+    /** Marker image ressource.
      *
      * @var string
      */
-    private $iconsize;
+    private $filename;
     
-    /**shadow size.
+    /**icon width.
      *
      * @var string
      */
-    private $shadowsize;
+    private $width;
+    
+    /**icon height.
+     *
+     * @var string
+     */
+    private $height;
+    
+    /**marker size.
+     *
+     * @var string
+     */
+    private $size;
+    
     
     /**icon anchor.
      *
      * @var string
      */
-    private $iconanchor;
-    
-    /**shadow anchor.
-     *
-     * @var string
-     */
-    private $shadowanchor;
+    private $anchor;
     
     /**popup anchor.
      *
@@ -45,51 +47,46 @@ Class Marker extends Carte {
      */
     private $popupanchor;
     
-    public function __construct(){
-        $iconurl = '/imgs/ptcollecte.png';
-        $this->setIconUrl($iconurl);
+    public function getType(){
+        return $this->type;
+    }
+    public function setType($type){
+        $this->type = $type;
     }
     
-    public function getIconUrl(){
-        return $this->iconurl;
+    public function getFilename(){
+        return $this->filename;
     }
-    public function setIconUrl($iconurl){
-        $this->iconurl = $iconurl;
-    }
-    
-    public function getShadowUrl(){
-        return $this->shadowurl;
-    }
-    public function setShadowUrl($shadowurl){
-        $this->shadowurl = $shadowurl;
+    public function setFilename($filename){
+        $this->filename = $filename;
     }
     
-    public function getIconSize(){
-        return $this->iconsize;
+    public function getWidth(){
+        return $this->width;
     }
-    public function setIconSize($iconsize){
-        $this->iconsize = $iconsize;
-    }
-    
-    public function getShadowSize(){
-        return $this->shadowsize;
-    }
-    public function setShadowSize($shadowsize){
-        $this->shadowsize = $shadowsize;
+    public function setWidth($width){
+        $this->width = $width;
     }
     
-    public function getIconAnchor(){
-        return $this->iconanchor;
+    public function getHeight(){
+        return $this->height;
     }
-    public function setIconAnchor($iconanchor){
-        $this->iconanchor = $iconanchor;
+    public function setHeight($height){
+        $this->height = $height;
     }
     
-    public function getShadowAnchor(){
-        return $this->shadowanchor;
+    public function getSize(){
+        return $this->size;
     }
-    public function setShadowAnchor($shadowanchor){
-        $this->shadowanchor = $shadowanchor;
+    public function setSize($size){
+        $this->size = $size;
+    }
+    
+    public function getAnchor(){
+        return $this->anchor;
+    }
+    public function setAnchor($anchor){
+        $this->anchor = $anchor;
     }
     
     public function getPopupAnchor(){

@@ -18,7 +18,15 @@
     </div>
     {% autoescape 'js'%}
     <script>     
-        {{ carte|raw }}
+        var geojson = L.geoJson(gestionnairelayer);
+        geojson.setStyle({"color": 'red', "weight": 1, "fill" : true, smoothFactor: 1, "fillOpacity": 0.025});
+
+        var topo = L.tileLayer('{{ topolayer.url|raw }}', {attribution: '{{ topolayer.attribution|raw }}'});
+        var aerial = L.tileLayer("{{ aeriallayer.url|raw }}", {attribution: "{{ aeriallayer.attribution|raw }}"});
+        var baseMaps = {"Carte": topo, "Vue aerienne": aerial};
+        var overlayMaps = {};
+        var map = L.map('{{ carte.div|raw }}', {center: [{{ carte.latitudeview|raw }}, {{ carte.longitudeview|raw }}], zoom: {{ carte.zoom|raw }}, layers: [topo, geojson]});
+        L.control.layers(baseMaps, overlayMaps).addTo(map);
         {% for commune in communes %}
             commune{{ commune.insee|raw }} = new Array("{{ commune.getNom()|raw }}", "{{ commune.insee|raw }}", "{{ commune.superficie|raw }}");
         {% endfor %}
@@ -26,22 +34,6 @@
             style: style,
             onEachFeature: onEachFeature,}).addTo(map); 
         map.fitBounds(geojson.getBounds()).setMaxBounds(geojson.getBounds());
-
-        var info = L.control();
-        info.onAdd = function (map) {
-            this._div = L.DomUtil.create('div', 'info'); // create a div with a class "info"
-            this.update();
-            return this._div;
-        };
-
-        // method that we will use to update the control based on feature properties passed
-        info.update = function (props) {
-            this._div.innerHTML = '<h4>Communes</h4>' +  (props ?
-                '<b>' + props.COMMUNE + '</b><br />'+
-                        'N°INSEE : ' + props.INSEE + '<br/>'
-                : 'Survolez une commune');
-        };
-        info.addTo(map);
 
         function style(feature) {
             return { 
@@ -66,12 +58,10 @@
                 layer.bringToFront();
             }
             $("#donneescommune").text(/*Variable du nom de la commune*/);
-            info.update(layer.feature.properties);
         }
         function resetHighlight(e) {
             geojson.resetStyle(e.target);
             $("#donneescommune").text("Survolez une commune");
-            info.update();
         }
         function zoomToFeature(e) {
             //map.fitBounds(e.target.getBounds());

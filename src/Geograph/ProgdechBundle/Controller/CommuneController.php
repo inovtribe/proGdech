@@ -28,13 +28,21 @@ class CommuneController extends Controller
 	public function communesAction()
 	{
 		$carte = $this->get('geometrie_carte')
-			->displayMap();
+			->setMap();
+                $topolayer = $this->getDoctrine()
+                        ->getRepository('GeographProgdechBundle:FondCarte')
+                        ->findOneById(1);
+                $aeriallayer = $this->getDoctrine()
+                        ->getRepository('GeographProgdechBundle:FondCarte')
+                        ->findOneById(4);
 
 		$communes = $this->getDoctrine()
 			->getRepository('GeographProgdechBundle:Commune')
 			->findAll();
 		return array(
 				'carte' => $carte,
+                                'topolayer' => $topolayer,
+                                'aeriallayer' => $aeriallayer,
 				'communes' => $communes
 			    );
 	}
@@ -48,14 +56,22 @@ class CommuneController extends Controller
 	public function communeAction($commune_insee)
 	{
 		$carte = $this->get('geometrie_carte')
-			->displayMap();
+			->setMap();
+                $topolayer = $this->getDoctrine()
+                        ->getRepository('GeographProgdechBundle:FondCarte')
+                        ->findOneById(1);
+                $aeriallayer = $this->getDoctrine()
+                        ->getRepository('GeographProgdechBundle:FondCarte')
+                        ->findOneById(4);
 
 		$commune = $this->getDoctrine()
 			->getRepository('GeographProgdechBundle:Commune')
 			->findOneByInsee($commune_insee);
 
 		$marker = $this->get('geometrie_marker')
-			->setInactifMarker();
+			->setMarker("pointcollecte");
+                $marker = $this->get('geometrie_marker')
+			->setMarkerInactif($marker);
 
 		$pointsCollecte = $commune->getPointsCollecte();
 
@@ -70,6 +86,9 @@ class CommuneController extends Controller
 		return array(
 				'commune' => $commune,
 				'carte' => $carte,
+                                'topolayer' => $topolayer,
+                                'aeriallayer' => $aeriallayer,
+                                'marker' => $marker,
 				'pointscollecte' => $pointsCollecte
 			    );
 	}

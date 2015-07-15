@@ -6,34 +6,76 @@ use Geograph\ProgdechBundle\Geometrie\Marker;
 
 class MarkerDAO
 {
-    public function setInactifMarker() {
-        $row['iconurl'] = '/bundles/geographprogdech/images/markers/pointcollecte_defaut.png';
-        $row['iconsize'] = '[21, 32]';
-        $row['iconanchor'] = '[10, 32]';
-        $row['popupanchor'] = '[0, -32]';
-        
+    /**
+     * Défini un object marker en fonction de son type
+     * 
+     * @param type $type
+     */
+    public function setMarker($type = NULL){
+        $row['type'] = $type;
+        $row['filename'] = $this->setMarkerFilename($type);
+        $row['markerwidth'] = $this->setMarkerWidth($row['filename']);
+        $row['markerheight'] = $this->setMarkerHeight($row['filename']);
         return $this->buildDomainObject($row);
     }
     
-    public function setActifMarker(){
-        $row['iconurl'] = '/bundles/geographprogdech/images/markers/pointcollecte.png';
-        $row['iconsize'] = '[29, 44]';
-        $row['iconanchor'] = '[14, 44]';
-        $row['popupanchor'] = '[0, -44]';
-        
-        return $this->buildDomainObject($row);
+    /**
+     * Défini le fichier image à utiliser comme marker
+     * 
+     * @param type $type
+     */
+    public function setMarkerFilename($type){
+        switch ($type){
+            case('pointcollecte'):
+                $filename = '/bundles/geographprogdech/images/markers/pointcollecte_defaut.png';
+                break;
+            case('bac'):
+                $filename = '/bundles/geographprogdech/images/markers/bac_defaut.png';
+                break;
+            default:
+                $filename = '/bundles/geographprogdech/images/markers/defaut.png';
+                break;
+        }
+        return $filename;
     }
     
-    public function setMarker_volontaire(){
-        $marker = "inactif_marker = L.icon({
-            iconUrl: ''/bundles/geographprogdech/images/markers/ptcollecte_volontaire.png',
-
-            iconSize:     [29, 32], // size of the icon
-            iconAnchor:   [22, 32], // point of the icon which will correspond to marker's location
-            popupAnchor:  [-3, -76] // point from which the popup should open relative to the iconAnchor
-        });";
+    /**
+     * Défini la width de l'image
+     * 
+     * @param type $type
+     */
+    private function setMarkerWidth($filename){
+        list($width) = getimagesize("http://progdech" . $filename);
+        return $width;
+    }
+    
+    /**
+     * Défini la height de l'image
+     * 
+     * @param type $type
+     */
+    private function setMarkerHeight($filename){
+        list($width, $height) = getimagesize("http://progdech" . $filename);
+        return $height;
+    }
+    
+    public function setMarkerInactif(Marker $marker){
+        $height = 32;
+        $width = (int)($marker->getWidth() * 32 / $marker->getHeight()); 
+        $marker->setSize("[$width, $height]");
+        $marker->setAnchor("[" . $width / 2 . ", " . $height ."]");
+        $marker->setPopupAnchor("[0, " . -$height ."]");
         return $marker;
     }
+    
+    public function setMarkerActif(Marker $marker){
+        $height = 44;
+        $width = (int) ($marker->getWidth() * 44 / $marker->getHeight()); 
+        $marker->setSize("[$width, $height]");
+        $marker->setAnchor("[" . $width / 2 . ", " . $height ."]");
+        $marker->setPopupAnchor("[0, " . -$height ."]");
+        return $marker;
+    } 
     
     /**
      * Créé un objet Marker basé sur les données.
@@ -43,23 +85,20 @@ class MarkerDAO
      */
     protected function buildDomainObject($row) {
         $marker = new Marker();
-        if (array_key_exists('iconurl', $row)){
-            $marker->setIconUrl($row['iconurl']);
+        if (array_key_exists('type', $row)){
+            $marker->setType($row['type']);
         }
-        if (array_key_exists('shadowurl', $row)){
-            $marker->setShadowUrl($row['shadowurl']);
+        if (array_key_exists('filename', $row)){
+            $marker->setFilename($row['filename']);
         }
-        if (array_key_exists('iconsize', $row)){
-            $marker->setIconSize($row['iconsize']);
+        if (array_key_exists('markerwidth', $row)){
+            $marker->setWidth($row['markerwidth']);
         }
-        if (array_key_exists('shadowsize', $row)){
-            $marker->setShadowSize($row['shadowsize']);
+        if (array_key_exists('markerheight', $row)){
+            $marker->setHeight($row['markerheight']);
         }
         if (array_key_exists('iconanchor', $row)){
-            $marker->setIconAnchor($row['iconanchor']);
-        }
-        if (array_key_exists('shadowanchor', $row)){
-            $marker->setShadowAnchor($row['shadowanchor']);
+            $marker->setAnchor($row['iconanchor']);
         }
         if (array_key_exists('popupanchor', $row)){
             $marker->setPopupAnchor($row['popupanchor']);
