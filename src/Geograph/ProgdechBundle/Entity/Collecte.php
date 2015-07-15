@@ -184,4 +184,27 @@ class Collecte
     {
         return $this->user;
     }
+
+    /**
+     * Set bac
+     *
+     * @param \Geograph\ProgdechBundle\Entity\Bac $bac
+     * @return Collecte
+     */
+    public function setBac(\Geograph\ProgdechBundle\Entity\Bac $bac = null)
+    {
+        $this->bac = $bac;
+    
+        return $this;
+    }
+
+    /**
+     * Get bac
+     *
+     * @return \Geograph\ProgdechBundle\Entity\Bac 
+     */
+    public function getBac()
+    {
+        return $this->bac;
+    }
 }
