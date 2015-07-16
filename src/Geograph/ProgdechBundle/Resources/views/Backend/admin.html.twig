@@ -33,11 +33,7 @@
         var overlayMaps = {};
         var map = L.map('{{ carte.div|raw }}', {layers: [topo, geojson]});
         L.control.layers(baseMaps, overlayMaps).addTo(map);
-        map.fitBounds(geojson.getBounds()).setMaxBounds(geojson.getBounds());
         
-        {% for commune in communes %}
-            commune{{ commune.insee|raw }} = new Array("{{ commune.getNom()|raw }}", "{{ commune.insee|raw }}", "{{ commune.superficie|raw }}");
-        {% endfor %}
         geojson = L.geoJson(geometriescommunales, {
             style: style,
             onEachFeature: onEachFeature,}).addTo(map); 
@@ -82,6 +78,8 @@
                 click: zoomToFeature
             });
         }
+        
+        map.fitBounds(geojson.getBounds()).setMaxBounds(geojson.getBounds());
     </script>
     {% endautoescape %}
 {% endblock %}

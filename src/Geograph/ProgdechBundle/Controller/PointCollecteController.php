@@ -26,19 +26,26 @@ class PointCollecteController extends Controller
                 ->getRepository('GeographProgdechBundle:FondCarte')
                 ->findOneById(4);
         
-        $marker = $this->get('geometrie_marker')
+        $markeractif = $this->get('geometrie_marker')
                 ->setMarker("pointcollecte");
         $markeractif = $this->get('geometrie_marker')
-			->setMarkerActif($marker);
+			->setMarkerActif($markeractif);
         $markerinactif = $this->get('geometrie_marker')
-			->setMarkerInactif($marker);
+                ->setMarker("pointcollecte");
+        $markerinactif = $this->get('geometrie_marker')
+			->setMarkerInactif($markerinactif);
 
         $pointcollecte = $this->getDoctrine()
                 ->getRepository('GeographProgdechBundle:PointCollecte')
                 ->findOneById($pointcollecte_id);
         $pointcollecte->getBacs();
         $commune = $pointcollecte->getCommune();
+        $commune_id = $commune->getId();
         $user = $pointcollecte->getUser();
+        
+        $pointscollecte = $this->getDoctrine()
+                ->getRepository('GeographProgdechBundle:PointCollecte')
+                ->findByCommune($commune_id);
         
         return array(
                         'carte' => $carte,
@@ -48,7 +55,8 @@ class PointCollecteController extends Controller
                         'markerinactif' => $markerinactif,
                         'pointcollecte' => $pointcollecte,
                         'commune' => $commune,
-                        'user' => $user
+                        'user' => $user,
+                        'pointscollecte' => $pointscollecte
                     );
     }
 }
