@@ -97,7 +97,7 @@ class User
     protected $constats;
     
     /**
-     * @ORM\OneToMany(targetEntity="DonneeCollectee", mappedBy="user")
+     * @ORM\OneToMany(targetEntity="Donneecollectee", mappedBy="user")
      */
     protected $donneescollectees;
     

@@ -75,7 +75,7 @@ class Donneecollectee
      *   @ORM\JoinColumn(name="id_user", referencedColumnName="id_user", onDelete="restrict")
      * })
      */
-    private $user;
+    protected $user;
 
 
     /**
