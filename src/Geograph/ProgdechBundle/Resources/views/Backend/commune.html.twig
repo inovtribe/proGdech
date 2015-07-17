@@ -23,8 +23,15 @@
             });
             
             {% for pointcollecte in pointscollecte %}
-                marker{{ pointcollecte.id }} = L.marker([{{ pointcollecte.latitude }}, {{ pointcollecte.longitude }}], {icon: marker}).bindPopup("<a href=\"/admin/pointcollecte/{{pointcollecte.id}}\">{{ pointcollecte.nom }}</a>").addTo(map);
-                marker{{ pointcollecte.id }}.bindLabel('{{ pointcollecte.nom}}');
+                marker{{ pointcollecte.id }} = L.marker([{{ pointcollecte.latitude }}, {{ pointcollecte.longitude }}], {icon: marker}).addTo(map);
+                marker{{ pointcollecte.id }}.bindLabel(
+                        '<h4>{{ pointcollecte.nom}}</h4>' +
+                        '<p>X Bacs de type ?</p>' + 
+                        '<p>X Bacs de type ?</p>');
+                marker{{ pointcollecte.id }}.on('click', marker{{ pointcollecte.id }}Click);
+                function marker{{ pointcollecte.id }}Click(){
+                    document.location.href = "{{ app.request.basepath }}/admin/pointcollecte/{{ pointcollecte.id }}";
+                }
             {% endfor %}
         </script>
         {% endautoescape %}

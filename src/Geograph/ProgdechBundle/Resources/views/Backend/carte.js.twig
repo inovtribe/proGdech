@@ -19,7 +19,7 @@ var geojson = L.geoJson(gestionnairelayer);
                     dashArray: '1'
                     }
                 }).addTo(map); 
-            geojson = L.geoJson(geometriescommunales, {style: style, onEachFeature: onEachFeature,}).addTo(map);
+            communes = L.geoJson(geometriescommunales, {style: style, onEachFeature: onEachFeature,}).addTo(map);
             
             map.setMaxBounds(geojson.getBounds());
             
@@ -55,7 +55,7 @@ var geojson = L.geoJson(gestionnairelayer);
             }
             
             function resetHighlight(e) {
-                geojson.resetStyle(e.target);
+                communes.resetStyle(e.target);
                 $("#donneescommune").text("Survolez une commune");
             }
             

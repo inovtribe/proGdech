@@ -25,7 +25,7 @@
     {% autoescape 'js'%}
     <script>     
         var geojson = L.geoJson(gestionnairelayer);
-        geojson.setStyle({"color": 'red', "weight": 1, "fill" : true, smoothFactor: 1, "fillOpacity": 0.025});
+        geojson.setStyle({"color": 'red', "weight": 3, "fill" : false, smoothFactor: 1, "fillOpacity": 0.025});
 
         var topo = L.tileLayer('{{ topolayer.url|raw }}', {attribution: '{{ topolayer.attribution|raw }}'});
         var aerial = L.tileLayer("{{ aeriallayer.url|raw }}", {attribution: "{{ aeriallayer.attribution|raw }}"});
@@ -71,7 +71,10 @@
             document.location.href = "{{ app.request.basepath }}/admin/commune/" + inseecommune;
         }
         function onEachFeature(feature, layer) {
-            layer.bindLabel(layer.feature.properties.COMMUNE);
+            layer.bindLabel(
+                    '<h4>' + layer.feature.properties.COMMUNE + '</h4>\n\
+    <p>X Points de collecte</p><p>X Bacs</p>'
+                );
             layer.on({
                 mouseover: highlightFeature,
                 mouseout: resetHighlight,

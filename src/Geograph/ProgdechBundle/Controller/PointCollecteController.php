@@ -38,11 +38,13 @@ class PointCollecteController extends Controller
         $pointcollecte = $this->getDoctrine()
                 ->getRepository('GeographProgdechBundle:PointCollecte')
                 ->findOneById($pointcollecte_id);
+        
         $pointcollecte->getBacs();
         $commune = $pointcollecte->getCommune();
         $commune_id = $commune->getId();
         $user = $pointcollecte->getUser();
-        
+        $bacs = $pointcollecte->getBacs();
+
         $pointscollecte = $this->getDoctrine()
                 ->getRepository('GeographProgdechBundle:PointCollecte')
                 ->findByCommune($commune_id);
@@ -56,7 +58,8 @@ class PointCollecteController extends Controller
                         'pointcollecte' => $pointcollecte,
                         'commune' => $commune,
                         'user' => $user,
-                        'pointscollecte' => $pointscollecte
+                        'pointscollecte' => $pointscollecte,
+                        'bacs' => $bacs
                     );
     }
 }

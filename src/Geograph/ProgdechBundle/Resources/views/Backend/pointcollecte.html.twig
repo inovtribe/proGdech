@@ -19,6 +19,7 @@
         <p><small>situé</small> {{ pointcollecte.adresse }} <small>à</small> <a href="{{ app.request.basepath }}/admin/commune/{{ pointcollecte.commune.insee }}">{{ pointcollecte.commune.nom }}</a></p>
         <p><small>Créé le </small>date<small> par</small> <a href="{{ app.request.basepath }}/admin/user/{{ pointcollecte.user.id }}">{{ pointcollecte.user.prenom }} {{ pointcollecte.user.nom }}</a></p>
         <p>Nombre d'emplacements : {{ pointcollecte.emplacement }} (points de collectes affectés affecté(s) | points de collecte emplacements vides disponible(s))</p>
+        
         <div id="donut-example" style="height: 250px;"></div>
     </div>
     {% autoescape %}
@@ -41,7 +42,10 @@
             });
             
             {% for item in pointscollecte %}
-                marker{{ item.id }} = L.marker([{{ item.latitude }}, {{ item.longitude }}], {icon: markerinactif}).bindLabel('{{ item.nom }}').addTo(map);
+                marker{{ item.id }} = L.marker([{{ item.latitude }}, {{ item.longitude }}], {icon: markerinactif}).addTo(map)
+                marker{{ item.id }}.bindLabel('<h4>{{ pointcollecte.nom}}</h4>' +
+                        '<p>X Bacs de type ?</p>' + 
+                        '<p>X Bacs de type ?</p>');
                 marker{{ item.id }}.on('click', marker{{ item.id }}Click);
                 function marker{{ item.id }}Click(){
                     document.location.href = "{{ app.request.basepath }}/admin/pointcollecte/{{ item.id }}";

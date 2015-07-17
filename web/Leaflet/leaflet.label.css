@@ -1,6 +1,6 @@
 .leaflet-label {
 	background: rgb(255, 255, 255);
-	background: rgba(255, 255, 255, 1);
+	background: rgba(255, 255, 255, 0.9);
 	background-clip: padding-box;
 	border-color: #777;
 	border-color: rgba(0,0,0,0.25);
@@ -12,6 +12,7 @@
 	display: block;
 	font: 12px/20px "Helvetica Neue", Arial, Helvetica, sans-serif;
 	font-weight: normal;
+        text-align: left;
 	padding: 6px 12px;
 	position: absolute;
 	-webkit-user-select: none;
