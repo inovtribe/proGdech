@@ -6,6 +6,20 @@ use Geograph\ProgdechBundle\Geometrie\Marker;
 
 class MarkerDAO
 {
+    // Dossier app de l'application.
+    var $root_dir;
+
+    /**
+     * Constructeur.
+     * Le paramètre est envoyé par la configuration du service (voir fichier app/config/services.yml)
+     *
+     * @param root_dir string Dossier app de l'application
+     **/
+    public function __construct($root_dir)
+    {
+        $this->root_dir = $root_dir;
+    }
+
     /**
      * Défini un object marker en fonction de son type
      * 
@@ -18,7 +32,7 @@ class MarkerDAO
         $row['markerheight'] = $this->setMarkerHeight($row['filename']);
         return $this->buildDomainObject($row);
     }
-    
+
     /**
      * Défini le fichier image à utiliser comme marker
      * 
@@ -38,27 +52,27 @@ class MarkerDAO
         }
         return $filename;
     }
-    
+
     /**
      * Défini la width de l'image
      * 
      * @param type $type
      */
     private function setMarkerWidth($filename){
-        list($width) = getimagesize("http://progdech" . $filename);
+        list($width) = getimagesize("{$this->root_dir}/../web$filename");
         return $width;
     }
-    
+
     /**
      * Défini la height de l'image
      * 
      * @param type $type
      */
     private function setMarkerHeight($filename){
-        list($width, $height) = getimagesize("http://progdech" . $filename);
-        return $height;
+	    list($width, $height) = getimagesize("{$this->root_dir}/../web$filename");
+	    return $height;
     }
-    
+
     public function setMarkerInactif(Marker $marker){
         $height = 32;
         $width = (int)($marker->getWidth() * 32 / $marker->getHeight()); 
@@ -67,7 +81,7 @@ class MarkerDAO
         $marker->setPopupAnchor("[0, " . -$height ."]");
         return $marker;
     }
-    
+
     public function setMarkerActif(Marker $marker){
         $height = 44;
         $width = (int) ($marker->getWidth() * 44 / $marker->getHeight()); 
@@ -76,7 +90,7 @@ class MarkerDAO
         $marker->setPopupAnchor("[0, " . -$height ."]");
         return $marker;
     } 
-    
+
     /**
      * Créé un objet Marker basé sur les données.
      *
