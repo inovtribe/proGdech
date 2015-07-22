@@ -61,8 +61,6 @@ class Commune
      */
     protected $populations;
     
-    private $population;
-    
     private $nombre_pointscollecte;
             
     private $nombre_bacs;

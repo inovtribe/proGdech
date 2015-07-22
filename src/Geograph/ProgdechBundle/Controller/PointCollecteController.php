@@ -52,16 +52,16 @@ class PointCollecteController extends Controller
                 ->getRepository('GeographProgdechBundle:PointCollecte')
                 ->findByCommune($commune_id);
         return array(
-                        'carte' => $carte,
-                        'topolayer' => $topolayer,
-                        'aeriallayer' => $aeriallayer,
-                        'markeractif' => $markeractif,
-                        'markerinactif' => $markerinactif,
-                        'pointcollecte' => $pointcollecte,
-                        'commune' => $commune,
-                        'user' => $user,
-                        'pointscollecte' => $pointscollecte,
-                        'bacs' => $bacs
-                    );
+            'carte' => $carte,
+            'topolayer' => $topolayer,
+            'aeriallayer' => $aeriallayer,
+            'markeractif' => $markeractif,
+            'markerinactif' => $markerinactif,
+            'pointcollecte' => $pointcollecte,
+            'commune' => $commune,
+            'user' => $user,
+            'pointscollecte' => $pointscollecte,
+            'bacs' => $bacs
+        );
     }
 }

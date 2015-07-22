@@ -18,35 +18,6 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 
 class CommuneController extends Controller
 {
-
-	/**
-	 * Commune home page controller.
-	 *
-	 * @Route("/admin/communes", name="admin_communes")
-	 * @Template("GeographProgdechBundle:Backend:communes.html.twig");
-	 */
-	public function communesAction()
-	{
-		$carte = $this->get('geometrie_carte')
-			->setMap();
-                $topolayer = $this->getDoctrine()
-                        ->getRepository('GeographProgdechBundle:FondCarte')
-                        ->findOneById(1);
-                $aeriallayer = $this->getDoctrine()
-                        ->getRepository('GeographProgdechBundle:FondCarte')
-                        ->findOneById(4);
-
-		$communes = $this->getDoctrine()
-			->getRepository('GeographProgdechBundle:Commune')
-			->findAll();
-		return array(
-				'carte' => $carte,
-                                'topolayer' => $topolayer,
-                                'aeriallayer' => $aeriallayer,
-				'communes' => $communes
-			    );
-	}
-
 	/**
 	 * Commune home page controller.
 	 *
