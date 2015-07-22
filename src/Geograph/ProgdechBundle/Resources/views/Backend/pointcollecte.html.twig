@@ -4,7 +4,6 @@
 {% block title %}Détail d'un point de collecte{% endblock %}
 
 {% block content %}
-    <h2><small>{{ block('title') }} -</small> {{ pointcollecte.nom }}</h2>
 {% for flashMessage in app.session.flashbag.get('success') %}
 <div class="alert alert-success">
     {{ flashMessage }}
@@ -15,12 +14,20 @@
         <div id="map" class="h800"></div>
     </div>
     <div class="col-md-3">
-        <p>{{ pointcollecte.reference }}</p>
-        <p><small>situé</small> {{ pointcollecte.adresse }} <small>à</small> <a href="{{ app.request.basepath }}/admin/commune/{{ pointcollecte.commune.insee }}">{{ pointcollecte.commune.nom }}</a></p>
-        <p><small>Créé le </small>date<small> par</small> <a href="{{ app.request.basepath }}/admin/user/{{ pointcollecte.user.id }}">{{ pointcollecte.user.prenom }} {{ pointcollecte.user.nom }}</a></p>
-        <p>Nombre d'emplacements : {{ pointcollecte.emplacement }} (points de collectes affectés affecté(s) | points de collecte emplacements vides disponible(s))</p>
-        
-        <div id="donut-example" style="height: 250px;"></div>
+        <div class="panel panel-green">
+            <div class="panel-heading">
+                <h3 class="panel-title">{{ pointcollecte.nom }}</h3>
+            </div>
+            <p>{{ pointcollecte.reference }}</p>
+            <p><small>situé</small> {{ pointcollecte.adresse }} <small>à</small> <a href="{{ app.request.basepath }}/admin/commune/{{ pointcollecte.commune.insee }}">{{ pointcollecte.commune.nom }}</a></p>
+            <p><small>Créé le </small>{{ pointcollecte.date|date('d/m/Y') }}<small> par</small> <a href="{{ app.request.basepath }}/admin/user/{{ pointcollecte.user.id }}">{{ pointcollecte.user.prenom }} {{ pointcollecte.user.nom }}</a></p>
+            <p>Nombre d'emplacements : {{ pointcollecte.emplacement }} ({{ pointcollecte.emplacementsaffectes }} affecté(s) | {{ pointcollecte.emplacementsdisponibles }} disponible(s))</p>
+
+            {% for bac in bacs %}
+                {{ bac.reference }}
+            {% endfor %}
+            <div id="donut-example" style="height: 250px;"></div>
+        </div>
     </div>
     {% autoescape %}
         <script>
@@ -56,7 +63,7 @@
             marker.bindLabel('{{ pointcollecte.nom}}');
             
             // Centrage de la vue sur le point actif
-            map.setView([{{ pointcollecte.latitude }}, {{ pointcollecte.longitude }}], 15);
+            map.setView([{{ pointcollecte.latitude }}, {{ pointcollecte.longitude }}], 16);
             
             new Morris.Donut({
               element: 'donut-example',

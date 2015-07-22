@@ -67,6 +67,11 @@ class CommuneController extends Controller
 		$commune = $this->getDoctrine()
 			->getRepository('GeographProgdechBundle:Commune')
 			->findOneByInsee($commune_insee);
+                
+                // Récupère les valeurs à affecter à la commmune courante
+                $this->get('geograph_progdech')
+                    ->setCommune($commune);
+                
 		$marker = $this->get('geometrie_marker')
 			->setMarker("pointcollecte");
                 $marker = $this->get('geometrie_marker')
@@ -90,4 +95,21 @@ class CommuneController extends Controller
 				'pointscollecte' => $pointsCollecte
 			    );
 	}
+        
+        /**
+	 * Commune panel page controller.
+	 *
+	 * @Template("GeographProgdechBundle:Backend:panel_commune.html.twig");
+	 */
+        public function panelAction($id)
+	{
+            $commune = $this->getDoctrine()
+                    ->getRepository('GeographProgdechBundle:Commune')
+                    ->find($id)
+            ;
+            
+            return array(
+                'commune' => $commune
+            );
+        }
 }

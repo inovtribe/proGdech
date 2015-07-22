@@ -41,21 +41,21 @@ class FondCarte
     /**
      * @var string
      *
-     * @ORM\Column(name="attribution_fondcarte", type="string", length=255, nullable=false)
+     * @ORM\Column(name="attribution_fondcarte", type="text", length=255, nullable=false)
      */
     private $attribution;
     
     /**
      * @var integer
      *
-     * @ORM\Column(name="minzoom_fondcarte", type="integer", nullable=false)
+     * @ORM\Column(name="minzoom_fondcarte", type="integer", nullable=true)
      */
     private $minzoom;
     
     /**
      * @var integer
      *
-     * @ORM\Column(name="maxzoom_fondcarte", type="integer", nullable=false)
+     * @ORM\Column(name="maxzoom_fondcarte", type="integer", nullable=true)
      */
     private $maxzoom;
     

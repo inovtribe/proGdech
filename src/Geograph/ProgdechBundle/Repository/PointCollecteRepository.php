@@ -15,17 +15,31 @@ use Doctrine\Common\Collections\Collection;
  */
 class PointCollecteRepository extends EntityRepository
 {
-	/**
-	 * Assigne un marker à des points de collecte.
-	 *
-	 * @param $pointsCollecte \Doctrine\Common\Collections\Collection Les points de collecte.
-	 * @param $marker Marker Le marker.
-	 *
-	 * @return void
-	 */
-	public function assignMarkerToPointsCollecte(Collection $pointsCollecte, Marker $marker)
-	{
-		foreach($pointsCollecte as $pointCollecte)
-			$pointCollecte->marker = $marker;
-	}
+    /**
+     * Assigne un marker à des points de collecte.
+     *
+     * @param $pointsCollecte \Doctrine\Common\Collections\Collection Les points de collecte.
+     * @param $marker Marker Le marker.
+     *
+     * @return void
+     */
+    public function assignMarkerToPointsCollecte(Collection $pointsCollecte, Marker $marker)
+    {
+            foreach($pointsCollecte as $pointCollecte)
+                    $pointCollecte->marker = $marker;
+    }
+    
+    
+    /**
+     * Retourne le nombre de points de collecte pour une commune
+     * 
+     * @return type
+     */
+    public function getCountPointsCollecteCommune($id_commune)
+    {
+        return $this->createQueryBuilder('l')
+                        ->select('COUNT(l)')
+                        ->getQuery() 
+                        ->getSingleScalarResult(); 
+    }
 }

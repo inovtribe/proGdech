@@ -44,11 +44,10 @@ class PointCollecteController extends Controller
         $commune_id = $commune->getId();
         $user = $pointcollecte->getUser();
         $bacs = $pointcollecte->getBacs();
-
+        $pointcollecte->setEmplacementsAffectes($bacs);
         $pointscollecte = $this->getDoctrine()
                 ->getRepository('GeographProgdechBundle:PointCollecte')
                 ->findByCommune($commune_id);
-        
         return array(
                         'carte' => $carte,
                         'topolayer' => $topolayer,

@@ -60,7 +60,11 @@ class Commune
      * @ORM\OneToMany(targetEntity="Population", mappedBy="commune")
      */
     protected $populations;
-
+    
+    private $nombre_pointscollecte;
+            
+    private $nombre_bacs;
+            
     /**
      * Get id
      *

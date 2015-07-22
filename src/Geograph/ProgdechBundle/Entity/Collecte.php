@@ -29,11 +29,6 @@ class Collecte
      * @ORM\Column(name="position_collecte", type="integer", nullable=false)
      */
     private $position;
-   
-    /**
-     * @ORM\OneToMany(targetEntity="Bac", mappedBy="collecte")
-     */
-    protected $bacs;
 
     /**
      * @var \Tournee

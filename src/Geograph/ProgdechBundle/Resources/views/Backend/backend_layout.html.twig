@@ -72,6 +72,7 @@
         <p><a href="/{{ app.request.basepath }}">Accueil</a> | <a href="{{ path('login') }}">Connexion</a></p>
     </div>
 {% endif %}
+{% block javascripts %}
     <!-- jQuery -->
     <script src="{{ asset('/startbootstrap/bower_components/jquery/dist/jquery.min.js') }}" type="text/javascript"></script>
     
@@ -97,5 +98,6 @@
         });
     });
     </script>
+{% endblock %}
 </body>
 </html>

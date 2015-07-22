@@ -25,14 +25,20 @@ class AdminController extends Controller
                 ->getRepository('GeographProgdechBundle:FondCarte')
                 ->findOneById(4);
 
-        $communes = $this->getDoctrine()
-                ->getRepository('GeographProgdechBundle:Commune')
-                ->findAll();
+        $repository = $this->getDoctrine()
+                ->getRepository('GeographProgdechBundle:Commune');
+        $communes = $repository->findAll();
+        $em = $this->getDoctrine()
+                ->getManager();
+        $this->get('geograph_progdech')
+                ->setCommunes($communes);
+        
+        
         return array(
-                        'carte' => $carte,
-                        'topolayer' => $topolayer,
-                        'aeriallayer' => $aeriallayer,
-                        'communes' => $communes
-                    );
+            'carte' => $carte,
+            'topolayer' => $topolayer,
+            'aeriallayer' => $aeriallayer,
+            'communes' => $communes
+        );
     }
 }

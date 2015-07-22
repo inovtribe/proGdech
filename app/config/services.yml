@@ -9,6 +9,8 @@ services:
     geometrie_marker:
         class: Geograph\ProgdechBundle\Geometrie\MarkerDAO
         arguments: [ "%kernel.root_dir%" ]
+    geograph_progdech:
+        class: Geograph\ProgdechBundle\Progdech\Progdech
 #    service_name:
 #        class: AppBundle\Directory\ClassName
 #        arguments: ["@another_service_name", "plain_value", "%parameter_name%"]

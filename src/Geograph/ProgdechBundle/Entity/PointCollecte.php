@@ -64,7 +64,7 @@ class PointCollecte
      * @ORM\Column(name="emplacement_ptcollecte", type="decimal", precision=2, scale=0, nullable=true)
      */
     private $emplacement;
-
+    
     /**
      * @var \DateTime
      *
@@ -108,6 +108,10 @@ class PointCollecte
     protected $bacs;
 
     public $marker = null;
+    
+    private $emplacements_affectes;
+    
+    private $emplacements_libres;
 
     /**
      * Constructor
@@ -264,6 +268,25 @@ class PointCollecte
     public function getEmplacement()
     {
         return $this->emplacement;
+    }
+    
+    public function getEmplacementsAffectes()
+    {
+        return $this->emplacements_affectes;
+    }
+    public function setEmplacementsAffectes($bacs)
+    {
+        $this->emplacements_affectes = count($bacs);
+        $this->setEmplacementsDisponibles();
+    }
+    
+    public function getEmplacementsDisponibles()
+    {
+        return $this->emplacements_libres;
+    }
+    public function setEmplacementsDisponibles()
+    {
+        return $this->emplacements_libres = $this->emplacement - $this->emplacements_affectes;
     }
 
     /**
@@ -433,6 +456,7 @@ class PointCollecte
     public function addBac(\Geograph\ProgdechBundle\Entity\Bac $bacs)
     {
         $this->bacs[] = $bacs;
+        $bacs->setPointcollecte($this);
     
         return $this;
     }

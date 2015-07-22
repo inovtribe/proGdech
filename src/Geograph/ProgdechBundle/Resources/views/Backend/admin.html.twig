@@ -3,16 +3,15 @@
 
 {% block title %}Administration{% endblock %}
 {% block content %}
-    <h2>{{ block('title') }}</h2>
     {% for flashMessage in app.session.flashbag.get('success') %}
     <div class="alert alert-success">
         {{ flashMessage }}
     </div>
     {% endfor %}
-    <article class="col-sm-10 text-right">
+    <article class="col-sm-9 text-right">
         <div id="map" class="h800"></div>
     </article>
-    <div class="col-sm-2">
+    <div class="col-sm-3">
         <div class="panel panel-default">
               <div class="panel-heading">
                 <h3 class="panel-title">Commune</h3>
@@ -22,6 +21,11 @@
               </div>
         </div> 
     </div>
+    <ul>
+    {% for commune in communes %}
+        <li class="list-unstyled"><strong>{{ commune.nom }}</strong> : {{ commune.nombrepointscollecte }} points de collecte | {{ commune.nombrebacs }} bacs </li>
+    {% endfor %}
+    </ul>
     {% autoescape 'js'%}
     <script>     
         var geojson = L.geoJson(gestionnairelayer);

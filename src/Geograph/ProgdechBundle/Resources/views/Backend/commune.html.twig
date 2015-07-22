@@ -2,10 +2,12 @@
 {% set adminMenu = true %}
 
 {% block content %}
-        <h2 class="text-center">{{ block('title') }}</h2>
         <article class="col-sm-9">
             <div id="map" class="h800"></div>
         </article>
+        
+        {{ render(controller("GeographProgdechBundle:Commune:panel", { 'id': commune.id })) }}
+        
         {% autoescape 'js'%}
         <script>     
             // Code général de la carte

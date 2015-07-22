@@ -60,7 +60,26 @@ class Commune
      * @ORM\OneToMany(targetEntity="Population", mappedBy="commune")
      */
     protected $populations;
-
+    
+    private $population;
+    
+    private $nombre_pointscollecte;
+            
+    private $nombre_bacs;
+    
+    private $population_actuelle;
+    
+    private $densite;
+    
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->pointsCollecte = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->nombre_bacs = 0;
+    }        
+    
     /**
      * Get id
      *
@@ -164,14 +183,6 @@ class Commune
     }
     
     /**
-     * Constructor
-     */
-    public function __construct()
-    {
-        $this->pointsCollecte = new \Doctrine\Common\Collections\ArrayCollection();
-    }
-
-    /**
      * Add pointsCollecte
      *
      * @param \Geograph\ProgdechBundle\Entity\PointCollecte $pointsCollecte
@@ -235,5 +246,33 @@ class Commune
     public function getPopulations()
     {
         return $this->populations;
+    }
+    
+    public function getNombrePointsCollecte(){
+        return $this->nombre_pointscollecte;
+    }
+    public function setNombrePointsCollecte($nbr) {
+        $this->nombre_pointscollecte = $nbr;
+    }
+    
+    public function getNombreBacs(){
+        return $this->nombre_bacs;
+    }
+    public function setNombreBacs($nbr) {
+        $this->nombre_bacs = $nbr;
+    }
+    
+    public function getPopulationActuelle(){
+        return $this->population_actuelle;
+    }
+    public function setPopulationActuelle($nbr){
+        $this->population_actuelle = $nbr;
+    }
+    
+    public function getDensite(){
+        return $this->densite;
+    }
+    public function setDensite($population, $superficie){
+        $this->densite = $population / $superficie;
     }
 }
