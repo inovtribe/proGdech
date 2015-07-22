@@ -28,8 +28,7 @@ class AdminController extends Controller
         $repository = $this->getDoctrine()
                 ->getRepository('GeographProgdechBundle:Commune');
         $communes = $repository->findAll();
-        $em = $this->getDoctrine()
-                ->getManager();
+
         $this->get('geograph_progdech')
                 ->setCommunes($communes);
         

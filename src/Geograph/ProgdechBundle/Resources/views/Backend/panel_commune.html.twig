@@ -8,7 +8,7 @@
       <div class="panel-body">
           <p>Superficie : {{ commune.superficie }} km²</p>
           <p>Population : {{ commune.populationactuelle }} hab</p>
-          <p>Densité : hab/km²</p>
+          <p>Densité : {{ commune.densite }} hab/km²</p>
           <p>Nbr points de collecte : 
               {% if commune.nombrepointscollecte %}
                   {{ commune.nombrepointscollecte }}

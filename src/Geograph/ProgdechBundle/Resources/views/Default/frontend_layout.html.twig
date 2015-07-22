@@ -30,8 +30,12 @@
 </head>
 <body>
     <div class="container">
-        <div id="content" class="row">{% block content %}{% endblock %}</div>
+        <div class="row text-center">
+            {% block content %}{% endblock %}
+        </div>
+        
         {{ include('GeographProgdechBundle:Default:footer.html.twig') }}
+        
     </div>
     <!-- jQuery -->
     <script src="{{ asset('/jquery/jquery-1.11.1.min.js') }}" type="text/javascript"></script>

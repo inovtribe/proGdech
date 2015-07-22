@@ -4,6 +4,18 @@
 
 {% block content %}
     <article class="col-sm-12">
-        Contenu du site public
+        <div class="top100">
+            {% if app.security.token and is_granted('IS_AUTHENTICATED_FULLY') %}
+                <a href="{{ path('admin') }}" title="Accéder à l'espace d'administration">
+            {% else %}
+                <a href="{{ path('login') }}" title="Vous identifier">
+            {% endif %}
+                <img src="/bundles/geographprogdech/images/logo.png" alt="Logo de l'application"/>
+            </a>
+            <h1>proGdech</h1>
+            <p>
+                Applicatif métier de gestion des points d'apport et des collectes des déchets ménagers et recyclables.
+            </p>
+        </div>
     </article>
 {% endblock %}

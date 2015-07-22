@@ -39,12 +39,15 @@ class PointCollecteController extends Controller
                 ->getRepository('GeographProgdechBundle:PointCollecte')
                 ->findOneById($pointcollecte_id);
         
-        $pointcollecte->getBacs();
         $commune = $pointcollecte->getCommune();
         $commune_id = $commune->getId();
         $user = $pointcollecte->getUser();
+        
+        $this->get('geograph_progdech')
+                ->setPointCollecte($pointcollecte);
+        
         $bacs = $pointcollecte->getBacs();
-        $pointcollecte->setEmplacementsAffectes($bacs);
+        
         $pointscollecte = $this->getDoctrine()
                 ->getRepository('GeographProgdechBundle:PointCollecte')
                 ->findByCommune($commune_id);

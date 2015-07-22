@@ -276,7 +276,7 @@ class PointCollecte
     }
     public function setEmplacementsAffectes($bacs)
     {
-        $this->emplacements_affectes = count($bacs);
+        $this->emplacements_affectes = $bacs;
         $this->setEmplacementsDisponibles();
     }
     

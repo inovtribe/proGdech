@@ -272,7 +272,7 @@ class Commune
     public function getDensite(){
         return $this->densite;
     }
-    public function setDensite($population, $superficie){
-        $this->densite = $population / $superficie;
+    public function setDensite($densite){
+        $this->densite = $densite;
     }
 }
