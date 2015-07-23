@@ -39,13 +39,6 @@ class Modelebac
     /**
      * @var integer
      *
-     * @ORM\Column(name="type_modelebac", type="integer", nullable=true)
-     */
-    private $type;
-
-    /**
-     * @var integer
-     *
      * @ORM\Column(name="volume_modelebac", type="integer", nullable=true)
      */
     private $volume;

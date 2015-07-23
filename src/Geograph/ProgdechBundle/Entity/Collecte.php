@@ -55,7 +55,6 @@ class Collecte
      */
     public function __construct()
     {
-        $this->bacs = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     /**
@@ -89,39 +88,6 @@ class Collecte
     public function getPosition()
     {
         return $this->position;
-    }
-
-    /**
-     * Add bacs
-     *
-     * @param \Geograph\ProgdechBundle\Entity\Bac $bacs
-     * @return Collecte
-     */
-    public function addBac(\Geograph\ProgdechBundle\Entity\Bac $bacs)
-    {
-        $this->bacs[] = $bacs;
-
-        return $this;
-    }
-
-    /**
-     * Remove bacs
-     *
-     * @param \Geograph\ProgdechBundle\Entity\Bac $bacs
-     */
-    public function removeBac(\Geograph\ProgdechBundle\Entity\Bac $bacs)
-    {
-        $this->bacs->removeElement($bacs);
-    }
-
-    /**
-     * Get bacs
-     *
-     * @return \Doctrine\Common\Collections\Collection 
-     */
-    public function getBacs()
-    {
-        return $this->bacs;
     }
 
     /**
@@ -170,26 +136,4 @@ class Collecte
         return $this->user;
     }
 
-    /**
-     * Set bac
-     *
-     * @param \Geograph\ProgdechBundle\Entity\Bac $bac
-     * @return Collecte
-     */
-    public function setBac(\Geograph\ProgdechBundle\Entity\Bac $bac = null)
-    {
-        $this->bac = $bac;
-    
-        return $this;
-    }
-
-    /**
-     * Get bac
-     *
-     * @return \Geograph\ProgdechBundle\Entity\Bac 
-     */
-    public function getBac()
-    {
-        return $this->bac;
-    }
 }

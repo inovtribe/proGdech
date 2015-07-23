@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Bac
  *
- * @ORM\Table(name="t_bacs", indexes={@ORM\Index(name="IDX_C4D43013575A6A8", columns={"id_collecte"}), @ORM\Index(name="IDX_C4D43013562F6245", columns={"id_modelebac"}), @ORM\Index(name="IDX_C4D430132D8A6AB4", columns={"id_ptcollecte"}), @ORM\Index(name="IDX_C4D430136B3CA4B", columns={"id_user"})})
+ * @ORM\Table(name="t_bacs", indexes={@ORM\Index(name="IDX_C4D43013562F6245", columns={"id_modelebac"}), @ORM\Index(name="IDX_C4D430132D8A6AB4", columns={"id_ptcollecte"}), @ORM\Index(name="IDX_C4D430136B3CA4B", columns={"id_user"})})
  * @ORM\Entity
  * @ORM\Entity(repositoryClass="Geograph\ProgdechBundle\Repository\BacRepository")
  */
@@ -163,29 +163,6 @@ class Bac
     public function getDate()
     {
         return $this->date;
-    }
-
-    /**
-     * Set collecte
-     *
-     * @param \Geograph\ProgdechBundle\Entity\Collecte $collecte
-     * @return Bac
-     */
-    public function setCollecte(\Geograph\ProgdechBundle\Entity\Collecte $collecte = null)
-    {
-        $this->collecte = $collecte;
-    
-        return $this;
-    }
-
-    /**
-     * Get collecte
-     *
-     * @return \Geograph\ProgdechBundle\Entity\Collecte 
-     */
-    public function getCollecte()
-    {
-        return $this->collecte;
     }
 
     /**
