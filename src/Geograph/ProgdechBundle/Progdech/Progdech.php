@@ -32,7 +32,16 @@ class Progdech
         $repository = $this->em
                 ->getRepository('GeographProgdechBundle:Typeflux')
             ;
-        $commune->setTypeBacs($repository->getTypeFluxDistinctCommune($commune->getId()));
+        $types = $repository->getTypeFluxDistinctCommune($commune->getId());
+        $commune->setTypeBacs($types);
+        $repository = $this->em
+                ->getRepository('GeographProgdechBundle:PointCollecte')
+            ;
+            foreach ($types as $type){
+                $result = $repository->getNbrPointCollecteFlux($type->getId(), $commune->getId());
+                $nbr = $result[0][1];
+                $type->setNbrPointsCollecte($nbr);
+            }
     }
     
     

@@ -50,6 +50,9 @@ class Typeflux
      */
     protected $modelesbac;
     
+    private $nbr_pointscollecte;
+    
+    private $nbr_bacs;
     
     
     /**
@@ -154,5 +157,19 @@ class Typeflux
     }
     public function setColor($color){
         $this->color = $color;
-    }    
+    }  
+    
+    public function getNbrPointsCollecte(){
+        return $this->nbr_pointscollecte;
+    }
+    public function setNbrPointsCollecte($nbr){
+        $this->nbr_pointscollecte = $nbr;
+    }
+    
+    public function getNbrBacs(){
+        return $this->nbr_bacs;
+    }
+    public function setNbrBacs($nbr){
+        $this->nbr_bacs = $nbr;
+    }
 }

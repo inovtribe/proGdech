@@ -13,7 +13,7 @@ use Doctrine\ORM\EntityRepository;
 class TypefluxRepository extends EntityRepository
 {    
     /**
-     * Retourne le nombre de bacs pour un point de collecte
+     * Retourne le type de flux distinct pour une commune
      * 
      * @return type
      */

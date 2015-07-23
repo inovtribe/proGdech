@@ -31,15 +31,24 @@ class PointCollecteRepository extends EntityRepository
     
     
     /**
-     * Retourne le nombre de points de collecte pour une commune
+     * Retourne le nbr de point de collecte pour un type distinct
      * 
      * @return type
      */
-    public function getCountPointsCollecteCommune($id_commune)
+    public function getNbrPointCollecteFlux($id_type, $id_commune)
     {
-        return $this->createQueryBuilder('l')
-                        ->select('COUNT(l)')
-                        ->getQuery() 
-                        ->getSingleScalarResult(); 
+        $query = $this->_em->createQuery('
+                SELECT COUNT(pc)
+                FROM GeographProgdechBundle:PointCollecte pc
+                JOIN pc.bacs b
+                JOIN b.modelebac mb
+                JOIN mb.typeflux tf
+                WHERE tf.id = ?1 AND pc.commune = ?2')
+                ->setParameter(1, $id_type)
+                ->setParameter(2, $id_commune)
+            ;
+        
+        $result = $query->getResult();
+        return $result;
     }
 }

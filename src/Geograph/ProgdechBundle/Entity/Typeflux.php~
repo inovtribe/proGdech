@@ -39,7 +39,9 @@ class Typeflux
     
     /**
      *
-     * @var string 
+     * @var string
+     *
+     * @ORM\Column(name="color_typeflux", type="string", nullable=true) 
      */
     private $color;
     
@@ -48,6 +50,9 @@ class Typeflux
      */
     protected $modelesbac;
     
+    private $nbr_pointscollecte;
+    
+    private $nbr_bacs;
     
     
     /**
