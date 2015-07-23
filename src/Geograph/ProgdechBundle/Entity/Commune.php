@@ -65,6 +65,8 @@ class Commune
             
     private $nombre_bacs;
     
+    private $type_bacs;
+    
     private $population_actuelle;
     
     private $densite;
@@ -258,6 +260,13 @@ class Commune
     }
     public function setNombreBacs($nbr) {
         $this->nombre_bacs = $nbr;
+    }
+    
+    public function getTypeBacs(){
+        return $this->type_bacs;
+    }
+    public function setTypeBacs($type){
+        $this->type_bacs = $type;
     }
     
     public function getPopulationActuelle(){

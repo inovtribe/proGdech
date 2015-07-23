@@ -12,16 +12,5 @@ use Doctrine\ORM\EntityRepository;
  */
 class BacRepository extends EntityRepository
 {
-    /**
-     * Retourne le nombre de bacs pour un point de collecte
-     * 
-     * @return type
-     */
-    public function getCountBacsPointCollecte($id_pointcollecte)
-    {
-        return $this->createQueryBuilder('l')
-                        ->select('COUNT(l)')
-                        ->getQuery() 
-                        ->getSingleScalarResult(); 
-    }
+    
 }

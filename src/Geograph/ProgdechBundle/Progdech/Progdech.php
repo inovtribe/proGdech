@@ -28,6 +28,11 @@ class Progdech
         // Densité pour la commune
         $commune->setDensite($this->setDensiteCommune($commune));
         
+        // Les types de bacs
+        $repository = $this->em
+                ->getRepository('GeographProgdechBundle:Typeflux')
+            ;
+        $commune->setTypeBacs($repository->getTypeFluxDistinctCommune($commune->getId()));
     }
     
     
@@ -40,6 +45,7 @@ class Progdech
         }
         
     }
+    
     // Affectations d'atributs à un objet pointcollecte
     public function setPointCollecte($pointcollecte){
         
@@ -47,24 +53,28 @@ class Progdech
         $pointcollecte->setEmplacementsAffectes($this->getNbrBacsPointCollecte($pointcollecte));
     }
     
+    // Retourne le nombre de point de collecte par commune
     public function getNbrPointsCollecteCommune($commune){
         $pointscollectes = $commune->getPointsCollecte();
         
         return count($pointscollectes);
     }
     
+    // Retourne le nombre de bac par point de collecte
     public function getNbrBacsPointCollecte($pointcollecte){
         $bacs = $pointcollecte->getBacs();
         
         return count($bacs);
     }
     
+    // Retourne le nombre de bacs pour un ensemble de points de collecte
     public function getNbrBacsPointsCollecte($pointscollecte){
         $nbrbacspointscollecte = 0;
         foreach ($pointscollecte as $pointcollecte)
         {
             $nbrbacspointcollecte = $this->getNbrBacsPointCollecte($pointcollecte);
             $nbrbacspointscollecte += $nbrbacspointcollecte;
+            
         }
         
         return $nbrbacspointscollecte;
@@ -92,5 +102,10 @@ class Progdech
     // Retourne la densité d'une commune
     public function setDensiteCommune($commune){
         return $densite = number_format($commune->getPopulationActuelle() / ($commune->getSuperficie()),2);
+    }
+    
+    // Retourne la liste des types de bacs
+    public function getTypeBacs(){
+        
     }
 }

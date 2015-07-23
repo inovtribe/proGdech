@@ -8,7 +8,8 @@ use Doctrine\ORM\Mapping as ORM;
  * Typeflux
  *
  * @ORM\Table(name="t_typeflux")
- * @ORM\Entity
+ * @ORM\Entity 
+ * @ORM\Entity(repositoryClass="Geograph\ProgdechBundle\Repository\TypefluxRepository")
  */
 class Typeflux
 {
@@ -37,9 +38,20 @@ class Typeflux
     private $volontaire;
     
     /**
+     *
+     * @var string
+     *
+     * @ORM\Column(name="color_typeflux", type="string", nullable=true) 
+     */
+    private $color;
+    
+    /**
      * @ORM\OneToMany(targetEntity="Modelebac", mappedBy="typeflux")
      */
     protected $modelesbac;
+    
+    
+    
     /**
      * Constructor
      */
@@ -136,4 +148,11 @@ class Typeflux
     {
         return $this->modelesbac;
     }
+    
+    public function getColor(){
+        return $this->color;
+    }
+    public function setColor($color){
+        $this->color = $color;
+    }    
 }

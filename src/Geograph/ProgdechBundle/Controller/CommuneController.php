@@ -49,6 +49,7 @@ class CommuneController extends Controller
 			->setMarkerInactif($marker);
 
 		$pointsCollecte = $commune->getPointsCollecte();
+                
 		$this->getDoctrine()
 			->getRepository('GeographProgdechBundle:PointCollecte')
 			->assignMarkerToPointsCollecte($pointsCollecte, $marker);
@@ -58,13 +59,13 @@ class CommuneController extends Controller
 		//$commune = $app['dao.commune']->findByInsee($id);
 		//$pointscollecte = $app['dao.pointcollecte']->findAllByCommune($commune->getId(), $marker);
 		return array(
-				'commune' => $commune,
-				'carte' => $carte,
-                                'topolayer' => $topolayer,
-                                'aeriallayer' => $aeriallayer,
-                                'marker' => $marker,
-				'pointscollecte' => $pointsCollecte
-			    );
+                    'commune' => $commune,
+                    'carte' => $carte,
+                    'topolayer' => $topolayer,
+                    'aeriallayer' => $aeriallayer,
+                    'marker' => $marker,
+                    'pointscollecte' => $pointsCollecte
+                );
 	}
         
         /**
