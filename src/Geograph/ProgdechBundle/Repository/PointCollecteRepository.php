@@ -38,7 +38,7 @@ class PointCollecteRepository extends EntityRepository
     public function getNbrPointCollecteFlux($id_type, $id_commune)
     {
         $query = $this->_em->createQuery('
-                SELECT COUNT(pc)
+                SELECT COUNT(distinct pc)
                 FROM GeographProgdechBundle:PointCollecte pc
                 JOIN pc.bacs b
                 JOIN b.modelebac mb

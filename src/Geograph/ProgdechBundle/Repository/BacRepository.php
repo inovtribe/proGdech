@@ -12,5 +12,25 @@ use Doctrine\ORM\EntityRepository;
  */
 class BacRepository extends EntityRepository
 {
-    
+    /**
+     * Retourne le nbr de bac pour un type distinct
+     * 
+     * @return type
+     */
+    public function getNbrBacFlux($id_type, $id_commune)
+    {
+        $query = $this->_em->createQuery('
+                SELECT COUNT(b)
+                FROM GeographProgdechBundle:Bac b
+                JOIN b.pointcollecte pc
+                JOIN b.modelebac mb
+                JOIN mb.typeflux tf
+                WHERE tf.id = ?1 AND pc.commune = ?2')
+                ->setParameter(1, $id_type)
+                ->setParameter(2, $id_commune)
+            ;
+        
+        $result = $query->getResult();
+        return $result;
+    }
 }

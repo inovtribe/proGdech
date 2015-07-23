@@ -34,13 +34,24 @@ class Progdech
             ;
         $types = $repository->getTypeFluxDistinctCommune($commune->getId());
         $commune->setTypeBacs($types);
-        $repository = $this->em
-                ->getRepository('GeographProgdechBundle:PointCollecte')
-            ;
+
             foreach ($types as $type){
+                
+                // Nombre de points de collecte de type $type et pour la commune $commune
+                $repository = $this->em
+                        ->getRepository('GeographProgdechBundle:PointCollecte')
+                    ;
                 $result = $repository->getNbrPointCollecteFlux($type->getId(), $commune->getId());
                 $nbr = $result[0][1];
                 $type->setNbrPointsCollecte($nbr);
+                
+                // Nombre de bacs de type $type et pour la commune $commune
+                $repository = $this->em
+                        ->getRepository('GeographProgdechBundle:Bac')
+                    ;
+                $result = $repository->getNbrBacFlux($type->getId(), $commune->getId());
+                $nbr = $result[0][1];
+                $type->setNbrBacs($nbr);
             }
     }
     
@@ -117,4 +128,5 @@ class Progdech
     public function getTypeBacs(){
         
     }
+    
 }
