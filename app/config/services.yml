@@ -8,7 +8,7 @@ services:
         class: Geograph\ProgdechBundle\Geometrie\CarteDAO
     geometrie_marker:
         class: Geograph\ProgdechBundle\Geometrie\MarkerDAO
-        arguments: [ "%kernel.root_dir%" ]
+        arguments: [ "%kernel.root_dir%", @doctrine.orm.entity_manager ]
     geograph_progdech:
         class: Geograph\ProgdechBundle\Progdech\Progdech
         arguments: [ @doctrine.orm.entity_manager ]

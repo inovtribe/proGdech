@@ -18,27 +18,6 @@ use Doctrine\Common\Collections\Collection;
 class PointCollecteRepository extends EntityRepository
 {
     /**
-     * Assigne un marker à des points de collecte.
-     *
-     * @param $pointsCollecte \Doctrine\Common\Collections\Collection Les points de collecte.
-     * @param $marker Marker Le marker.
-     *
-     * @return void
-     */
-    public function assignMarkerToPointsCollecte(Collection $pointsCollecte, Marker $marker)
-    {
-        var_dump($marker);
-            foreach($pointsCollecte as $pointCollecte){
-                $volontaire = $this->isVolontaire($pointCollecte->getId());
-                if ($volontaire){
-                    // L'icone du point est celle des points de collecte volontaires
-                    $marker->setMarkerVolontaire();
-                }
-                $pointCollecte->marker = $marker;
-            }
-    }
-    
-    /**
      * Retourne le nbr de point de collecte pour un type distinct
      * 
      * @return type
@@ -60,6 +39,30 @@ class PointCollecteRepository extends EntityRepository
         return $result;
     }
     
+    /**
+     * Positionne l'attribut isVolontaire pour les points de collectes spécifiés.
+     *
+     * @param pointscollecte Collecte Les points de collecte.
+     */
+    public function setVolontaires(Collection $pointscollecte) {
+        // Récupère les ids des points de collecte dans un tableau.
+	$ids = $pointscollecte->map(function($entity) { return $entity->getId(); })->toArray();
+
+        $volontaires = $this->_em->createQuery('
+                SELECT pc
+                FROM GeographProgdechBundle:PointCollecte pc
+                JOIN pc.bacs b
+                JOIN b.modelebac mb
+                JOIN mb.typeflux tf
+                WHERE pc.id IN (?1) AND tf.volontaire = true')
+                ->setParameter(1, $ids)
+		->getResult();
+            ;
+
+	foreach($volontaires as $pointcollecte)
+		$pointcollecte->setVolontaire(true);
+    }
+
     public function isVolontaire($id_pointcollecte){
         $query = $this->_em->createQuery('
                 SELECT pc

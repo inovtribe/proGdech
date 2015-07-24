@@ -2,6 +2,8 @@
 
 namespace Geograph\ProgdechBundle\Controller;
 
+use Geograph\ProgdechBundle\Geometrie\Marker;
+
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
@@ -27,13 +29,9 @@ class PointCollecteController extends Controller
                 ->findOneById(4);
         
         $markeractif = $this->get('geometrie_marker')
-                ->setMarker("pointcollecte");
-        $markeractif = $this->get('geometrie_marker')
-			->setMarkerActif($markeractif);
+                ->createMarker(Marker::TYPE_POINT_COLLECTE, true);
         $markerinactif = $this->get('geometrie_marker')
-                ->setMarker("pointcollecte");
-        $markerinactif = $this->get('geometrie_marker')
-			->setMarkerInactif($markerinactif);
+                ->createMarker(Marker::TYPE_POINT_COLLECTE, false);
 
         $pointcollecte = $this->getDoctrine()
                 ->getRepository('GeographProgdechBundle:PointCollecte')
