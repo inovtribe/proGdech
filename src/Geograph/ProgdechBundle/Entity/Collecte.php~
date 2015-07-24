@@ -90,8 +90,6 @@ class Collecte
         return $this->position;
     }
 
-   
-
     /**
      * Set tournee
      *
@@ -138,5 +136,4 @@ class Collecte
         return $this->user;
     }
 
-    
 }

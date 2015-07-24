@@ -32,7 +32,6 @@ class AdminController extends Controller
         $this->get('geograph_progdech')
                 ->setCommunes($communes);
         
-        
         return array(
             'carte' => $carte,
             'topolayer' => $topolayer,

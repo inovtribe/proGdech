@@ -51,4 +51,48 @@ class PointCollecteRepository extends EntityRepository
         $result = $query->getResult();
         return $result;
     }
+    
+    /**
+     * Retourne les points de collecte volontaires
+     * 
+     * @return result
+     */
+    public function findPointsCollecteVolontaires($id_commune)
+    {
+        $query = $this->_em->createQuery('
+                SELECT pc
+                FROM GeographProgdechBundle:PointCollecte pc
+                JOIN pc.bacs b
+                JOIN b.modelebac mb
+                JOIN mb.typeflux tf
+                WHERE pc.commune = ?1 AND tf.volontaire = true')
+                ->setParameter(1, $id_commune)
+            ;
+        
+        $result = $query->getResult();
+        if (!empty($result)){
+            return $result;
+        }
+    }
+    
+    /**
+     * Retourne les points de collecte involontaires
+     * 
+     * @return result
+     */
+    public function findPointsCollecteInvolontaires($id_commune)
+    {
+        $query = $this->_em->createQuery('
+                SELECT pc
+                FROM GeographProgdechBundle:PointCollecte pc
+                JOIN pc.bacs b
+                JOIN b.modelebac mb
+                JOIN mb.typeflux tf
+                WHERE pc.commune = ?1 AND tf.volontaire = false')
+                ->setParameter(1, $id_commune)
+            ;
+        
+        $result = $query->getResult();
+        return $result;
+    }
 }

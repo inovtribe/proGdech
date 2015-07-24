@@ -107,11 +107,13 @@ class PointCollecte
      */
     protected $bacs;
 
-    public $marker = null;
+    private $volontaire;
     
     private $emplacements_affectes;
     
     private $emplacements_libres;
+    
+    public $marker = null;
 
     /**
      * Constructor
@@ -479,5 +481,12 @@ class PointCollecte
     public function getBacs()
     {
         return $this->bacs;
+    }
+    
+    public function getVolontaire(){
+        return $this->volontaire;
+    }
+    public function setVolontaire($type){
+        $this->volontaire = $type;
     }
 }
