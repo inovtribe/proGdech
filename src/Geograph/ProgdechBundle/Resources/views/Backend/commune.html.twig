@@ -17,25 +17,9 @@
             // Code spécifique de la carte
             map.fitBounds(commune.getBounds());
             
-            marker = L.icon({
-                iconUrl: '{{ marker.filename|raw }}',
-
-                iconSize:     {{ marker.size|raw }},
-                iconAnchor:   {{ marker.anchor|raw }},
-                popupAnchor:  {{ marker.popupanchor|raw }}
-            });
+            // Affichage des markers points de collecte
+            {{ include('GeographProgdechBundle:Backend:boucle_pointscollecte.js.twig') }}
             
-            {% for pointcollecte in pointscollecte %}
-                marker{{ pointcollecte.id }} = L.marker([{{ pointcollecte.latitude }}, {{ pointcollecte.longitude }}], {icon: marker}).addTo(map);
-                marker{{ pointcollecte.id }}.bindLabel(
-                        '<h4>{{ pointcollecte.nom}}</h4>' +
-                        '<p>X Bacs de type ?</p>' + 
-                        '<p>X Bacs de type ?</p>');
-                marker{{ pointcollecte.id }}.on('click', marker{{ pointcollecte.id }}Click);
-                function marker{{ pointcollecte.id }}Click(){
-                    document.location.href = "{{ app.request.basepath }}/admin/pointcollecte/{{ pointcollecte.id }}";
-                }
-            {% endfor %}
         </script>
         {% endautoescape %}
 {% endblock %}

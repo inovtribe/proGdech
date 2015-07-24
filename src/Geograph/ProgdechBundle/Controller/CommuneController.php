@@ -40,7 +40,7 @@ class CommuneController extends Controller
 		$commune = $this->getDoctrine()
 			->getRepository('GeographProgdechBundle:Commune')
 			->findOneByInsee($commune_insee);
-                $pointsCollecte = $commune->getPointsCollecte();
+
                 // Récupère les valeurs à affecter à la commmune courante
                 $this->get('geograph_progdech')
                     ->setCommune($commune);
@@ -50,18 +50,12 @@ class CommuneController extends Controller
 
 		$pointsCollecte = $commune->getPointsCollecte();
 		$markerDao->assignMarkerToPointsCollecte($pointsCollecte);
-
-		//$carte = $app['geometrie.carte']->displayMap(); // Définir ici le code de la carte à afficher    
-		//$marker = $app['geometrie.marker']->setInactifMarker();
-		//$commune = $app['dao.commune']->findByInsee($id);
-		//$pointscollecte = $app['dao.pointcollecte']->findAllByCommune($commune->getId(), $marker);
+                
 		return array(
                     'commune' => $commune,
                     'carte' => $carte,
                     'topolayer' => $topolayer,
-                    'aeriallayer' => $aeriallayer,
-                    'marker' => $marker,
-                    'pointscollecte' => $pointsCollecte
+                    'aeriallayer' => $aeriallayer
                 );
 	}
         

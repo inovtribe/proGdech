@@ -106,7 +106,7 @@ class PointCollecte
      * @ORM\OneToMany(targetEntity="Bac", mappedBy="pointcollecte")
      */
     protected $bacs;
-
+    
     private $volontaire;
     
     private $emplacements_affectes;

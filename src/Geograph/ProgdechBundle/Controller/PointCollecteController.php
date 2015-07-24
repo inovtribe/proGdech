@@ -28,38 +28,31 @@ class PointCollecteController extends Controller
                 ->getRepository('GeographProgdechBundle:FondCarte')
                 ->findOneById(4);
         
-        $markeractif = $this->get('geometrie_marker')
-                ->createMarker(Marker::TYPE_POINT_COLLECTE, true);
-        $markerinactif = $this->get('geometrie_marker')
-                ->createMarker(Marker::TYPE_POINT_COLLECTE, false);
-
-        $pointcollecte = $this->getDoctrine()
+        $pointCollecte = $this->getDoctrine()
                 ->getRepository('GeographProgdechBundle:PointCollecte')
                 ->findOneById($pointcollecte_id);
         
-        $commune = $pointcollecte->getCommune();
-        $commune_id = $commune->getId();
-        $user = $pointcollecte->getUser();
+        $markerDao = $this->get('geometrie_marker');
         
+        $commune = $pointCollecte->getCommune();
+        $pointsCollecte = $commune->getPointsCollecte();
+
         $this->get('geograph_progdech')
-                ->setPointCollecte($pointcollecte);
+                ->setPointCollecte($pointCollecte);
         
-        $bacs = $pointcollecte->getBacs();
+        $markerDao->createMarker(Marker::TYPE_POINT_COLLECTE, false);
         
-        $pointscollecte = $this->getDoctrine()
-                ->getRepository('GeographProgdechBundle:PointCollecte')
-                ->findByCommune($commune_id);
+        
+        
+        $markerDao->assignMarkerToPointsCollecte($pointsCollecte);
+        
+        $pointCollecte->marker->setActif(true);
         return array(
             'carte' => $carte,
             'topolayer' => $topolayer,
             'aeriallayer' => $aeriallayer,
-            'markeractif' => $markeractif,
-            'markerinactif' => $markerinactif,
-            'pointcollecte' => $pointcollecte,
-            'commune' => $commune,
-            'user' => $user,
-            'pointscollecte' => $pointscollecte,
-            'bacs' => $bacs
+            'actif_pointcollecte' => $pointCollecte,
+            'commune' =>$commune
         );
     }
 }

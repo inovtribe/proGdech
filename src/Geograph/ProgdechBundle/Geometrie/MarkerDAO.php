@@ -35,8 +35,8 @@ class MarkerDAO
      */
     public function createMarker($type, $actif = true){
         return new Marker($type, $actif, $this->root_dir);
-    }
-
+    }    
+    
     /**
      * Assigne un marker à des points de collecte.
      *
@@ -46,9 +46,9 @@ class MarkerDAO
      */
     public function assignMarkerToPointsCollecte(Collection $pointsCollecte)
     {
-	    $marker = $this->createMarker(Marker::TYPE_POINT_COLLECTE, false);
-	    $markerVolontaire = $this->createMarker(Marker::TYPE_VOLONTAIRE, false);
-
+	    //$marker = $this->createMarker(Marker::TYPE_POINT_COLLECTE, false);
+	    //$markerVolontaire = $this->createMarker(Marker::TYPE_VOLONTAIRE, false);
+            
 	    // Positionne l'attribut isVolontaire des points de collecte.
 	    $this->em
 		    ->getRepository('GeographProgdechBundle:PointCollecte')
@@ -56,6 +56,8 @@ class MarkerDAO
 
 	    // Assigne le marker à chaque point de collecte.
 	    foreach($pointsCollecte as $pointCollecte)
-		$pointCollecte->marker = $pointCollecte->getVolontaire() ? $markerVolontaire : $marker;
+                $pointCollecte->marker = $pointCollecte->getVolontaire()
+                        ? $this->createMarker(Marker::TYPE_VOLONTAIRE, false)
+                        : $this->createMarker(Marker::TYPE_POINT_COLLECTE, false);
     }
 }

@@ -16,14 +16,14 @@
     <div class="col-md-3">
         <div class="panel panel-green">
             <div class="panel-heading">
-                <h3 class="panel-title">{{ pointcollecte.nom }}</h3>
+                <h3 class="panel-title">{{ actif_pointcollecte.nom }}</h3>
             </div>
-            <p>{{ pointcollecte.reference }}</p>
-            <p><small>situé</small> {{ pointcollecte.adresse }} <small>à</small> <a href="{{ app.request.basepath }}/admin/commune/{{ pointcollecte.commune.insee }}">{{ pointcollecte.commune.nom }}</a></p>
-            <p><small>Créé le </small>{{ pointcollecte.date|date('d/m/Y') }}<small> par</small> <a href="{{ app.request.basepath }}/admin/user/{{ pointcollecte.user.id }}">{{ pointcollecte.user.prenom }} {{ pointcollecte.user.nom }}</a></p>
-            <p>Nombre d'emplacements : {{ pointcollecte.emplacement }} ({{ pointcollecte.emplacementsaffectes }} affecté(s) | {{ pointcollecte.emplacementsdisponibles }} disponible(s))</p>
+            <p>{{ actif_pointcollecte.reference }}</p>
+            <p><small>situé</small> {{ actif_pointcollecte.adresse }} <small>à</small> <a href="{{ app.request.basepath }}/admin/commune/{{ actif_pointcollecte.commune.insee }}">{{ actif_pointcollecte.commune.nom }}</a></p>
+            <p><small>Créé le </small>{{ actif_pointcollecte.date|date('d/m/Y') }}<small> par</small> <a href="{{ app.request.basepath }}/admin/user/{{ actif_pointcollecte.user.id }}">{{ actif_pointcollecte.user.prenom }} {{ actif_pointcollecte.user.nom }}</a></p>
+            <p>Nombre d'emplacements : {{ actif_pointcollecte.emplacement }} ({{ actif_pointcollecte.emplacementsaffectes }} affecté(s) | {{ actif_pointcollecte.emplacementsdisponibles }} disponible(s))</p>
 
-            {% for bac in bacs %}
+            {% for bac in actif_pointcollecte.bacs %}
                 {{ bac.reference }}
             {% endfor %}
             <div id="donut-example" style="height: 250px;"></div>
@@ -34,36 +34,21 @@
             // Code général de la carte
             {{ include('GeographProgdechBundle:Backend:carte.js.twig') }}
             
+            // Affichage des markers points de collecte
+            {{ include('GeographProgdechBundle:Backend:boucle_pointscollecte.js.twig') }}
+                
             // Code spécifique de la carte
             var markeractif = L.icon({
-                iconUrl: '    {{ markeractif.filename|raw }}',
-                iconSize:     {{ markeractif.size|raw }},
-                iconAnchor:   {{ markeractif.anchor|raw }},
-                popupAnchor:  {{ markeractif.popupanchor|raw }}
-            });
-            var markerinactif = L.icon({
-                iconUrl: '    {{ markerinactif.filename|raw }}',
-                iconSize:     {{ markerinactif.size|raw }},
-                iconAnchor:   {{ markerinactif.anchor|raw }},
-                popupAnchor:  {{ markerinactif.popupanchor|raw }}
-            });
-            
-            {% for item in pointscollecte %}
-                marker{{ item.id }} = L.marker([{{ item.latitude }}, {{ item.longitude }}], {icon: markerinactif}).addTo(map)
-                marker{{ item.id }}.bindLabel('<h4>{{ pointcollecte.nom}}</h4>' +
-                        '<p>X Bacs de type ?</p>' + 
-                        '<p>X Bacs de type ?</p>');
-                marker{{ item.id }}.on('click', marker{{ item.id }}Click);
-                function marker{{ item.id }}Click(){
-                    document.location.href = "{{ app.request.basepath }}/admin/pointcollecte/{{ item.id }}";
-                }
-            {% endfor %}
-                
-            marker = L.marker([{{ pointcollecte.latitude }}, {{ pointcollecte.longitude }}], {icon: markeractif}).addTo(map);
-            marker.bindLabel('{{ pointcollecte.nom}}');
+                iconUrl: '    {{ actif_pointcollecte.marker.filename|raw }}',
+                iconSize:     {{ actif_pointcollecte.marker.size|raw }},
+                iconAnchor:   {{ actif_pointcollecte.marker.anchor|raw }},
+                popupAnchor:  {{ actif_pointcollecte.marker.popupanchor|raw }}
+            });    
+            marker = L.marker([{{ actif_pointcollecte.latitude }}, {{ actif_pointcollecte.longitude }}], {icon: markeractif}).addTo(map);
+            marker.bindLabel('{{ actif_pointcollecte.nom}}');
             
             // Centrage de la vue sur le point actif
-            map.setView([{{ pointcollecte.latitude }}, {{ pointcollecte.longitude }}], 16);
+            map.setView([{{ actif_pointcollecte.latitude }}, {{ actif_pointcollecte.longitude }}], 16);
             
             new Morris.Donut({
               element: 'donut-example',
