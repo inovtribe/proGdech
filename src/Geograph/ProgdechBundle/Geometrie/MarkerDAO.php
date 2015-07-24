@@ -52,6 +52,11 @@ class MarkerDAO
         }
         return $filename;
     }
+    
+    public function setMarkerVolontaire(){
+        // La valeur pourrait être extraite de la BDD et être un paramètre
+        $marker->setFilename = "{$this->root_dir}/../web/bundles/geographprogdech/images/markers/pointcollecte_volontaire.png";
+    }
 
     /**
      * Défini la width de l'image

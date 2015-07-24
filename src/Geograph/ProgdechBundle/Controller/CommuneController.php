@@ -38,7 +38,7 @@ class CommuneController extends Controller
 		$commune = $this->getDoctrine()
 			->getRepository('GeographProgdechBundle:Commune')
 			->findOneByInsee($commune_insee);
-                
+                $pointsCollecte = $commune->getPointsCollecte();
                 // Récupère les valeurs à affecter à la commmune courante
                 $this->get('geograph_progdech')
                     ->setCommune($commune);

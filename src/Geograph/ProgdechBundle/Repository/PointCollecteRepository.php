@@ -3,9 +3,11 @@
 namespace Geograph\ProgdechBundle\Repository;
 
 use Geograph\ProgdechBundle\Geometrie\Marker;
+use Geograph\ProgdechBundle\Geometrie\MarkerDAO;
 
 use Doctrine\ORM\EntityRepository;
 use Doctrine\Common\Collections\Collection;
+
 
 /**
  * PointCollecteRepository
@@ -25,10 +27,16 @@ class PointCollecteRepository extends EntityRepository
      */
     public function assignMarkerToPointsCollecte(Collection $pointsCollecte, Marker $marker)
     {
-            foreach($pointsCollecte as $pointCollecte)
-                    $pointCollecte->marker = $marker;
+        var_dump($marker);
+            foreach($pointsCollecte as $pointCollecte){
+                $volontaire = $this->isVolontaire($pointCollecte->getId());
+                if ($volontaire){
+                    // L'icone du point est celle des points de collecte volontaires
+                    $marker->setMarkerVolontaire();
+                }
+                $pointCollecte->marker = $marker;
+            }
     }
-    
     
     /**
      * Retourne le nbr de point de collecte pour un type distinct
@@ -51,6 +59,36 @@ class PointCollecteRepository extends EntityRepository
         $result = $query->getResult();
         return $result;
     }
+    
+    public function isVolontaire($id_pointcollecte){
+        $query = $this->_em->createQuery('
+                SELECT pc
+                FROM GeographProgdechBundle:PointCollecte pc
+                JOIN pc.bacs b
+                JOIN b.modelebac mb
+                JOIN mb.typeflux tf
+                WHERE pc.id = ?1 AND tf.volontaire = true')
+                ->setParameter(1, $id_pointcollecte)
+            ;
+        $result = $query->getResult();
+        if (!empty($result)){
+            return true;
+        }
+    }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+// ---------------------------- INUTILISEES ------------------------------------    
+    
     
     /**
      * Retourne les points de collecte volontaires

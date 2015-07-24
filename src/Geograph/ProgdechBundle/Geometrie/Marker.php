@@ -47,6 +47,9 @@ Class Marker {
      */
     private $popupanchor;
     
+    
+// Getters et Setters --------------------------------------------------------- 
+    
     public function getType(){
         return $this->type;
     }
