@@ -5,6 +5,7 @@ namespace Geograph\ProgdechBundle\Controller;
 use Geograph\ProgdechBundle\Geometrie\Marker;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\Response;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 
@@ -20,6 +21,36 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 
 class CommuneController extends Controller
 {
+	/**
+	 * Retourne la liste des communes en JSON.
+	 *
+	 * @Route("/admin/communes.json")
+	 *
+	 * @return JSON, array(
+	 *   communes[name, insee]
+	 * )
+	 **/
+	public function communesJsonAction()
+	{
+		$communes = array();
+		$allCommunes = $this->getDoctrine()
+			->getRepository('GeographProgdechBundle:Commune')
+			->findAll();
+
+		foreach($allCommunes as $commune)
+		{
+			$communes[] = array(
+				'id' => $commune->getId(),
+				'nom' => $commune->getNom(),
+				'insee' => $commune->getInsee()
+			);
+		}
+
+		return new Response(json_encode(array(
+			'communes' => $communes	
+		)));
+	}
+
 	/**
 	 * Commune home page controller.
 	 *

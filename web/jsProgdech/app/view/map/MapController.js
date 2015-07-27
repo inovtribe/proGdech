@@ -54,7 +54,6 @@ Ext.define('jsProgdech.view.map.MapController', {
             map.fitBounds(e.target.getBounds());
             var layer = e.target;
             var inseecommune = layer.feature.properties.INSEE;
-            document.location.href = "/admin/commune/" + inseecommune;
         }
         function onEachFeature(feature, layer) {
             layer.bindLabel(

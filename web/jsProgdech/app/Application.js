@@ -10,6 +10,7 @@ Ext.define('jsProgdech.Application', {
 
     stores: [
         // TODO: add global / shared stores here
+        'Communes'
     ],
     
     launch: function () {
