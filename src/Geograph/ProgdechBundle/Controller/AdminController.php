@@ -8,6 +8,15 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 
 class AdminController extends Controller
 {
+    /**
+     * Admin home page controller.
+     *
+     * @Route("/admin/extjs", name="extjs")
+     * @Template("GeographProgdechBundle:Backend:extjs.html.twig");
+     */
+    public function extjsAction() {
+	return array();
+    }
 
     /**
      * Admin home page controller.
