@@ -14,9 +14,11 @@ Ext.define('jsProgdech.view.map.Panel', {
 
     listeners: {
         afterlayout: 'createMap',
-        selectCommune: 'selectCommune',
-	resize: 'onResize'
+        selectCommune: 'doSelectCommune',
+	resize: 'onResize',
+        highlightCommune: 'doHighlight',
     },
 
-    map: null	// Pas de carte à l'initialisation.
+    map: null,	// Pas de carte à l'initialisation.
+    geojson: null
 });

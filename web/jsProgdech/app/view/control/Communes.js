@@ -6,8 +6,10 @@ Ext.define('jsProgdech.view.control.Communes', {
     alias: ['widget.controlCommunes'],
 
     requires: [
-        //'jsProgdech.view.map.MapController',
+        'jsProgdech.view.control.CommunesController',
     ],
+
+    controller: 'controlCommunes',
 
     title: 'Communes',
     layout: 'fit',
@@ -25,5 +27,11 @@ Ext.define('jsProgdech.view.control.Communes', {
         '</tpl>'
     ),
     itemSelector: 'div.commune-tpl',
-    emptyText: 'Communes indisponibles'
+    emptyText: 'Communes indisponibles',
+
+    listeners: {
+        itemmouseenter: 'onItemMouseEnter',
+        itemmouseleave: 'onItemMouseLeave',
+        itemclick: 'onItemClick'
+    }
 });

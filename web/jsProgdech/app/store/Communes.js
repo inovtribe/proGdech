@@ -2,5 +2,10 @@ Ext.define('jsProgdech.store.Communes', {
     extend: 'Ext.data.Store',
     alias: 'store.communes',
     model: 'jsProgdech.model.Commune',
-    autoLoad: true
+    autoLoad: true,
+
+    sorters: [{
+        property: 'nom',
+        direction: 'ASC'
+    }]
 });

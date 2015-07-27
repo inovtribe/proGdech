@@ -7,6 +7,57 @@ Ext.define('jsProgdech.view.map.MapController', {
     alias: 'controller.map',
 
     /**
+     * Retourne le layer d'une commune d'après son n° INSEE.
+     *
+     * @param panel jsProgdech.view.map.Panel
+     * @param insee string N° INSEE de la commune.
+     *
+     * @return layer Layer de la commune, ou null si elle n'est pas trouvée.
+     **/
+    getLayerCommuneByInsee: function(panel, insee) {
+        var layerReturn = null;
+
+        panel.map.eachLayer(function (layer) {
+            if ((typeof(layer.feature) !== 'undefined') && (layer.feature.properties.INSEE == insee)) {
+                layerReturn = layer;
+                return layer;
+            }
+        }, this);
+
+        return layerReturn;
+    },
+
+    /**
+     * Highlight une commune.
+     *
+     * @param panel jsProgdech.view.map.Panel
+     * @param insee string N° INSEE de la commune.
+     * @param state boolean true pour highlight, sinon supprime le highligth.
+     **/
+    doHighlight: function(panel, insee, state) {
+        var layerCommune = this.getLayerCommuneByInsee(panel, insee);
+        if (layerCommune === null) {
+            return;
+        }
+
+        if (state === true) {
+            layerCommune.setStyle({
+                weight: 2,
+                color: 'green',
+                dashArray: '',
+                fillOpacity: 0.15
+            });
+
+            if (!L.Browser.ie && !L.Browser.opera) {
+                layerCommune.bringToFront();
+            }
+        }
+        else {
+            panel.geojson.resetStyle(layerCommune);
+        }
+    },
+
+    /**
      * Le panel contenant la carte vient d'etre redimenssionné: informe la carte !
      *
      * @param panel jsProgdech.view.map.Panel
@@ -18,21 +69,27 @@ Ext.define('jsProgdech.view.map.MapController', {
     },
 
     /**
-     * Sélectionne d'une commune.
-     * Affiche les markers liés à la commune.
+     * Sélectionne d'une commune:
+     *  - Centre la carte sur la commune.
+     *  - Affiche les markers liés à la commune.
      *
      * @param panel jsProgdech.view.map.Panel
      * @param insee string N° INSEE de la commune.
      **/
-    selectCommune: function(panel, insee) {
-	var store = Ext.getStore('Communes');
+    doSelectCommune: function(panel, insee) {
+        // Zoome sur la commune.
+        var layerCommune = this.getLayerCommuneByInsee(panel, insee);
+        if (layerCommune !== null) {
+            panel.map.fitBounds(layerCommune.getBounds());
+        }
 
 	// Supprime tous les markers de toutes les communes.
+	var store = Ext.getStore('Communes');
 	store.each(function(commune) {
 		commune.deleteMarkers(panel.map);
 	});
 
-	// Affiche les markers de points de collecte de la commune spécifiée en paramètre.
+	// Affiche les markers des points de collecte de la commune spécifiée en paramètre.
 	var commune = store.findRecord('insee', insee);
 	if (commune === null) {
 		return;
@@ -78,28 +135,13 @@ Ext.define('jsProgdech.view.map.MapController', {
             };
         }
         function highlightFeature(e, feature, layer) {
-            var layer = e.target;
-            $("#donneescommune").html(layer.feature.properties.COMMUNE);
-            layer.setStyle({
-                weight: 2,
-                color: 'green',
-                dashArray: '',
-                fillOpacity: 0.15
-            });
-
-            if (!L.Browser.ie && !L.Browser.opera) {
-                layer.bringToFront();
-            }
+            panel.fireEvent('highlightCommune', panel, e.target.feature.properties.INSEE, true);
         }
         function resetHighlight(e) {
-            geojson.resetStyle(e.target);
-            $("#donneescommune").html("Survolez une commune");
+            panel.fireEvent('highlightCommune', panel, e.target.feature.properties.INSEE, false);
         }
         function zoomToFeature(e) {
-            map.fitBounds(e.target.getBounds());
-            var layer = e.target;
-            var inseecommune = layer.feature.properties.INSEE;
-	    panel.fireEvent('selectCommune', panel, inseecommune);
+	    panel.fireEvent('selectCommune', panel, e.target.feature.properties.INSEE);
         }
         function onEachFeature(feature, layer) {
             layer.bindLabel(
@@ -114,5 +156,6 @@ Ext.define('jsProgdech.view.map.MapController', {
         
         map.fitBounds(geojson.getBounds()).setMaxBounds(geojson.getBounds());
 	panel.map = map;
+	panel.geojson = geojson;
     }
 });
