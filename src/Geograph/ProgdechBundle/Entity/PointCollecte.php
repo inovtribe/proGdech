@@ -115,6 +115,16 @@ class PointCollecte
     
     public $marker = null;
 
+    public function getNestedData()
+    {
+	return array(
+		'id' => $this->getId(),
+		'nom' => $this->getNom(),
+		'latitude' => $this->getLatitude(),
+		'longitude' => $this->getLongitude(),
+		'volontaire' => $this->getVolontaire()
+	);
+    }
     /**
      * Constructor
      */

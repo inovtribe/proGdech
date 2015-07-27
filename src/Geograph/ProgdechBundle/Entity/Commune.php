@@ -70,6 +70,23 @@ class Commune
     private $population_actuelle;
     
     private $densite;
+
+    /**
+     * Retourne les données pour ExtJs.
+     */
+    public function getNestedData()
+    {
+	$pointsCollecte = array();
+	foreach($this->getPointsCollecte() as $pointCollecte)
+		$pointsCollecte[] = $pointCollecte->getNestedData();
+
+        return array(
+            'id' => $this->getId(),
+            'nom' => $this->getNom(),
+            'insee' => $this->getInsee(),
+	    'pointCollectes' => $pointsCollecte
+        );
+    }
     
     /**
      * Constructor

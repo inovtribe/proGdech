@@ -2,7 +2,7 @@ Ext.define('jsProgdech.model.Commune', {
     extend: 'Ext.data.Model',
     fields: [
         {name: 'id',  type: 'integer'},
-        {name: 'name',  type: 'string'},
+        {name: 'nom',  type: 'string'},
         {name: 'insee', type: 'string'}
     ],
 
@@ -17,5 +17,14 @@ Ext.define('jsProgdech.model.Commune', {
                 rootProperty: 'communes'
             }
         }
+    },
+
+    // Supprime tous les markers liés à la commune.
+    deleteMarkers: function(map) {
+	this.pointCollectes(function(pointsCollecte) {
+		pointsCollecte.each(function(pointCollecte) {
+			pointCollecte.deleteMarkers(map);
+		});
+	});
     }
 });

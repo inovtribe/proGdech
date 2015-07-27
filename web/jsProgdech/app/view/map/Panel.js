@@ -13,6 +13,9 @@ Ext.define('jsProgdech.view.map.Panel', {
     controller: 'map',
 
     listeners: {
-        afterlayout: 'createMap'
-    }
+        afterlayout: 'createMap',
+        selectCommune: 'selectCommune'
+    },
+
+    map: null	// Pas de carte à l'initialisation.
 });

@@ -8,6 +8,11 @@ Ext.define('jsProgdech.Application', {
     
     name: 'jsProgdech',
 
+    models: [
+        'Commune',
+        'PointCollecte'
+    ],
+
     stores: [
         // TODO: add global / shared stores here
         'Communes'

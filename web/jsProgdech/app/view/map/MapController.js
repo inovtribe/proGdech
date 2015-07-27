@@ -6,8 +6,39 @@ Ext.define('jsProgdech.view.map.MapController', {
 
     alias: 'controller.map',
 
+    /**
+     * Sélectionne d'une commune.
+     * Affiche les markers liés à la commune.
+     **/
+    selectCommune: function(panel, insee) {
+	var store = Ext.getStore('Communes');
+
+	// Supprime tous les markers de toutes les communes.
+	store.each(function(commune) {
+		commune.deleteMarkers(panel.map);
+	});
+
+	// Affiche les markers de points de collecte de la commune spécifiée en paramètre.
+	var commune = store.findRecord('insee', insee);
+	if (commune === null) {
+		return;
+	}
+	commune.pointCollectes(function(pointsCollecte) {
+		pointsCollecte.each(function(pointCollecte) {
+			pointCollecte.showMarkerInMap(panel.map);
+		});
+	});
+    },
+
+    /**
+     * Créé une map dans le panel spécifié.
+     *
+     * @param panel jsProgdech.view.map.Panel
+     **/
     createMap: function(panel) {
-        panel.removeAll();
+	if (panel.map !== null) {
+	    return;
+	}
 
         var geojson = L.geoJson(gestionnairelayer);
         geojson.setStyle({"color": 'red', "weight": 3, "fill" : false, smoothFactor: 1, "fillOpacity": 0.025});
@@ -54,6 +85,7 @@ Ext.define('jsProgdech.view.map.MapController', {
             map.fitBounds(e.target.getBounds());
             var layer = e.target;
             var inseecommune = layer.feature.properties.INSEE;
+	    panel.fireEvent('selectCommune', panel, inseecommune);
         }
         function onEachFeature(feature, layer) {
             layer.bindLabel(
@@ -67,5 +99,6 @@ Ext.define('jsProgdech.view.map.MapController', {
         }
         
         map.fitBounds(geojson.getBounds()).setMaxBounds(geojson.getBounds());
+	panel.map = map;
     }
 });
