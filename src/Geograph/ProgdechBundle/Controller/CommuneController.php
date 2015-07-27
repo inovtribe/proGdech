@@ -2,6 +2,8 @@
 
 namespace Geograph\ProgdechBundle\Controller;
 
+use Geograph\ProgdechBundle\Geometrie\Marker;
+
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
@@ -38,33 +40,22 @@ class CommuneController extends Controller
 		$commune = $this->getDoctrine()
 			->getRepository('GeographProgdechBundle:Commune')
 			->findOneByInsee($commune_insee);
-                
+
                 // Récupère les valeurs à affecter à la commmune courante
                 $this->get('geograph_progdech')
                     ->setCommune($commune);
                 
-		$marker = $this->get('geometrie_marker')
-			->setMarker("pointcollecte");
-                $marker = $this->get('geometrie_marker')
-			->setMarkerInactif($marker);
+		$markerDao = $this->get('geometrie_marker');
+		$marker = $markerDao->createMarker(Marker::TYPE_POINT_COLLECTE, false);
 
 		$pointsCollecte = $commune->getPointsCollecte();
+		$markerDao->assignMarkerToPointsCollecte($pointsCollecte);
                 
-		$this->getDoctrine()
-			->getRepository('GeographProgdechBundle:PointCollecte')
-			->assignMarkerToPointsCollecte($pointsCollecte, $marker);
-
-		//$carte = $app['geometrie.carte']->displayMap(); // Définir ici le code de la carte à afficher    
-		//$marker = $app['geometrie.marker']->setInactifMarker();
-		//$commune = $app['dao.commune']->findByInsee($id);
-		//$pointscollecte = $app['dao.pointcollecte']->findAllByCommune($commune->getId(), $marker);
 		return array(
                     'commune' => $commune,
                     'carte' => $carte,
                     'topolayer' => $topolayer,
-                    'aeriallayer' => $aeriallayer,
-                    'marker' => $marker,
-                    'pointscollecte' => $pointsCollecte
+                    'aeriallayer' => $aeriallayer
                 );
 	}
         

@@ -53,7 +53,7 @@
         }
         function highlightFeature(e, feature, layer) {
             var layer = e.target;
-
+            $("#donneescommune").html(layer.feature.properties.COMMUNE);
             layer.setStyle({
                 weight: 2,
                 color: 'green',
@@ -67,6 +67,7 @@
         }
         function resetHighlight(e) {
             geojson.resetStyle(e.target);
+            $("#donneescommune").html("Survolez une commune");
         }
         function zoomToFeature(e) {
             //map.fitBounds(e.target.getBounds());
@@ -76,8 +77,7 @@
         }
         function onEachFeature(feature, layer) {
             layer.bindLabel(
-                    '<h4>' + layer.feature.properties.COMMUNE + '</h4>\n\
-    <p>X Points de collecte</p><p>X Bacs</p>'
+                    '<h4>' + layer.feature.properties.COMMUNE + '</h4>'
                 );
             layer.on({
                 mouseover: highlightFeature,

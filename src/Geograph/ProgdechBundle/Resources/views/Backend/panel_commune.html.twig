@@ -33,7 +33,7 @@
           <div class="panel panel-default">
             <div class="panel-heading" role="tab" id="headingOne" style="background-color: {{ type.color }};">
               <h4 class="panel-title">
-                <a role="button" data-toggle="collapse" data-parent="#accordion" href="#type{{ type.id }}" aria-expanded="true" aria-controls="collapseOne">
+                <a role="button" data-toggle="collapse" data-parent="#accordion" href="#type{{ type.id }}" aria-expanded="true" aria-controls="collapseOne" onclick="layer{{ type.id }}">
                   {{ type.nom }}
                 </a>
               </h4>
@@ -44,12 +44,15 @@
                       <li class="list-unstyled">Points de collecte : {{ type.nbrpointscollecte }}</li>
                       <li class="list-unstyled">Bacs : {{ type.nbrbacs }}</li>
                       <li class="list-unstyled">Tournée :</li>
-                      <li class="list-unstyled">Points de collecte :</li>
+                      {% if type.nom == 'Verre' %}
+                      <li class="list-unstyled">Collecte : (prestataire)</li>
+                      {% else %}
+                      <li class="list-unstyled">Type de tournée :</li>
+                      {% endif %}
                   </ul>
               </div>
             </div>
           </div>
       {% endfor %}
     </div>
-          
 </div>

@@ -3,9 +3,11 @@
 namespace Geograph\ProgdechBundle\Repository;
 
 use Geograph\ProgdechBundle\Geometrie\Marker;
+use Geograph\ProgdechBundle\Geometrie\MarkerDAO;
 
 use Doctrine\ORM\EntityRepository;
 use Doctrine\Common\Collections\Collection;
+
 
 /**
  * PointCollecteRepository
@@ -15,21 +17,6 @@ use Doctrine\Common\Collections\Collection;
  */
 class PointCollecteRepository extends EntityRepository
 {
-    /**
-     * Assigne un marker à des points de collecte.
-     *
-     * @param $pointsCollecte \Doctrine\Common\Collections\Collection Les points de collecte.
-     * @param $marker Marker Le marker.
-     *
-     * @return void
-     */
-    public function assignMarkerToPointsCollecte(Collection $pointsCollecte, Marker $marker)
-    {
-            foreach($pointsCollecte as $pointCollecte)
-                    $pointCollecte->marker = $marker;
-    }
-    
-    
     /**
      * Retourne le nbr de point de collecte pour un type distinct
      * 
@@ -46,6 +33,104 @@ class PointCollecteRepository extends EntityRepository
                 WHERE tf.id = ?1 AND pc.commune = ?2')
                 ->setParameter(1, $id_type)
                 ->setParameter(2, $id_commune)
+            ;
+        
+        $result = $query->getResult();
+        return $result;
+    }
+    
+    /**
+     * Positionne l'attribut isVolontaire pour les points de collectes spécifiés.
+     *
+     * @param pointscollecte Collecte Les points de collecte.
+     */
+    public function setVolontaires(Collection $pointscollecte) {
+        // Récupère les ids des points de collecte dans un tableau.
+	$ids = $pointscollecte->map(function($entity) { return $entity->getId(); })->toArray();
+
+        $volontaires = $this->_em->createQuery('
+                SELECT pc
+                FROM GeographProgdechBundle:PointCollecte pc
+                JOIN pc.bacs b
+                JOIN b.modelebac mb
+                JOIN mb.typeflux tf
+                WHERE pc.id IN (?1) AND tf.volontaire = true')
+                ->setParameter(1, $ids)
+		->getResult();
+            ;
+
+	foreach($volontaires as $pointcollecte)
+		$pointcollecte->setVolontaire(true);
+    }
+
+    public function isVolontaire($id_pointcollecte){
+        $query = $this->_em->createQuery('
+                SELECT pc
+                FROM GeographProgdechBundle:PointCollecte pc
+                JOIN pc.bacs b
+                JOIN b.modelebac mb
+                JOIN mb.typeflux tf
+                WHERE pc.id = ?1 AND tf.volontaire = true')
+                ->setParameter(1, $id_pointcollecte)
+            ;
+        $result = $query->getResult();
+        if (!empty($result)){
+            return true;
+        }
+    }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+// ---------------------------- INUTILISEES ------------------------------------    
+    
+    
+    /**
+     * Retourne les points de collecte volontaires
+     * 
+     * @return result
+     */
+    public function findPointsCollecteVolontaires($id_commune)
+    {
+        $query = $this->_em->createQuery('
+                SELECT pc
+                FROM GeographProgdechBundle:PointCollecte pc
+                JOIN pc.bacs b
+                JOIN b.modelebac mb
+                JOIN mb.typeflux tf
+                WHERE pc.commune = ?1 AND tf.volontaire = true')
+                ->setParameter(1, $id_commune)
+            ;
+        
+        $result = $query->getResult();
+        if (!empty($result)){
+            return $result;
+        }
+    }
+    
+    /**
+     * Retourne les points de collecte involontaires
+     * 
+     * @return result
+     */
+    public function findPointsCollecteInvolontaires($id_commune)
+    {
+        $query = $this->_em->createQuery('
+                SELECT pc
+                FROM GeographProgdechBundle:PointCollecte pc
+                JOIN pc.bacs b
+                JOIN b.modelebac mb
+                JOIN mb.typeflux tf
+                WHERE pc.commune = ?1 AND tf.volontaire = false')
+                ->setParameter(1, $id_commune)
             ;
         
         $result = $query->getResult();

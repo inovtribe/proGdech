@@ -1,0 +1,19 @@
+{% for pointcollecte in commune.pointscollecte %}
+    var marker = L.icon({
+        iconUrl: '{{ pointcollecte.marker.filename|raw }}',
+
+        iconSize:     {{ pointcollecte.marker.size|raw }},
+        iconAnchor:   {{ pointcollecte.marker.anchor|raw }},
+        popupAnchor:  {{ pointcollecte.marker.popupanchor|raw }}
+    });
+
+    marker{{ pointcollecte.id }} = L.marker([{{ pointcollecte.latitude }}, {{ pointcollecte.longitude }}], {icon: marker}).addTo(map);
+    marker{{ pointcollecte.id }}.bindLabel(
+            '<h4>{{ pointcollecte.nom}}</h4>' +
+            '<p>X Bacs de type ?</p>' + 
+            '<p>X Bacs de type ?</p>');
+    marker{{ pointcollecte.id }}.on('click', marker{{ pointcollecte.id }}Click);
+    function marker{{ pointcollecte.id }}Click(){
+        document.location.href = "{{ app.request.basepath }}/admin/pointcollecte/{{ pointcollecte.id }}";
+    }
+{% endfor %}
