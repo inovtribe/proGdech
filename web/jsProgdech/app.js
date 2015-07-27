@@ -9,7 +9,6 @@ Ext.application({
     extend: 'jsProgdech.Application',
 
     requires: [
-        'jsProgdech.view.main.MainModel'
     ],
 
     appFolder: '/jsProgdech/app',
