@@ -7,8 +7,22 @@ Ext.define('jsProgdech.view.map.MapController', {
     alias: 'controller.map',
 
     /**
+     * Le panel contenant la carte vient d'etre redimenssionné: informe la carte !
+     *
+     * @param panel jsProgdech.view.map.Panel
+     **/
+    onResize: function(panel) {
+        if (panel.map !== null) {
+            panel.map.invalidateSize();
+        }
+    },
+
+    /**
      * Sélectionne d'une commune.
      * Affiche les markers liés à la commune.
+     *
+     * @param panel jsProgdech.view.map.Panel
+     * @param insee string N° INSEE de la commune.
      **/
     selectCommune: function(panel, insee) {
 	var store = Ext.getStore('Communes');

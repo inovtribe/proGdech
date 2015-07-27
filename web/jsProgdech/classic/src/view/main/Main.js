@@ -5,14 +5,14 @@ Ext.define('jsProgdech.view.main.Main', {
     extend: 'Ext.panel.Panel',
     xtype: 'app-main',
 
-    layout:  'fit',
+    layout:  'border',
 
     requires: [
         'Ext.plugin.Viewport',
 
         //'jsProgdech.view.main.MainController',
-        //'jsProgdech.view.main.MainModel',
-        //'jsProgdech.view.main.List'
+        'jsProgdech.view.control.Communes',
+        'jsProgdech.view.control.Main',
         'jsProgdech.view.map.Panel'
     ],
 
@@ -57,6 +57,18 @@ Ext.define('jsProgdech.view.main.Main', {
     }],
 
     items: [{
-       xtype: 'map'
+        xtype: 'map',
+	region: 'center'
+    }, {
+	id: 'control',
+        region: 'east',
+        split: true,
+        collapsible: true,
+        width: 300,
+	layout: 'fit',
+	title: 'proGdech',
+	items: [{
+		xtype: 'controlCommunes'
+	}]
     }]
 });
