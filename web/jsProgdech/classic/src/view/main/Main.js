@@ -10,20 +10,27 @@ Ext.define('jsProgdech.view.main.Main', {
     requires: [
         'Ext.plugin.Viewport',
 
-        //'jsProgdech.view.main.MainController',
+        'jsProgdech.view.main.MainController',
         'jsProgdech.view.control.Communes',
         'jsProgdech.view.control.Main',
+        //'jsProgdech.view.main.Toolbar',
         'jsProgdech.view.map.Panel'
     ],
 
     controller: 'main',
-    //viewModel: 'main',
 
+    /*
+    tbar: {
+        xtype: 'mainToolbar'
+    },
+   */
+
+  /*
     lbar: [{
         xtype: 'label',
         text: 'proGdech'
     }, {
-	text: 'Tableau de bord'
+        text: 'Tableau de bord'
     }, {
         xtype:'splitbutton',
         text: 'Points de collecte',
@@ -40,35 +47,36 @@ Ext.define('jsProgdech.view.main.Main', {
         }, {
             text: 'Ajouter un bac'
         }, {
-	    text: 'Modèles de bacs'
-	}]
+            text: 'Modèles de bacs'
+        }]
     }, {
         text: 'Tournées'
     }, '->', {
-	text: 'Profil',
-	menu: [{
-	    text: 'Mon profil: '
-	}, {
-	    text: 'Paramètres'
+        text: 'Profil',
+        menu: [{
+            text: 'Mon profil: '
+        }, {
+            text: 'Paramètres'
         }, '-', {
             text: 'Déconnexion',
             iconCls: 'fa-logout'
         }]
     }],
+   */
 
     items: [{
         xtype: 'map',
-	region: 'center'
+        region: 'center'
     }, {
-	id: 'control',
+        id: 'control',
         region: 'east',
         split: true,
         collapsible: true,
         width: 300,
-	layout: 'fit',
-	title: 'proGdech',
-	items: [{
-		xtype: 'controlCommunes'
-	}]
+        layout: 'fit',
+        title: 'proGdech',
+        items: [{
+            xtype: 'controlCommunes'
+        }]
     }]
 });
