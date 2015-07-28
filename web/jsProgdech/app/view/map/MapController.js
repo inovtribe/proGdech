@@ -26,7 +26,15 @@ Ext.define('jsProgdech.view.map.MapController', {
      * @param insee string N° INSEE de la commune.
      **/
     doSelectCommune: function(panel, insee) {
-        var commune = Ext.getStore('Communes').findRecord('insee', insee);
+        var storeCommunes = Ext.getStore('Communes');
+
+        // Déselectionne toutes les communes.
+        storeCommunes.each(function(record) {
+            record.set('select', false);
+        });
+
+        // Sélectionne la commune.
+        var commune = storeCommunes.findRecord('insee', insee);
         commune.set('select', true);
 
         // Zoome sur la commune.
@@ -139,10 +147,10 @@ Ext.define('jsProgdech.view.map.MapController', {
      * Renseigne la commune sur sa map et son layer.
      * Highlighte correctement les communes.
      **/
-    onStoreCommunesLoad: function(store, records) {
+    onStoreCommunesLoad: function(storeCommunes, records) {
         var mapPanel = Ext.getCmp('map');
 
-        Ext.each(records, function(record) {
+        storeCommunes.each(function(record) {
             var layerCommune = mapPanel.getController().getLayerCommuneByInsee(mapPanel, record.get('insee'));
             record.map = mapPanel.map;
             record.layer = layerCommune;
