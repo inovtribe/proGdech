@@ -7,6 +7,15 @@ Ext.define('jsProgdech.view.map.MapController', {
     alias: 'controller.map',
 
     /**
+     * Mets le zoom par default sur la carte.
+     *
+     * @param panel jsProgdech.view.map.Panel
+     **/
+    doZoomInitial: function(panel) {
+        panel.map.fitBounds(panel.map.myGeojson.getBounds()).setMaxBounds(panel.map.myGeojson.getBounds());
+    },
+
+    /**
      * Le panel contenant la carte vient d'etre redimenssionné: informe la carte !
      *
      * @param panel jsProgdech.view.map.Panel
@@ -100,9 +109,12 @@ Ext.define('jsProgdech.view.map.MapController', {
             });
         }
 
-        map.fitBounds(geojson.getBounds()).setMaxBounds(geojson.getBounds());
+        // Mémorise les données pour accès ultérieur.
         map.myGeojson = geojson;
         panel.map = map;
+
+        // Zoom initial.
+        panel.fireEvent('zoomInitial', panel);
 
         // Écoute les modifications sur le store des communes.
         var storeCommunes = Ext.getStore('Communes');

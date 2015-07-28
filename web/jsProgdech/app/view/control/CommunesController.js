@@ -53,5 +53,31 @@ Ext.define('jsProgdech.view.control.CommunesController', {
         if (cellIndex !== 0) {
             record.set('select', ! record.get('select'));
         }
+    },
+
+    /**
+     * Sélectionne toutes les communes.
+     **/
+    onButtonToutes: function() {
+        Ext.getStore('Communes').each(function(record) {
+            record.set('select', true);
+        });
+    },
+
+    /**
+     * Déselectionne toutes les communes.
+     **/
+    onButtonNone: function() {
+        Ext.getStore('Communes').each(function(record) {
+            record.set('select', false);
+        });
+    },
+
+    /**
+     * Revient au zoom initial sur la carte.
+     **/
+    onZoomInitial: function() {
+        var mapPanel = Ext.getCmp('map');
+        mapPanel.fireEvent('zoomInitial', mapPanel);
     }
 });

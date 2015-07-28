@@ -18,6 +18,18 @@ Ext.define('jsProgdech.view.control.Communes', {
     ],
     hideHeaders: true,
 
+    tbar: [{
+        text: 'Toutes',
+        handler: 'onButtonToutes'
+
+    }, {
+        text: 'Aucune',
+        handler: 'onButtonNone'
+    }, '->', {
+        text: 'Zoom initial',
+        handler: 'onZoomInitial'
+    }],
+
     listeners: {
         cellclick: 'onCellClick',
         itemdblclick: 'onItemDblClick',
