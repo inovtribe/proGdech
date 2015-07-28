@@ -81,8 +81,12 @@ Ext.define('jsProgdech.view.map.MapController', {
             var commune = Ext.getStore('Communes').findRecord('insee', e.target.feature.properties.INSEE);
             commune.doHighlight(false);
         }
-        function zoomToFeature(e) {
-            panel.fireEvent('selectCommune', panel, e.target.feature.properties.INSEE);
+        function selectCommune(e) {
+            var commune = Ext.getStore('Communes').findRecord('insee', e.target.feature.properties.INSEE);
+            commune.set('select', ! commune.get('select'));
+        }
+        function selectOneCommune(e) {
+            panel.fireEvent('selectOneCommune', panel, e.target.feature.properties.INSEE);
         }
         function onEachFeature(feature, layer) {
             layer.bindLabel(
@@ -91,7 +95,8 @@ Ext.define('jsProgdech.view.map.MapController', {
             layer.on({
                 mouseover: highlightFeature,
                 mouseout: resetHighlight,
-                click: zoomToFeature
+                click: selectCommune,
+                dblclick: selectOneCommune
             });
         }
 

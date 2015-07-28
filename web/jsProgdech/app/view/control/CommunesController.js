@@ -38,7 +38,7 @@ Ext.define('jsProgdech.view.control.CommunesController', {
      **/
     onItemDblClick: function(view, record) {
         var mapPanel = Ext.getCmp('map');
-        mapPanel.fireEvent('selectCommune', mapPanel, record.get('insee'));
+        mapPanel.fireEvent('selectOneCommune', mapPanel, record.get('insee'));
     },
 
     /**
