@@ -14,8 +14,8 @@ Ext.define('jsProgdech.Application', {
     ],
 
     stores: [
-        // TODO: add global / shared stores here
-        'Communes'
+        'Communes',
+        'PointsCollecte'
     ],
     
     launch: function () {

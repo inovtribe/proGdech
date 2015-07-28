@@ -4,12 +4,43 @@ namespace Geograph\ProgdechBundle\Controller;
 
 use Geograph\ProgdechBundle\Geometrie\Marker;
 
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Doctrine\Common\Collections;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\Response;
 
 class PointCollecteController extends Controller
 {
+    /**
+     * Retourne la liste des points de collecte en JSON.
+     *
+     * @Route("/admin/pointscollecte.json")
+     *
+     * @return JSON, array(
+     *   pointsCollecte[id, nom, latitude, longitude, volontaire, commune_id]
+     * )
+     **/
+    public function pointsCollecteJsonAction()
+    {
+        // Tous les points de collecte.
+        $pointsCollecte = new Collections\ArrayCollection($this->getDoctrine()
+            ->getRepository('GeographProgdechBundle:PointCollecte')
+            ->findAll());
+
+        // Détermine les bon markers des points de collecte.
+        $markerDao = $this->get('geometrie_marker');
+        $markerDao->assignMarkerToPointsCollecte($pointsCollecte);
+
+        // Données à transmettre en JSON.
+        $data = array();
+        foreach($pointsCollecte as $pointCollecte)
+            $data[] = $pointCollecte->getNestedData();
+
+        return new Response(json_encode(array(
+            'pointsCollecte' => $data
+        )));
+    }
 
     /**
      * PointCollecte home page controller.

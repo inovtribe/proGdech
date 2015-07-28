@@ -22,7 +22,8 @@ Ext.define('jsProgdech.view.control.Communes', {
         '<div>{[values.length]} communes&nbsp;:</div>',
         '<tpl for=".">',
             '<div class="commune-tpl {[xindex % 2 === 0 ? "even" : "odd"]}">',
-                '<strong>{nom}</strong>: {pointCollectes.length} points de collecte | x bacs',
+                //'<strong>{nom}</strong>: {pointCollectes.length} points de collecte | x bacs',
+                '<strong>{nom}</strong>',
             '</div>',
         '</tpl>'
     ),

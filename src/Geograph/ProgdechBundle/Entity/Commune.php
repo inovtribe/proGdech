@@ -76,18 +76,13 @@ class Commune
      */
     public function getNestedData()
     {
-	$pointsCollecte = array();
-	foreach($this->getPointsCollecte() as $pointCollecte)
-		$pointsCollecte[] = $pointCollecte->getNestedData();
-
         return array(
             'id' => $this->getId(),
             'nom' => $this->getNom(),
-            'insee' => $this->getInsee(),
-	    'pointCollectes' => $pointsCollecte
+            'insee' => $this->getInsee()
         );
     }
-    
+
     /**
      * Constructor
      */
@@ -96,7 +91,7 @@ class Commune
         $this->pointsCollecte = new \Doctrine\Common\Collections\ArrayCollection();
         $this->nombre_bacs = 0;
     }        
-    
+
     /**
      * Get id
      *

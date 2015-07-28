@@ -117,14 +117,16 @@ class PointCollecte
 
     public function getNestedData()
     {
-	return array(
-		'id' => $this->getId(),
-		'nom' => $this->getNom(),
-		'latitude' => $this->getLatitude(),
-		'longitude' => $this->getLongitude(),
-		'volontaire' => $this->getVolontaire()
-	);
+        return array(
+            'id' => $this->getId(),
+            'nom' => $this->getNom(),
+            'latitude' => $this->getLatitude(),
+            'longitude' => $this->getLongitude(),
+            'volontaire' => $this->getVolontaire(),
+            'commune_id' => $this->getCommune()->getId()
+        );
     }
+
     /**
      * Constructor
      */

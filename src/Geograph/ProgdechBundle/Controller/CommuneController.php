@@ -5,10 +5,10 @@ namespace Geograph\ProgdechBundle\Controller;
 use Geograph\ProgdechBundle\Geometrie\Marker;
 
 use Doctrine\Common\Collections;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\HttpFoundation\Response;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\Response;
 
 class CommuneController extends Controller
 {
@@ -22,23 +22,17 @@ class CommuneController extends Controller
 	 * )
 	 **/
 	public function communesJsonAction()
-	{
-		// Détermine les bon markers pour les communes.
-		$markerDao = $this->get('geometrie_marker');
-		$pointsCollecte = new Collections\ArrayCollection($this->getDoctrine()
-			->getRepository('GeographProgdechBundle:PointCollecte')
-			->findAll());
-		$markerDao->assignMarkerToPointsCollecte($pointsCollecte);
+    {
+        $data = array();
+        $communes = $this->getDoctrine()->getRepository('GeographProgdechBundle:Commune')->findAll() ;
 
+        foreach($communes as $commune)
+            $data[] = $commune->getNestedData();
 
-		$communes = array();
-		foreach($this->getDoctrine()->getRepository('GeographProgdechBundle:Commune')->findAll() as $commune)
-			$communes[] = $commune->getNestedData();
-
-		return new Response(json_encode(array(
-			'communes' => $communes	
-		)));
-	}
+        return new Response(json_encode(array(
+            'communes' => $data
+        )));
+    }
 
 	/**
 	 * Commune home page controller.

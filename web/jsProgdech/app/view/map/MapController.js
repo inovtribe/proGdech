@@ -83,22 +83,19 @@ Ext.define('jsProgdech.view.map.MapController', {
             panel.map.fitBounds(layerCommune.getBounds());
         }
 
-	// Supprime tous les markers de toutes les communes.
-	var store = Ext.getStore('Communes');
-	store.each(function(commune) {
-		commune.deleteMarkers(panel.map);
-	});
+        // Supprime tous les markers de toutes les communes.
+        Ext.getStore('PointsCollecte').each(function(pointCollecte) {
+            pointCollecte.deleteMarkers(panel.map);
+        });
 
-	// Affiche les markers des points de collecte de la commune spécifiée en paramètre.
-	var commune = store.findRecord('insee', insee);
-	if (commune === null) {
-		return;
-	}
-	commune.pointCollectes(function(pointsCollecte) {
-		pointsCollecte.each(function(pointCollecte) {
-			pointCollecte.showMarkerInMap(panel.map);
-		});
-	});
+        // Affiche les markers des points de collecte de la commune spécifiée en paramètre.
+        var commune = Ext.getStore('Communes').findRecord('insee', insee);
+        if (commune === null) {
+            return;
+        }
+        commune.getPointsCollecte().each(function(pointCollecte) {
+            pointCollecte.showMarkerInMap(panel.map);
+        }, this);
     },
 
     /**
