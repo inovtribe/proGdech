@@ -7,27 +7,6 @@ Ext.define('jsProgdech.view.map.MapController', {
     alias: 'controller.map',
 
     /**
-     * Retourne le layer d'une commune d'après son n° INSEE.
-     *
-     * @param panel jsProgdech.view.map.Panel
-     * @param insee string N° INSEE de la commune.
-     *
-     * @return layer Layer de la commune, ou null si elle n'est pas trouvée.
-     **/
-    getLayerCommuneByInsee: function(panel, insee) {
-        var layerReturn = null;
-
-        panel.map.eachLayer(function (layer) {
-            if ((typeof(layer.feature) !== 'undefined') && (layer.feature.properties.INSEE == insee)) {
-                layerReturn = layer;
-                return layer;
-            }
-        }, this);
-
-        return layerReturn;
-    },
-
-    /**
      * Le panel contenant la carte vient d'etre redimenssionné: informe la carte !
      *
      * @param panel jsProgdech.view.map.Panel
@@ -47,11 +26,11 @@ Ext.define('jsProgdech.view.map.MapController', {
      * @param insee string N° INSEE de la commune.
      **/
     doSelectCommune: function(panel, insee) {
+        var commune = Ext.getStore('Communes').findRecord('insee', insee);
+        commune.set('select', true);
+
         // Zoome sur la commune.
-        var layerCommune = this.getLayerCommuneByInsee(panel, insee);
-        if (layerCommune !== null) {
-            panel.map.fitBounds(layerCommune.getBounds());
-        }
+        panel.map.fitBounds(commune.layer.getBounds());
 
         // Supprime tous les markers de toutes les communes.
         Ext.getStore('PointsCollecte').each(function(pointCollecte) {
@@ -103,10 +82,12 @@ Ext.define('jsProgdech.view.map.MapController', {
             };
         }
         function highlightFeature(e, feature, layer) {
-            panel.fireEvent('highlightCommune', panel, e.target.feature.properties.INSEE, true);
+            var commune = Ext.getStore('Communes').findRecord('insee', e.target.feature.properties.INSEE);
+            commune.doHighlight(true);
         }
         function resetHighlight(e) {
-            panel.fireEvent('highlightCommune', panel, e.target.feature.properties.INSEE, false);
+            var commune = Ext.getStore('Communes').findRecord('insee', e.target.feature.properties.INSEE);
+            commune.doHighlight(false);
         }
         function zoomToFeature(e) {
             panel.fireEvent('selectCommune', panel, e.target.feature.properties.INSEE);
@@ -133,6 +114,27 @@ Ext.define('jsProgdech.view.map.MapController', {
     },
 
     /**
+     * Retourne le layer d'une commune d'après son n° INSEE.
+     *
+     * @param panel jsProgdech.view.map.Panel
+     * @param insee string N° INSEE de la commune.
+     *
+     * @return layer Layer de la commune, ou null si elle n'est pas trouvée.
+     **/
+    getLayerCommuneByInsee: function(panel, insee) {
+        var layerReturn = null;
+
+        panel.map.eachLayer(function (layer) {
+            if ((typeof(layer.feature) !== 'undefined') && (layer.feature.properties.INSEE == insee)) {
+                layerReturn = layer;
+                return layer;
+            }
+        }, this);
+
+        return layerReturn;
+    },
+
+    /**
      * Le store des communes vient d'etre lu.
      * Renseigne la commune sur sa map et son layer.
      * Highlighte correctement les communes.
@@ -141,8 +143,11 @@ Ext.define('jsProgdech.view.map.MapController', {
         var mapPanel = Ext.getCmp('map');
 
         Ext.each(records, function(record) {
+            var layerCommune = mapPanel.getController().getLayerCommuneByInsee(mapPanel, record.get('insee'));
             record.map = mapPanel.map;
-            record.layer = mapPanel.getController().getLayerCommuneByInsee(mapPanel, record.get('insee'));
+            record.layer = layerCommune;
+            layerCommune.commune = record;
+
             record.doHighlight(false);
         }, this);
     },
