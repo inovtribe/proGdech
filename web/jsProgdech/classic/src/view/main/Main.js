@@ -8,11 +8,9 @@ Ext.define('jsProgdech.view.main.Main', {
     layout:  'border',
 
     requires: [
-        'Ext.plugin.Viewport',
-
-        'jsProgdech.view.main.MainController',
-        'jsProgdech.view.control.Communes',
         'jsProgdech.view.control.Main',
+        'jsProgdech.view.info.Main',
+        'jsProgdech.view.main.MainController',
         //'jsProgdech.view.main.Toolbar',
         'jsProgdech.view.map.Panel'
     ],
@@ -68,15 +66,10 @@ Ext.define('jsProgdech.view.main.Main', {
         xtype: 'map',
         region: 'center'
     }, {
-        id: 'control',
         region: 'east',
-        split: true,
-        collapsible: true,
-        width: 300,
-        layout: 'fit',
-        title: 'proGdech',
-        items: [{
-            xtype: 'controlCommunes'
-        }]
+        xtype: 'controlMain'
+    }, {
+        region: 'west',
+        xtype: 'infoMain'
     }]
 });

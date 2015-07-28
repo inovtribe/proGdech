@@ -4,33 +4,18 @@
 Ext.define('jsProgdech.view.control.Main', {
     extend: 'Ext.panel.Panel',
     alias: ['widget.controlMain'],
+    id: 'control',
 
     requires: [
-        //'jsProgdech.view.map.MapController',
+        'jsProgdech.view.control.Communes'
     ],
 
-    layout: 'accordion',
-
+    layout: 'fit',
+    collapsible: true,
+    width: 250,
+    title: 'proGdech',
+    border: true,
     items: [{
-        title: 'Communes',
-        html: 'Panel content!'
-    },{
-        title: 'Commune',
-        html: 'Panel content!'
-    },{
-    title: 'Panel 3',
-    html: 'Panel content!'
+        xtype: 'controlCommunes'
     }]
-
-    //controller: 'map',
-
-/*
-    listeners: {
-        afterlayout: 'createMap',
-        selectCommune: 'selectCommune',
-	resize: 'onResize'
-    },
-
-    map: null	// Pas de carte à l'initialisation.
-*/
 });
