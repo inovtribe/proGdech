@@ -14,8 +14,7 @@ Ext.define('jsProgdech.view.control.CommunesController', {
      * @param record jsProgdech.model.Commune
      **/
     onItemMouseEnter: function(view, record) {
-        var mapPanel = Ext.getCmp('map');
-	mapPanel.fireEvent('highlightCommune', mapPanel, record.get('insee'), true);
+        record.doHighlight(true);
     },
 
     /**
@@ -26,18 +25,33 @@ Ext.define('jsProgdech.view.control.CommunesController', {
      * @param record jsProgdech.model.Commune
      **/
     onItemMouseLeave: function(view, record) {
-        var mapPanel = Ext.getCmp('map');
-	mapPanel.fireEvent('highlightCommune', mapPanel, record.get('insee'), false);
+        record.doHighlight(false);
     },
-
+    
     /**
-     * L'utilisateur clique sur une commune.
+     * L'utilisateur double clique sur une commune.
+     * Sélectionné la commune.
+     *
      *
      * @param view jsProgdech.view.control.Communes
      * @param record jsProgdech.model.Commune
      **/
-    onItemClick: function(view, record) {
+    onItemDblClick: function(view, record) {
         var mapPanel = Ext.getCmp('map');
-	mapPanel.fireEvent('selectCommune', mapPanel, record.get('insee'));
+        mapPanel.fireEvent('selectCommune', mapPanel, record.get('insee'));
+    },
+
+    /**
+     * L'utilisateur clique sur une cellule d'une commune.
+     *
+     * @param view jsProgdech.view.control.Communes
+     * @param td string
+     * @param cellIndex integer Position de la cellule cliquée (0 pour 1ère colonne, 1 pour la 2ième etc.)
+     * @param record jsProgdech.model.Commune
+     **/
+    onCellClick: function(view, td, cellIndex, record) {
+        if (cellIndex !== 0) {
+            record.set('select', ! record.get('select'));
+        }
     }
 });

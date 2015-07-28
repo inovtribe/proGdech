@@ -15,8 +15,7 @@ Ext.define('jsProgdech.view.map.Panel', {
     listeners: {
         afterlayout: 'createMap',
         selectCommune: 'doSelectCommune',
-	resize: 'onResize',
-        highlightCommune: 'doHighlight',
+        resize: 'onResize'
     },
 
     map: null,	// Pas de carte à l'initialisation.

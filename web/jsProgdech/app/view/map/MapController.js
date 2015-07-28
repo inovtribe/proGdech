@@ -28,36 +28,6 @@ Ext.define('jsProgdech.view.map.MapController', {
     },
 
     /**
-     * Highlight une commune.
-     *
-     * @param panel jsProgdech.view.map.Panel
-     * @param insee string N° INSEE de la commune.
-     * @param state boolean true pour highlight, sinon supprime le highligth.
-     **/
-    doHighlight: function(panel, insee, state) {
-        var layerCommune = this.getLayerCommuneByInsee(panel, insee);
-        if (layerCommune === null) {
-            return;
-        }
-
-        if (state === true) {
-            layerCommune.setStyle({
-                weight: 2,
-                color: 'green',
-                dashArray: '',
-                fillOpacity: 0.15
-            });
-
-            if (!L.Browser.ie && !L.Browser.opera) {
-                layerCommune.bringToFront();
-            }
-        }
-        else {
-            panel.geojson.resetStyle(layerCommune);
-        }
-    },
-
-    /**
      * Le panel contenant la carte vient d'etre redimenssionné: informe la carte !
      *
      * @param panel jsProgdech.view.map.Panel
@@ -104,9 +74,9 @@ Ext.define('jsProgdech.view.map.MapController', {
      * @param panel jsProgdech.view.map.Panel
      **/
     createMap: function(panel) {
-	if (panel.map !== null) {
-	    return;
-	}
+        if (panel.map !== null) {
+            return;
+        }
 
         var geojson = L.geoJson(gestionnairelayer);
         geojson.setStyle({"color": 'red', "weight": 3, "fill" : false, smoothFactor: 1, "fillOpacity": 0.025});
@@ -117,10 +87,11 @@ Ext.define('jsProgdech.view.map.MapController', {
         var overlayMaps = {};
         var map = L.map('map', {layers: [topo, geojson]});
         L.control.layers(baseMaps, overlayMaps).addTo(map);
-        
+
         geojson = L.geoJson(geometriescommunales, {
             style: style,
-            onEachFeature: onEachFeature,}).addTo(map); 
+            onEachFeature: onEachFeature
+        }).addTo(map); 
 
         function style(feature) {
             return { 
@@ -138,21 +109,49 @@ Ext.define('jsProgdech.view.map.MapController', {
             panel.fireEvent('highlightCommune', panel, e.target.feature.properties.INSEE, false);
         }
         function zoomToFeature(e) {
-	    panel.fireEvent('selectCommune', panel, e.target.feature.properties.INSEE);
+            panel.fireEvent('selectCommune', panel, e.target.feature.properties.INSEE);
         }
         function onEachFeature(feature, layer) {
             layer.bindLabel(
-                    '<h4>' + layer.feature.properties.COMMUNE + '</h4>'
-                );
+                '<h4>' + layer.feature.properties.COMMUNE + '</h4>'
+            );
             layer.on({
                 mouseover: highlightFeature,
                 mouseout: resetHighlight,
                 click: zoomToFeature
             });
         }
-        
+
         map.fitBounds(geojson.getBounds()).setMaxBounds(geojson.getBounds());
-	panel.map = map;
-	panel.geojson = geojson;
+        map.myGeojson = geojson;
+        panel.map = map;
+
+        // Écoute les modifications sur le store des communes.
+        var storeCommunes = Ext.getStore('Communes');
+        storeCommunes.on('load', this.onStoreCommunesLoad);
+        storeCommunes.on('update', this.onStoreCommunesUpdate);
+    },
+
+    /**
+     * Le store des communes vient d'etre lu.
+     * Renseigne la commune sur sa map et son layer.
+     * Highlighte correctement les communes.
+     **/
+    onStoreCommunesLoad: function(store, records) {
+        var mapPanel = Ext.getCmp('map');
+
+        Ext.each(records, function(record) {
+            record.map = mapPanel.map;
+            record.layer = mapPanel.getController().getLayerCommuneByInsee(mapPanel, record.get('insee'));
+            record.doHighlight(false);
+        }, this);
+    },
+
+    /**
+     * Le record d'une commune vient d'etre modifié.
+     * Ajuste la map si c'est le champs select qui a été modifié.
+     **/
+    onStoreCommunesUpdate: function(store, record, operation, modifiedFieldNames, details) {
+        record.doHighlight(false);
     }
 });

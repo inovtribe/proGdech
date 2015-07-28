@@ -2,7 +2,7 @@
  * Affiche la liste des communes d'après le store 'Communes'.
  */
 Ext.define('jsProgdech.view.control.Communes', {
-    extend: 'Ext.view.View',
+    extend: 'Ext.grid.Panel',
     alias: ['widget.controlCommunes'],
 
     requires: [
@@ -11,28 +11,17 @@ Ext.define('jsProgdech.view.control.Communes', {
 
     controller: 'controlCommunes',
 
-    title: 'Communes',
-    layout: 'fit',
-    border: true,
-    autoScroll: true,
-    padding: '0 3',
-
     store: 'Communes',
-    tpl: new Ext.XTemplate(
-        '<div>{[values.length]} communes&nbsp;:</div>',
-        '<tpl for=".">',
-            '<div class="commune-tpl {[xindex % 2 === 0 ? "even" : "odd"]}">',
-                //'<strong>{nom}</strong>: {pointCollectes.length} points de collecte | x bacs',
-                '<strong>{nom}</strong>',
-            '</div>',
-        '</tpl>'
-    ),
-    itemSelector: 'div.commune-tpl',
-    emptyText: 'Communes indisponibles',
+    columns: [
+        { xtype: 'checkcolumn', text: 'Select', dataIndex: 'select', width: 30 },
+        { text: 'Name', dataIndex: 'nom', flex: 1 }
+    ],
+    hideHeaders: true,
 
     listeners: {
+        cellclick: 'onCellClick',
+        itemdblclick: 'onItemDblClick',
         itemmouseenter: 'onItemMouseEnter',
-        itemmouseleave: 'onItemMouseLeave',
-        itemclick: 'onItemClick'
+        itemmouseleave: 'onItemMouseLeave'
     }
 });
