@@ -23,17 +23,6 @@ Ext.define('jsProgdech.model.Commune', {
         }
     },
 
-    // Supprime tous les markers liés à la commune.
-    deleteMarkers: function(map) {
-        /*
-           this.pointCollectes(function(pointsCollecte) {
-           pointsCollecte.each(function(pointCollecte) {
-           pointCollecte.deleteMarkers(map);
-           });
-           });
-           */
-    },
-
     /**
      * Retourne tous les points de collectes associés à la commune.
      *
@@ -45,12 +34,13 @@ Ext.define('jsProgdech.model.Commune', {
 
     /**
      * Highlighte la commune.
+     * Raffraichit les markers de la commune.
      *
-     * @param state boolean true pour highlight, sinon supprime le highligth.
+     * @param state boolean true pour highlight, sinon supprime le highlight.
      **/
     doHighlight: function(state) {
         if ((state === true) || (this.get('select') === true)) {
-            // Highlight normal ou sélectionné.
+            // Highlight de la commune: normal ou sélectionné.
             this.layer.setStyle({
                 weight: 2,
                 color: state === true ? 'green' : 'red',
@@ -66,5 +56,10 @@ Ext.define('jsProgdech.model.Commune', {
             // Pas de highlight.
             this.map.myGeojson.resetStyle(this.layer);
         }
+
+        // Raffraichit les markers de la commune.
+        this.getPointsCollecte().each(function(pointCollecte) {
+            pointCollecte.displayMarker();
+        }, this);
     }
 });

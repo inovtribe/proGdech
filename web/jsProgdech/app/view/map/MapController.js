@@ -19,40 +19,24 @@ Ext.define('jsProgdech.view.map.MapController', {
 
     /**
      * Sélectionne d'une commune:
+     *  - Ne sélectionne que cette commune.
      *  - Centre la carte sur la commune.
-     *  - Affiche les markers liés à la commune.
      *
      * @param panel jsProgdech.view.map.Panel
      * @param insee string N° INSEE de la commune.
      **/
     doSelectCommune: function(panel, insee) {
         var storeCommunes = Ext.getStore('Communes');
-
-        // Déselectionne toutes les communes.
-        storeCommunes.each(function(record) {
-            record.set('select', false);
-        });
+        var commune = storeCommunes.findRecord('insee', insee);
 
         // Sélectionne la commune.
-        var commune = storeCommunes.findRecord('insee', insee);
-        commune.set('select', true);
+        // Déselectionne toutes les autres communes.
+        storeCommunes.each(function(record) {
+            record.set('select', record.get('insee') == insee);
+        });
 
         // Zoome sur la commune.
         panel.map.fitBounds(commune.layer.getBounds());
-
-        // Supprime tous les markers de toutes les communes.
-        Ext.getStore('PointsCollecte').each(function(pointCollecte) {
-            pointCollecte.deleteMarkers(panel.map);
-        });
-
-        // Affiche les markers des points de collecte de la commune spécifiée en paramètre.
-        var commune = Ext.getStore('Communes').findRecord('insee', insee);
-        if (commune === null) {
-            return;
-        }
-        commune.getPointsCollecte().each(function(pointCollecte) {
-            pointCollecte.showMarkerInMap(panel.map);
-        }, this);
     },
 
     /**
@@ -119,6 +103,10 @@ Ext.define('jsProgdech.view.map.MapController', {
         var storeCommunes = Ext.getStore('Communes');
         storeCommunes.on('load', this.onStoreCommunesLoad);
         storeCommunes.on('update', this.onStoreCommunesUpdate);
+
+        // Écoute les modifications sur le stores des Points de collecte.
+        var storePointsCollecte = Ext.getStore('PointsCollecte');
+        storePointsCollecte.on('load', this.onStorePointsCollecteLoad);
     },
 
     /**
@@ -144,7 +132,7 @@ Ext.define('jsProgdech.view.map.MapController', {
 
     /**
      * Le store des communes vient d'etre lu.
-     * Renseigne la commune sur sa map et son layer.
+     * Renseigne les communes sur la map et son layer.
      * Highlighte correctement les communes.
      **/
     onStoreCommunesLoad: function(storeCommunes, records) {
@@ -166,5 +154,19 @@ Ext.define('jsProgdech.view.map.MapController', {
      **/
     onStoreCommunesUpdate: function(store, record, operation, modifiedFieldNames, details) {
         record.doHighlight(false);
+    },
+
+    /**
+     * Le store des points de collecte vient d'etre lu.
+     * Renseigne les points de collecte sur le map.
+     * Affiche correctement les markers.
+     **/
+    onStorePointsCollecteLoad: function(storePointsCollecte, records) {
+        var mapPanel = Ext.getCmp('map');
+
+        storePointsCollecte.each(function(record) {
+            record.map = mapPanel.map;
+            record.displayMarker();
+        }, this);
     }
 });
