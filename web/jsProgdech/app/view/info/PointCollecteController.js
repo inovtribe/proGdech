@@ -17,7 +17,7 @@ Ext.define('jsProgdech.view.info.PointCollecteController', {
 
         // Écoute du store des Points de collecte.
         var storePointsCollecte = Ext.getStore('PointsCollecte');
-        storePointsCollecte.on('update', this.onUpdatePointCollecte);
+        storePointsCollecte.on('update', this.refreshView, this);
     },
     
     /**
@@ -30,40 +30,25 @@ Ext.define('jsProgdech.view.info.PointCollecteController', {
     },
 
     /**
-     * Un point de collecte vient d'etre modifié.
-     * Affiche/masque cette vue si un point de collecte est visible ou non.
-     **/
-    onUpdatePointCollecte: function(store) {
-        var pointCollecteSelected = store.findRecord('select', true);
-        var panel = Ext.getCmp('infoPointCollecte');
-        panel.setVisible(pointCollecteSelected !== null);
-    },
-
-    /**
      * Recalcule les données à afficher dans la vue.
      **/
     refreshView: function() {
-        // Calcule uniquement sur les communes sélectionnées.
-        var storeCommunes = Ext.getStore('Communes');
-        var communes = storeCommunes.query('select', true);
+        var pointCollecteSelected = Ext.getStore('PointsCollecte').findRecord('select', true);
+        var panel = Ext.getCmp('infoPointCollecte');
 
-        var countPointsCollecte = 0;
-        var population = 0;
-        var superficie = 0;
-        communes.each(function(commune) {
-            countPointsCollecte += commune.getPointsCollecte().length;
-            superficie += commune.get('superficie');
-            population += commune.get('population');
-        });
+        // Affiche ou masque le panneau.
+        panel.setVisible(pointCollecteSelected !== null);
+
+        if (pointCollecteSelected === null) {
+            // Rien à calculer.
+            return;
+        }
 
         // Transmets les données à la vue.
-        var panel = Ext.getCmp('infoCommunes');
         panel.getViewModel().setData({
-            countCommune: communes.length,
-            countPointsCollecte: countPointsCollecte,
-            superficie: superficie.toFixed(2),
-            population: population,
-            densite: (population / superficie).toFixed(2)
+            reference: pointCollecteSelected.get('reference'),
+            date_creation: Ext.Date.format(pointCollecteSelected.get('date_creation'), 'd M Y'),
+            createur: pointCollecteSelected.get('createur')
         });
     }
 });

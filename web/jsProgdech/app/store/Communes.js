@@ -24,6 +24,7 @@ Ext.define('jsProgdech.store.Communes', {
             }
 
             record.doHighlight(false);
+            record.map.zoomPreviousRestore();
         },
 
         /**

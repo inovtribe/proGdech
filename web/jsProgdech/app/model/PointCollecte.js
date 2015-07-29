@@ -3,8 +3,13 @@ Ext.define('jsProgdech.model.PointCollecte', {
     fields: [
         {name: 'id',  type: 'int'},
         {name: 'nom',  type: 'string'},
+        {name: 'reference',  type: 'string'},
+        {name: 'adresse',  type: 'string'},
         {name: 'latitude',  type: 'number'},
         {name: 'longitude', type: 'number'},
+        {name: 'date_creation', type: 'date', dateFormat: 'Y-m-d'},
+        {name: 'createur', type: 'string'},
+        {name: 'emplacement', type: 'number'},
         {name: 'volontaire', type: 'boolean'},
         {name: 'commune_id', type: 'int'},
         {name: 'select', type: 'boolean', defaultValue: false}   // Extjs uniquement : sélectionnée ou pas.
@@ -28,12 +33,14 @@ Ext.define('jsProgdech.model.PointCollecte', {
      * Créé le marker dans la carte.
      **/
     createMarker: function() {
-        if (this.map === null) {
+        var map = this.map;
+
+        if (map === null) {
             return;
         }
 
         if (this.marker !== null) {
-            this.map.removeLayer(this.marker);
+            map.removeLayer(this.marker);
         }
 
         // Icone du marker.
@@ -60,7 +67,7 @@ Ext.define('jsProgdech.model.PointCollecte', {
         // Création de l'icone.
         icon = L.icon(icon);
 
-        var marker = L.marker([this.get('latitude'), this.get('longitude')], {icon: icon}).addTo(this.map);
+        var marker = L.marker([this.get('latitude'), this.get('longitude')], {icon: icon}).addTo(map);
 
         // Popup du maker.
         marker.bindLabel(
@@ -80,13 +87,24 @@ Ext.define('jsProgdech.model.PointCollecte', {
                 pointCollecteSelected.set('select', false);
 
                 if (pointCollecteSelected.get('id') === marker.pointCollecte.get('id')) {
-                    // On a cliqué sur le marker déjà sélectionné.
+                    // On a déselectionné le marker sélectionné.
+                    // Restaure le zoom.
+                    map.zoomPreviousRestore();
                     return; 
                 }
             }
 
             // Sélectionne le marker.
             marker.pointCollecte.set('select', true);
+
+            // Sauvegarge le zoom actuel.
+            map.zoomPreviousSave(false);    
+
+            // Zoome sur le marker.
+            map.setView([
+                marker.pointCollecte.get('latitude'),
+                marker.pointCollecte.get('longitude')
+            ], 16);
         });
 
         this.marker = marker;

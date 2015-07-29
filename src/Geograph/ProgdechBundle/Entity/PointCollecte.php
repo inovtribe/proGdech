@@ -120,8 +120,13 @@ class PointCollecte
         return array(
             'id' => $this->getId(),
             'nom' => $this->getNom(),
+            'reference' => $this->getReference(),
+            'adresse' => $this->getAdresse(),
+            'emplacement' => $this->getEmplacement(),
             'latitude' => $this->getLatitude(),
             'longitude' => $this->getLongitude(),
+            'date_creation' => $this->getDate()->format('Y-m-d'),
+            'createur' => "{$this->getUser()->getPrenom()} {$this->getUser()->getNom()}",
             'volontaire' => $this->getVolontaire(),
             'commune_id' => $this->getCommune()->getId()
         );

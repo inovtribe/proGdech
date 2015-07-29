@@ -19,24 +19,16 @@ Ext.define('jsProgdech.view.info.PointCollecte', {
 
     items: [{
         xtype: 'displayfield',
-        fieldLabel: 'Communes',
-        bind: '{countCommune}'
+        fieldLabel: 'Référence',
+        bind: '{reference}'
     }, {
         xtype: 'displayfield',
-        fieldLabel: 'Superficie',
-        bind: '{superficie} km²'
+        fieldLabel: 'Crée le',
+        bind: '{date_creation}'
     }, {
         xtype: 'displayfield',
-        fieldLabel: 'Population',
-        bind: '{population} hab'
-    }, {
-        xtype: 'displayfield',
-        fieldLabel: 'Densité',
-        bind: '{densite} hab/km²'
-    }, {
-        xtype: 'displayfield',
-        fieldLabel: 'Points de collecte',
-        bind: '{countPointsCollecte}'
+        fieldLabel: 'Par',
+        bind: '{createur}'
     }]
 });
 

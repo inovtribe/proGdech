@@ -95,6 +95,27 @@ Ext.define('jsProgdech.view.map.MapController', {
             }
         }).addTo(map); 
 
+        // Ajout des méthodes pour gérer le zoom.
+        map.zoomPrevious = null;
+
+        // Sauvegarde le zoom actuel.
+        map.zoomPreviousSave = function(overwrite = false) {
+            if ((overwrite === true) || (this.zoomPrevious === null)) {
+                this.zoomPrevious = [
+                    this.getCenter(),
+                    this.getZoom()
+                ];
+            }
+        }
+
+        // Restaure le zoom précédement sauvegardé.
+        map.zoomPreviousRestore = function() {
+            if (this.zoomPrevious !== null) {
+                this.setView(this.zoomPrevious[0], this.zoomPrevious[1]);
+                this.zoomPrevious = null;
+            }
+        }
+
         // Mémorise les données pour accès ultérieur.
         map.myGeojson = geojson;
         panel.map = map;
