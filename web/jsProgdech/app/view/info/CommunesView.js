@@ -9,6 +9,9 @@ Ext.define('jsProgdech.view.info.CommunesView', {
     // Données par défault.
     data: {
         countCommune: 0,
-        countPointsCollecte: 0
+        countPointsCollecte: 0,
+        superficie: 0,
+        population: 0,
+        densite: 0
     }
 });

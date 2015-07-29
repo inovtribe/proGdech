@@ -4,6 +4,8 @@ Ext.define('jsProgdech.model.Commune', {
         {name: 'id',  type: 'integer'},
         {name: 'nom',  type: 'string'},
         {name: 'insee', type: 'string'},
+        {name: 'superficie', type: 'number'},
+        {name: 'population',  type: 'integer'},
         {name: 'select', type: 'boolean', defaultValue: true}   // Extjs uniquement : sélectionnée ou pas.
     ],
 

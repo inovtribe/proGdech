@@ -23,6 +23,18 @@ Ext.define('jsProgdech.view.info.Communes', {
         bind: '{countCommune}'
     }, {
         xtype: 'displayfield',
+        fieldLabel: 'Superficie',
+        bind: '{superficie} km²'
+    }, {
+        xtype: 'displayfield',
+        fieldLabel: 'Population',
+        bind: '{population} hab'
+    }, {
+        xtype: 'displayfield',
+        fieldLabel: 'Densité',
+        bind: '{densite} hab/km²'
+    }, {
+        xtype: 'displayfield',
         fieldLabel: 'Points de collecte',
         bind: '{countPointsCollecte}'
     }]

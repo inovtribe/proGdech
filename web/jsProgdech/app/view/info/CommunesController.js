@@ -29,15 +29,22 @@ Ext.define('jsProgdech.view.info.CommunesController', {
         var communes = storeCommunes.query('select', true);
 
         var countPointsCollecte = 0;
+        var population = 0;
+        var superficie = 0;
         communes.each(function(commune) {
             countPointsCollecte += commune.getPointsCollecte().length;
+            superficie += commune.get('superficie');
+            population += commune.get('population');
         });
 
         // Transmets les données à la vue.
         var panel = Ext.getCmp('infoCommunes');
         panel.getViewModel().setData({
             countCommune: communes.length,
-            countPointsCollecte: countPointsCollecte
+            countPointsCollecte: countPointsCollecte,
+            superficie: superficie.toFixed(2),
+            population: population,
+            densite: (population / superficie).toFixed(2)
         });
     }
 });

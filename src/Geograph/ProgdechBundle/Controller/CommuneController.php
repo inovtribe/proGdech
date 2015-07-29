@@ -18,7 +18,7 @@ class CommuneController extends Controller
 	 * @Route("/admin/communes.json")
 	 *
 	 * @return JSON, array(
-	 *   communes[name, insee]
+	 *   communes[name, insee, ...]
 	 * )
 	 **/
 	public function communesJsonAction()
@@ -26,8 +26,12 @@ class CommuneController extends Controller
         $data = array();
         $communes = $this->getDoctrine()->getRepository('GeographProgdechBundle:Commune')->findAll() ;
 
+        $service = $this->get('geograph_progdech');
         foreach($communes as $commune)
+        {
+            $service->setCommune($commune);
             $data[] = $commune->getNestedData();
+        }
 
         return new Response(json_encode(array(
             'communes' => $data

@@ -79,7 +79,9 @@ class Commune
         return array(
             'id' => $this->getId(),
             'nom' => $this->getNom(),
-            'insee' => $this->getInsee()
+            'insee' => $this->getInsee(),
+            'superficie' => $this->getSuperficie(),
+            'population' => $this->getPopulationActuelle()
         );
     }
 
