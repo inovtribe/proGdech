@@ -13,8 +13,16 @@ Ext.define('jsProgdech.store.Communes', {
         /**
          * Le record d'une commune vient d'etre modifié.
          * Ajuste la map si c'est le champs select qui a été modifié.
+         *
+         * Déselectionne le point de collecte sélectionné.
          **/
         'update': function(store, record) {
+            // Déselectionne le point de collecte.
+            var pointCollecteSelected = Ext.getStore('PointsCollecte').findRecord('select', true);
+            if (pointCollecteSelected !== null) {
+                pointCollecteSelected.set('select', false);
+            }
+
             record.doHighlight(false);
         },
 

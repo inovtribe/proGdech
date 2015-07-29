@@ -28,25 +28,41 @@ Ext.define('jsProgdech.model.PointCollecte', {
      * Créé le marker dans la carte.
      **/
     createMarker: function() {
-        if ((this.map === null) || (this.marker !== null)) {
+        if (this.map === null) {
             return;
         }
 
-        var marker = this.get('volontaire') == true ?
-            L.icon({
+        if (this.marker !== null) {
+            this.map.removeLayer(this.marker);
+        }
+
+        // Icone du marker.
+        var icon = this.get('volontaire') == true ?  {
             iconUrl: '/bundles/geographprogdech/images/markers/pointcollecte_volontaire.png',
             iconSize:     [32, 32],
             iconAnchor:   [16, 32],
             popupAnchor:  [0, -32]
-        }) :
-            L.icon({
+        } : {
             iconUrl: '/bundles/geographprogdech/images/markers/pointcollecte_defaut.png',
             iconSize:     [20, 32],
             iconAnchor:   [10, 32],
             popupAnchor:  [0, -32]
-        });
+        };
 
-        marker = L.marker([this.get('latitude'), this.get('longitude')], {icon: marker}).addTo(this.map);
+        // Double la taille d'icone d'un Point de collecte sélectionné.
+        if (this.get('select') === true) {
+            icon.iconSize[0] = icon.iconSize[0] * 2;
+            icon.iconSize[1] = icon.iconSize[1] * 2;
+            icon.iconAnchor[0] = icon.iconSize[0] / 2;
+            icon.iconAnchor[1] = icon.iconSize[1];
+        }
+
+        // Création de l'icone.
+        icon = L.icon(icon);
+
+        var marker = L.marker([this.get('latitude'), this.get('longitude')], {icon: icon}).addTo(this.map);
+
+        // Popup du maker.
         marker.bindLabel(
             '<h4>' + this.get('nom') + '</h4>'
             + '<p>X Bacs de type ?</p>'
@@ -55,15 +71,15 @@ Ext.define('jsProgdech.model.PointCollecte', {
 
         marker.pointCollecte = this;
 
-        // Clic sur le point de collecte.
+        // Évènement: clic sur le marker.
         marker.on('click', function() {
             // Désélectionne le point de collecte précédement sélectionné. 
-            var markerSelected = Ext.getStore('PointsCollecte').findRecord('select', true);
-            if (markerSelected !== null) {
-                if (markerSelected.pointCollecte.get('id') === marker.pointCollecte.get('id')) {
+            var pointCollecteSelected = Ext.getStore('PointsCollecte').findRecord('select', true);
+            if (pointCollecteSelected !== null) {
+                if (pointCollecteSelected.get('id') === marker.pointCollecte.get('id')) {
                     return; // Le marker sélectionné est le meme.
                 }
-                markerSelected.pointCollecte.set('select', false);
+                pointCollecteSelected.set('select', false);
             }
 
             // Sélectionne le marker.
@@ -100,7 +116,6 @@ Ext.define('jsProgdech.model.PointCollecte', {
             if (this.marker !== null) {
                 this.map.removeLayer(this.marker);
                 this.marker = null;
-
             }
         }
         else {

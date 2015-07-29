@@ -35,6 +35,9 @@ Ext.define('jsProgdech.view.info.CommunesController', {
      * Recalcule les données à afficher dans la vue.
      **/
     refreshView: function() {
+        var panel =Ext.getCmp('infoCommunes');
+        panel.setVisible(true);
+
         // Calcule uniquement sur les communes sélectionnées.
         var storeCommunes = Ext.getStore('Communes');
         var communes = storeCommunes.query('select', true);

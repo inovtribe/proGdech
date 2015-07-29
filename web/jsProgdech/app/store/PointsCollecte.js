@@ -17,6 +17,14 @@ Ext.define('jsProgdech.store.PointsCollecte', {
                 record.map = mapPanel.map;
                 record.displayMarker();
             }, this);
+        },
+
+        /**
+         * Un point de collecte vient d'etre modifié.
+         * Affiche le marker (s'il est marqué sélectionné ou non).
+         **/
+        'update': function(store, record) {
+            record.displayMarker();
         }
     }
 });

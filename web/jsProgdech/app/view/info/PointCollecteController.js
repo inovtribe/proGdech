@@ -10,17 +10,23 @@ Ext.define('jsProgdech.view.info.PointCollecteController', {
      * Initialisation.
      **/
     init: function(view) {
-        /*
+
         // Écoute du store des Communes.
         var storeCommunes = Ext.getStore('Communes');
-        storeCommunes.on('load', this.refreshView);
-        storeCommunes.on('update', this.refreshView);
+        storeCommunes.on('update', this.onUpdateCommune);
 
         // Écoute du store des Points de collecte.
-        storePointsCollecte.on('load', this.refreshView);
-       */
         var storePointsCollecte = Ext.getStore('PointsCollecte');
         storePointsCollecte.on('update', this.onUpdatePointCollecte);
+    },
+    
+    /**
+     * Une commune vient d'etre modifiée.
+     * Masque cette vue.
+     **/
+    onUpdateCommune: function() {
+        var panel = Ext.getCmp('infoPointCollecte');
+        panel.setVisible(false);
     },
 
     /**
