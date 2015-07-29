@@ -45,6 +45,7 @@ Ext.define('jsProgdech.model.Commune', {
             // Highlight de la commune: normal ou sélectionné.
             this.layer.setStyle({
                 weight: 2,
+                opacity: 0.5,
                 color: state === true ? 'green' : 'red',
                 dashArray: '',
                 fillOpacity: state === true ? 0.15 : 0.04
@@ -62,6 +63,43 @@ Ext.define('jsProgdech.model.Commune', {
         // Raffraichit les markers de la commune.
         this.getPointsCollecte().each(function(pointCollecte) {
             pointCollecte.displayMarker();
+        }, this);
+    },
+
+    /**
+     * Assigne un layer à la commune.
+     *
+     * @param layer Layer
+     **/
+    setLayer: function(layer) {
+        this.layer = layer;
+
+        layer.bindLabel(
+            '<h4>' + this.get('nom') + '</h4>'
+        );
+
+        // Évènements sur le layer.
+        layer.on({
+            // Active le highlight de la commune.
+            mouseover: function() {
+                this.doHighlight(true);
+            },
+
+            // Supprime le highlight de la commune.
+            mouseout: function() {
+                this.doHighlight(false);
+            },
+
+            // Dé/Sélectionne la commune.
+            click: function() {
+                this.set('select', ! this.get('select'));
+            },
+
+            // Ne sélectionne que cette commune.
+            dblclick: function() {
+                var panel= Ext.getCmp('map');
+                panel.fireEvent('selectOneCommune', panel, this.get('insee'));
+            }
         }, this);
     }
 });

@@ -58,56 +58,42 @@ Ext.define('jsProgdech.view.map.MapController', {
             return;
         }
 
-        var geojson = L.geoJson(gestionnairelayer);
-        geojson.setStyle({"color": 'red', "weight": 3, "fill" : false, smoothFactor: 1, "fillOpacity": 0.025});
-
+        // Tuiles tophographique.
         var topo = L.tileLayer('http://server.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/tile/{z}/{y}/{x}', {attribution: 'Tiles &copy; Esri &mdash; Esri, DeLorme, NAVTEQ, TomTom, Intermap, iPC, USGS, FAO, NPS, NRCAN, GeoBase, Kadaster NL, Ordnance Survey, Esri Japan, METI, Esri China (Hong Kong), and the GIS User Community'});
+
+        // Tuiles vue aérienne.
         var aerial = L.tileLayer("http://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}", {attribution: "Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community"});
+
+        // Création de la carte, vue topographique par défaut.
+        var map = L.map('map', {layers: [topo]});
+
+        // Controles des tuiles.
         var baseMaps = {"Carte": topo, "Vue aerienne": aerial};
         var overlayMaps = {};
-        var map = L.map('map', {layers: [topo, geojson]});
         L.control.layers(baseMaps, overlayMaps).addTo(map);
 
-        geojson = L.geoJson(geometriescommunales, {
-            style: style,
-            onEachFeature: onEachFeature
-        }).addTo(map); 
-
-        function style(feature) {
-            return { 
-                weight: 1,
+        // Calque: contour.
+        var geojson = L.geoJson(gestionnairelayer, {
+            style: {
+                weight: 3,
                 opacity: 0.5,
-                color: 'green',
-                dashArray: '3',
+                color: 'red',
+                fill : false,
+                smoothFactor: 1
+            }
+        }).addTo(map);
+
+        // Calques: communes.
+        geojson = L.geoJson(geometriescommunales, {
+            // Style lorsque commune non sélectionnée.
+            style: {
+                weight: 0.2,
+                opacity: 1,
+                color: 'black',
+                dashArray: '',
                 fillOpacity: 0.0
-            };
-        }
-        function highlightFeature(e, feature, layer) {
-            var commune = Ext.getStore('Communes').findRecord('insee', e.target.feature.properties.INSEE);
-            commune.doHighlight(true);
-        }
-        function resetHighlight(e) {
-            var commune = Ext.getStore('Communes').findRecord('insee', e.target.feature.properties.INSEE);
-            commune.doHighlight(false);
-        }
-        function selectCommune(e) {
-            var commune = Ext.getStore('Communes').findRecord('insee', e.target.feature.properties.INSEE);
-            commune.set('select', ! commune.get('select'));
-        }
-        function selectOneCommune(e) {
-            panel.fireEvent('selectOneCommune', panel, e.target.feature.properties.INSEE);
-        }
-        function onEachFeature(feature, layer) {
-            layer.bindLabel(
-                '<h4>' + layer.feature.properties.COMMUNE + '</h4>'
-            );
-            layer.on({
-                mouseover: highlightFeature,
-                mouseout: resetHighlight,
-                click: selectCommune,
-                dblclick: selectOneCommune
-            });
-        }
+            }
+        }).addTo(map); 
 
         // Mémorise les données pour accès ultérieur.
         map.myGeojson = geojson;
@@ -115,15 +101,6 @@ Ext.define('jsProgdech.view.map.MapController', {
 
         // Zoom initial.
         panel.fireEvent('zoomInitial', panel);
-
-        // Écoute les modifications sur le store des communes.
-        var storeCommunes = Ext.getStore('Communes');
-        storeCommunes.on('load', this.onStoreCommunesLoad);
-        storeCommunes.on('update', this.onStoreCommunesUpdate);
-
-        // Écoute les modifications sur le stores des Points de collecte.
-        var storePointsCollecte = Ext.getStore('PointsCollecte');
-        storePointsCollecte.on('load', this.onStorePointsCollecteLoad);
     },
 
     /**
@@ -145,45 +122,5 @@ Ext.define('jsProgdech.view.map.MapController', {
         }, this);
 
         return layerReturn;
-    },
-
-    /**
-     * Le store des communes vient d'etre lu.
-     * Renseigne les communes sur la map et son layer.
-     * Highlighte correctement les communes.
-     **/
-    onStoreCommunesLoad: function(storeCommunes, records) {
-        var mapPanel = Ext.getCmp('map');
-
-        storeCommunes.each(function(record) {
-            var layerCommune = mapPanel.getController().getLayerCommuneByInsee(mapPanel, record.get('insee'));
-            record.map = mapPanel.map;
-            record.layer = layerCommune;
-            layerCommune.commune = record;
-
-            record.doHighlight(false);
-        }, this);
-    },
-
-    /**
-     * Le record d'une commune vient d'etre modifié.
-     * Ajuste la map si c'est le champs select qui a été modifié.
-     **/
-    onStoreCommunesUpdate: function(store, record, operation, modifiedFieldNames, details) {
-        record.doHighlight(false);
-    },
-
-    /**
-     * Le store des points de collecte vient d'etre lu.
-     * Renseigne les points de collecte sur le map.
-     * Affiche correctement les markers.
-     **/
-    onStorePointsCollecteLoad: function(storePointsCollecte, records) {
-        var mapPanel = Ext.getCmp('map');
-
-        storePointsCollecte.each(function(record) {
-            record.map = mapPanel.map;
-            record.displayMarker();
-        }, this);
     }
 });

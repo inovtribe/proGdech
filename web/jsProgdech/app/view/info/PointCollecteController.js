@@ -1,23 +1,25 @@
 /**
- * Controlleur de la view info.Communes
+ * Controlleur de la view info.PointCollecte
  */
-Ext.define('jsProgdech.view.info.CommunesController', {
+Ext.define('jsProgdech.view.info.PointCollecteController', {
     extend: 'Ext.app.ViewController',
 
-    alias: 'controller.infoCommunes',
+    alias: 'controller.infoPointCollecte',
 
     /**
      * Initialisation.
      **/
     init: function(view) {
+        /*
         // Écoute du store des Communes.
         var storeCommunes = Ext.getStore('Communes');
         storeCommunes.on('load', this.refreshView);
         storeCommunes.on('update', this.refreshView);
 
         // Écoute du store des Points de collecte.
-        var storePointsCollecte = Ext.getStore('PointsCollecte');
         storePointsCollecte.on('load', this.refreshView);
+       */
+        var storePointsCollecte = Ext.getStore('PointsCollecte');
         storePointsCollecte.on('update', this.onUpdatePointCollecte);
     },
 
@@ -27,8 +29,8 @@ Ext.define('jsProgdech.view.info.CommunesController', {
      **/
     onUpdatePointCollecte: function(store) {
         var pointCollecteSelected = store.findRecord('select', true);
-        var panel =Ext.getCmp('infoCommunes');
-        panel.setVisible(pointCollecteSelected === null);
+        var panel = Ext.getCmp('infoPointCollecte');
+        panel.setVisible(pointCollecteSelected !== null);
     },
 
     /**
@@ -59,4 +61,3 @@ Ext.define('jsProgdech.view.info.CommunesController', {
         });
     }
 });
-

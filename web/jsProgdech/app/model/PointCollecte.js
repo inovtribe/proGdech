@@ -6,7 +6,8 @@ Ext.define('jsProgdech.model.PointCollecte', {
         {name: 'latitude',  type: 'number'},
         {name: 'longitude', type: 'number'},
         {name: 'volontaire', type: 'boolean'},
-        {name: 'commune_id', type: 'int'}
+        {name: 'commune_id', type: 'int'},
+        {name: 'select', type: 'boolean', defaultValue: false}   // Extjs uniquement : sélectionnée ou pas.
     ],
 
     map: null,      // La carte où est affiché le point de collecte.
@@ -54,8 +55,19 @@ Ext.define('jsProgdech.model.PointCollecte', {
 
         marker.pointCollecte = this;
 
+        // Clic sur le point de collecte.
         marker.on('click', function() {
-            alert('Clic sur marker du point de collecte ' + marker.pointCollecte.get('nom'));
+            // Désélectionne le point de collecte précédement sélectionné. 
+            var markerSelected = Ext.getStore('PointsCollecte').findRecord('select', true);
+            if (markerSelected !== null) {
+                if (markerSelected.pointCollecte.get('id') === marker.pointCollecte.get('id')) {
+                    return; // Le marker sélectionné est le meme.
+                }
+                markerSelected.pointCollecte.set('select', false);
+            }
+
+            // Sélectionne le marker.
+            marker.pointCollecte.set('select', true);
         });
 
         this.marker = marker;

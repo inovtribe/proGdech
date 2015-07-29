@@ -7,7 +7,8 @@ Ext.define('jsProgdech.view.info.Main', {
     id: 'info',
 
     requires: [
-        'jsProgdech.view.info.Communes'
+        'jsProgdech.view.info.Communes',
+        'jsProgdech.view.info.PointCollecte'
     ],
 
     layout: 'fit',
@@ -16,5 +17,8 @@ Ext.define('jsProgdech.view.info.Main', {
     border: true,
     items: [{
         xtype: 'infoCommunes'
+    }, {
+        xtype: 'infoPointCollecte',
+        hidden: true
     }]
 });
