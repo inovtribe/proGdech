@@ -47,12 +47,10 @@ Ext.define('jsProgdech.model.PointCollecte', {
         var icon = this.get('volontaire') == true ?  {
             iconUrl: '/bundles/geographprogdech/images/markers/pointcollecte_volontaire.png',
             iconSize:     [32, 32],
-            iconAnchor:   [16, 32],
             popupAnchor:  [0, -32]
         } : {
             iconUrl: '/bundles/geographprogdech/images/markers/pointcollecte_defaut.png',
             iconSize:     [20, 32],
-            iconAnchor:   [10, 32],
             popupAnchor:  [0, -32]
         };
 
@@ -60,9 +58,13 @@ Ext.define('jsProgdech.model.PointCollecte', {
         if (this.get('select') === true) {
             icon.iconSize[0] = icon.iconSize[0] * 2;
             icon.iconSize[1] = icon.iconSize[1] * 2;
-            icon.iconAnchor[0] = icon.iconSize[0] / 2;
-            icon.iconAnchor[1] = icon.iconSize[1];
         }
+
+        // Position de l'icone par rapport au point (ancrée au topleft de l'image)
+        icon.iconAnchor = [
+            icon.iconSize[0] / 2,   // Centre horizontalement.
+            icon.iconSize[1]        // Bas de l'icone.
+        ];
 
         // Création de l'icone.
         icon = L.icon(icon);
