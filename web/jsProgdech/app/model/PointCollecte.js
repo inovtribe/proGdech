@@ -76,10 +76,13 @@ Ext.define('jsProgdech.model.PointCollecte', {
             // Désélectionne le point de collecte précédement sélectionné. 
             var pointCollecteSelected = Ext.getStore('PointsCollecte').findRecord('select', true);
             if (pointCollecteSelected !== null) {
-                if (pointCollecteSelected.get('id') === marker.pointCollecte.get('id')) {
-                    return; // Le marker sélectionné est le meme.
-                }
+                // Déselectionne le point de collecte précédement sélectionné.
                 pointCollecteSelected.set('select', false);
+
+                if (pointCollecteSelected.get('id') === marker.pointCollecte.get('id')) {
+                    // On a cliqué sur le marker déjà sélectionné.
+                    return; 
+                }
             }
 
             // Sélectionne le marker.
