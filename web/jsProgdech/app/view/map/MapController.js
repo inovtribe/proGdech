@@ -116,32 +116,30 @@ Ext.define('jsProgdech.view.map.MapController', {
             }
         }
 
+        /**
+         * Retourne le layer d'une commune d'après son n° INSEE.
+         *
+         * @param insee string N° INSEE de la commune.
+         *
+         * @return layer Layer de la commune, ou null si elle n'est pas trouvée.
+         **/
+        map.getLayerCommuneByInsee = function(insee) {
+            var layerReturn = null;
+
+            this.eachLayer(function (layer) {
+                if ((typeof(layer.feature) !== 'undefined') && (layer.feature.properties.INSEE == insee)) {
+                    layerReturn = layer;
+                }
+            }, this);
+
+            return layerReturn;
+        }
+
         // Mémorise les données pour accès ultérieur.
         map.myGeojson = geojson;
         panel.map = map;
 
         // Zoom initial.
         panel.fireEvent('zoomInitial', panel);
-    },
-
-    /**
-     * Retourne le layer d'une commune d'après son n° INSEE.
-     *
-     * @param panel jsProgdech.view.map.Panel
-     * @param insee string N° INSEE de la commune.
-     *
-     * @return layer Layer de la commune, ou null si elle n'est pas trouvée.
-     **/
-    getLayerCommuneByInsee: function(panel, insee) {
-        var layerReturn = null;
-
-        panel.map.eachLayer(function (layer) {
-            if ((typeof(layer.feature) !== 'undefined') && (layer.feature.properties.INSEE == insee)) {
-                layerReturn = layer;
-                return layer;
-            }
-        }, this);
-
-        return layerReturn;
     }
 });

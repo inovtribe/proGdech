@@ -10,40 +10,45 @@ Ext.define('jsProgdech.store.Communes', {
     }],
 
     listeners: {
-        /**
-         * Le record d'une commune vient d'etre modifié.
-         * Ajuste la map si c'est le champs select qui a été modifié.
-         *
-         * Déselectionne le point de collecte sélectionné.
-         **/
-        'update': function(store, record) {
-            // Déselectionne le point de collecte.
-            var pointCollecteSelected = Ext.getStore('PointsCollecte').findRecord('select', true);
-            if (pointCollecteSelected !== null) {
-                pointCollecteSelected.set('select', false);
-            }
+        'add': 'addRecords',
+        'load': 'addRecords',
+        'update': 'onUpdateCommune'
+    },
 
-            record.doHighlight(false);
-            record.map.zoomPreviousRestore();
-        },
-
-        /**
-         * Le store des communes vient d'etre lu.
-         * Renseigne les communes sur la map et son layer.
-         * Highlighte correctement les communes.
-         **/
-        'load': function(store, record) {
-            var mapPanel = Ext.getCmp('map');
-
-            store.each(function(record) {
-                var layerCommune = mapPanel.getController().getLayerCommuneByInsee(mapPanel, record.get('insee'));
-                record.map = mapPanel.map;
-                //record.layer = layerCommune;
-                record.setLayer(layerCommune);
-                layerCommune.commune = record;
-
-                record.doHighlight(false);
-            }, this);
+    /**
+     * Le record d'une commune vient d'etre modifié.
+     * Ajuste la map si c'est le champs select qui a été modifié.
+     *
+     * Déselectionne le point de collecte sélectionné.
+     **/
+    onUpdateCommune: function(store, record) {
+        // Déselectionne le point de collecte sélectionné.
+        var pointCollecteSelected = Ext.getStore('PointsCollecte').findRecord('select', true);
+        if (pointCollecteSelected !== null) {
+            pointCollecteSelected.set('select', false);
         }
+
+        // Affiche correctement le layer de la commune.
+        record.doHighlight(false);
+
+        // Restaure le zoom (s'il y en avait un).
+        record.map.zoomPreviousRestore();
+    },
+
+    /**
+     * Des communes viennent d'etre ajoutées à la carte.
+     * Ajoute la carte et le layer à la commune.
+     * Highlighte correctement les communes.
+     *
+     * @param store jsProgdech.store.Communes
+     * @param records jsProgdech.model.Commune[]
+     **/
+    addRecords: function(store, records) {
+        var map = Ext.getCmp('map').map;
+
+        Ext.each(records, function(record) {
+            var layerCommune = map.getLayerCommuneByInsee(record.get('insee'));
+            record.setLayer(map, layerCommune);
+        }, this);
     }
 });

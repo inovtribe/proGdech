@@ -70,7 +70,21 @@ class Commune
     private $population_actuelle;
     
     private $densite;
-    
+
+    /**
+     * Retourne les données pour ExtJs.
+     */
+    public function getNestedData()
+    {
+        return array(
+            'id' => $this->getId(),
+            'nom' => $this->getNom(),
+            'insee' => $this->getInsee(),
+            'superficie' => $this->getSuperficie(),
+            'population' => $this->getPopulationActuelle()
+        );
+    }
+
     /**
      * Constructor
      */
@@ -79,7 +93,7 @@ class Commune
         $this->pointsCollecte = new \Doctrine\Common\Collections\ArrayCollection();
         $this->nombre_bacs = 0;
     }        
-    
+
     /**
      * Get id
      *

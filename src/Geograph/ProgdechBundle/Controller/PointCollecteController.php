@@ -2,6 +2,7 @@
 
 namespace Geograph\ProgdechBundle\Controller;
 
+use Geograph\ProgdechBundle\Entity\PointCollecte;
 use Geograph\ProgdechBundle\Geometrie\Marker;
 
 use Doctrine\Common\Collections;
@@ -56,7 +57,7 @@ class PointCollecteController extends Controller
             ->getRepository('GeographProgdechBundle:PointCollecte')
             ->findOneById($data->id);
         if (! $pointCollecte)
-            throw $this->createNotFoundException('The product does not exist');
+            throw $this->createNotFoundException('Le point de collecte n\'existe pas.');
 
         $pointCollecte->setLatitude($data->latitude);
         $pointCollecte->setLongitude($data->longitude);
@@ -64,6 +65,63 @@ class PointCollecteController extends Controller
 
         return new Response(json_encode(array(
             'success' => true
+        )));
+    }
+
+    /**
+     * Création d'un point de collecte.
+     *
+     * @Route("/admin/pointCollecteCreate")
+     *
+     * Paramètres du point de collecte à créer qui doivent etre transmis:
+     * @param reference string reference
+     * @param latitude float
+     * @param longitude float
+     * @param commune_id integer Identifiant de la commune liée.
+     *
+     * @return JSON:
+     *   success: true
+     *   id: identifiant du point de collecte créé.
+     **/
+    public function pointCollecteCreateAction(Request $request)
+    {
+        // Données transmises par la requete.
+        $data = json_decode($request->getContent(), false);
+
+        // Commune liée.
+        $commune = $this->getDoctrine()
+            ->getRepository('GeographProgdechBundle:Commune')
+            ->findOneById($data->commune_id);
+        if (! $commune)
+            throw $this->createNotFoundException('La commune n\'existe pas.');
+
+        // Utilisateur lié.
+        $user = $this->getDoctrine()
+            ->getRepository('GeographProgdechBundle:User')
+            ->findOneById(1);
+        if (! $user)
+            throw $this->createNotFoundException('L\'utilisateur n\'existe pas.');
+
+
+        // Création du point de collecte.
+        $pointCollecte = new PointCollecte();
+        $pointCollecte->setReference($data->reference);
+        $pointCollecte->setLatitude($data->latitude);
+        $pointCollecte->setLongitude($data->longitude);
+        $pointCollecte->setNom($data->reference);
+        $pointCollecte->setDate(new \DateTime());
+        $pointCollecte->setUser($user);;
+        $pointCollecte->setCommune($commune);;
+
+        // Enregistre le point de collecte dans la base de données.
+        $em = $this->getDoctrine()->getManager();
+        $em->persist($pointCollecte);
+        $em->flush();
+
+        // Transmets la réponse.
+        return new Response(json_encode(array(
+            'success' => true,
+            'pointsCollecte' => $pointCollecte->getNestedData()
         )));
     }
 

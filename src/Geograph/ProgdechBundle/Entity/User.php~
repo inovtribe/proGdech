@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
  * TUsers
  *
  * @ORM\Table(name="t_users")
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="Geograph\ProgdechBundle\Repository\UserRepository")
  */
 class User
 {

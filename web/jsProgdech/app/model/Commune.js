@@ -69,14 +69,22 @@ Ext.define('jsProgdech.model.Commune', {
     /**
      * Assigne un layer à la commune.
      *
+     * @param map Map
      * @param layer Layer
      **/
-    setLayer: function(layer) {
+    setLayer: function(map, layer) {
+        if ((map  ===  null) || (layer === null)) {
+            return;
+        }
+
+        this.map = map;
         this.layer = layer;
 
         layer.bindLabel(
             '<h4>' + this.get('nom') + '</h4>'
         );
+
+        this.doHighlight(false);
 
         // Évènements sur le layer.
         layer.on({

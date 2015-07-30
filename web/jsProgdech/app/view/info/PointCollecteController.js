@@ -13,7 +13,7 @@ Ext.define('jsProgdech.view.info.PointCollecteController', {
 
         // Écoute du store des Communes.
         var storeCommunes = Ext.getStore('Communes');
-        storeCommunes.on('update', this.onUpdateCommune);
+        storeCommunes.on('update', this.onUpdateCommune, this);
 
         // Écoute du store des Points de collecte.
         var storePointsCollecte = Ext.getStore('PointsCollecte');
@@ -25,7 +25,7 @@ Ext.define('jsProgdech.view.info.PointCollecteController', {
      * Raffraichit la vue uniquement si changement de point de collecte.
      **/
     onUpdatePointCollecte: function(store, record, operation, modifiedFieldNames) {
-        if (modifiedFieldNames.indexOf('select') !== -1) {
+        if ((modifiedFieldNames !== null) && (Ext.Array.indexOf(modifiedFieldNames, 'select') !== -1)) {
             this.refreshView();
         }
     },
@@ -43,24 +43,25 @@ Ext.define('jsProgdech.view.info.PointCollecteController', {
      * Recalcule les données à afficher dans la vue.
      **/
     refreshView: function() {
-        var pointCollecteSelected = Ext.getStore('PointsCollecte').findRecord('select', true);
+        var pointCollecte = Ext.getStore('PointsCollecte').findRecord('select', true);
         var panel = Ext.getCmp('infoPointCollecte');
 
         // Affiche ou masque le panneau.
-        panel.setVisible(pointCollecteSelected !== null);
+        panel.setVisible(pointCollecte !== null);
 
-        if (pointCollecteSelected === null) {
+        if (pointCollecte === null) {
             // Rien à calculer.
             return;
         }
 
         // Transmets les données à la vue.
         panel.getViewModel().setData({
-            reference: pointCollecteSelected.get('reference'),
-            date_creation: Ext.Date.format(pointCollecteSelected.get('date_creation'), 'd M Y'),
-            createur: pointCollecteSelected.get('createur')
+            reference: pointCollecte.get('reference'),
+            date_creation: Ext.Date.format(pointCollecte.get('date_creation'), 'd M Y'),
+            createur: pointCollecte.get('createur')
         });
 
+        // Réinitialise le boutton de déplacement.
         var button = panel.down('button[name=buttonDragging]');
         button.setText('Déplacer');
         button.setPressed(false);
@@ -72,8 +73,10 @@ Ext.define('jsProgdech.view.info.PointCollecteController', {
     onToggleDraggable: function(button) {
         var pointCollecte = Ext.getStore('PointsCollecte').findRecord('select', true);
         if (pointCollecte !== null) {
+            // Autorise (ou interdit) le marker du point de collecte à etre déplacé.
             pointCollecte.setDraggable(button.pressed);
 
+            // Modifie le texte du bouton.
             if (button.pressed === true) {
                 button.setText('Enregistrer');
             }

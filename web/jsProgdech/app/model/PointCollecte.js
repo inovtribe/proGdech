@@ -22,7 +22,7 @@ Ext.define('jsProgdech.model.PointCollecte', {
     proxy: {
         type: 'ajax',
         api: {
-            //create  : '',
+            create  : '/admin/pointCollecteCreate',
             read    : '/admin/pointscollecte.json',
             update  : '/admin/pointCollecteUpdate',
             //destroy : ''
@@ -38,14 +38,12 @@ Ext.define('jsProgdech.model.PointCollecte', {
 
     /**
      * Créé le marker dans la carte.
+     *
+     * @param draggable boolean True pour que le marker soit déplacable, false sinon.
      **/
     createMarker: function(draggable) {
         if (this.map === null) {
             return;
-        }
-
-        if (typeof(draggable) === 'undefined') {
-            draggable = false;
         }
 
         // Icone du marker.
@@ -95,7 +93,7 @@ Ext.define('jsProgdech.model.PointCollecte', {
             + '<p>X Bacs de type ?</p>'
         );
 
-        // Évènement du marker.
+        // Évènements du marker.
         this.marker.on('click', this.onMarkerClick, this);
         this.marker.on('dragend', this.onMarkerDragEnd, this);
     },
@@ -123,12 +121,12 @@ Ext.define('jsProgdech.model.PointCollecte', {
         }
 
         if (commune.get('select') === true) {
-            // Création du marker.
-            this.createMarker();
+            // La commune est sélectionné: on affiche/créé le marker.
+            this.createMarker(false);
         }
         else {
+            // La commune n'est pas sélectionné: on supprime le marker.
             if (this.marker !== null) {
-                // Supprime le marker.
                 this.map.removeLayer(this.marker);
                 this.marker = null;
             }
@@ -140,34 +138,12 @@ Ext.define('jsProgdech.model.PointCollecte', {
      **/
     onMarkerClick: function() {
         if (this.marker.dragging.enabled() === true) {
+            // On ne peut pas cliquer sur un marker en train d'etre déplacé.
             return;
         }
 
-        // Désélectionne le point de collecte précédement sélectionné. 
-        var pointCollecteSelected = Ext.getStore('PointsCollecte').findRecord('select', true);
-        if (pointCollecteSelected !== null) {
-            pointCollecteSelected.set('select', false);
-            pointCollecteSelected.setDraggable(false);
-
-            if (pointCollecteSelected.get('id') === this.get('id')) {
-                // On a déselectionné le marker déjà sélectionné.
-                // Restaure le zoom.
-                this.map.zoomPreviousRestore();
-                return; 
-            }
-        }
-
-        // Sélectionne le point de collecte.
-        this.set('select', true);
-
-        // Sauvegarge le zoom actuel.
-        this.map.zoomPreviousSave(false);    
-
-        // Zoome sur le marker.
-        this.map.setView([
-            this.get('latitude'),
-            this.get('longitude')
-        ], 16);
+        // Inverse la sélection du point de collecte.
+        this.set('select', ! this.get('select'));
     },
 
     /**
@@ -180,8 +156,11 @@ Ext.define('jsProgdech.model.PointCollecte', {
             latitude: this.marker.getLatLng().lat
         });
 
-        // Enregistre le point de collecte sur le serveur.
-        //this.save();
+        // Centre la carte sur le marker.
+        this.map.setView([
+            this.get('latitude'),
+            this.get('longitude')
+        ]);
     },
 
     /**
@@ -191,6 +170,11 @@ Ext.define('jsProgdech.model.PointCollecte', {
      **/
     setDraggable: function(state) {
         if (this.marker !== null) {
+            if (this.marker.dragging.enabled() === state) {
+                // Le marker est déjà dans l'état demandé: on ne fait rien.
+                return;
+            }
+
             // Suppression du marker.
             this.map.removeLayer(this.marker);
             this.marker = null;

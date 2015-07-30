@@ -7,8 +7,11 @@ Ext.define('jsProgdech.view.control.Main', {
     id: 'control',
 
     requires: [
-        'jsProgdech.view.control.Communes'
+        'jsProgdech.view.control.Communes',
+        'jsProgdech.view.control.MainController'
     ],
+
+    controller: 'controlMain',
 
     layout: 'fit',
     collapsible: true,
@@ -17,5 +20,24 @@ Ext.define('jsProgdech.view.control.Main', {
     border: true,
     items: [{
         xtype: 'controlCommunes'
-    }]
+    }],
+
+    tools: [{
+        type: 'gear',
+        handler: function(event, toolEl, panelHeader) {
+            var menu = Ext.create('Ext.menu.Menu', {
+                items: [{
+                    text: 'Créer point de collecte',
+                    handler: function() { 
+                        Ext.getCmp('control').fireEvent('onCreatePointCollecte');
+                    }
+                }]
+            });
+            menu.showBy(toolEl);
+        }
+    }],
+
+    listeners: {
+        onCreatePointCollecte: 'onCreatePointCollecte'
+    }
 });

@@ -12,7 +12,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Entity(repositoryClass="Geograph\ProgdechBundle\Repository\PointCollecteRepository")
  */
 class PointCollecte
-{
+{    
     /**
      * @var integer
      *
@@ -106,7 +106,7 @@ class PointCollecte
      * @ORM\OneToMany(targetEntity="Bac", mappedBy="pointcollecte")
      */
     protected $bacs;
-
+    
     private $volontaire;
     
     private $emplacements_affectes;
@@ -114,6 +114,23 @@ class PointCollecte
     private $emplacements_libres;
     
     public $marker = null;
+
+    public function getNestedData()
+    {
+        return array(
+            'id' => $this->getId(),
+            'nom' => $this->getNom(),
+            'reference' => $this->getReference(),
+            'adresse' => $this->getAdresse(),
+            'emplacement' => $this->getEmplacement(),
+            'latitude' => $this->getLatitude(),
+            'longitude' => $this->getLongitude(),
+            'date_creation' => $this->getDate()->format('Y-m-d'),
+            'createur' => "{$this->getUser()->getPrenom()} {$this->getUser()->getNom()}",
+            'volontaire' => $this->getVolontaire(),
+            'commune_id' => $this->getCommune()->getId()
+        );
+    }
 
     /**
      * Constructor
