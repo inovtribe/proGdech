@@ -21,26 +21,31 @@ Ext.define('jsProgdech.model.PointCollecte', {
 
     proxy: {
         type: 'ajax',
-        url: 'pointscollecte.json',
+        api: {
+            //create  : '',
+            read    : '/admin/pointscollecte.json',
+            update  : '/admin/pointCollecteUpdate',
+            //destroy : ''
+        },
         reader: {
             type: 'json',
             rootProperty: 'pointsCollecte'
+        },
+        writer: {
+            type: 'json'
         }
     },
-
 
     /**
      * Créé le marker dans la carte.
      **/
-    createMarker: function() {
-        var map = this.map;
-
-        if (map === null) {
+    createMarker: function(draggable) {
+        if (this.map === null) {
             return;
         }
 
-        if (this.marker !== null) {
-            map.removeLayer(this.marker);
+        if (typeof(draggable) === 'undefined') {
+            draggable = false;
         }
 
         // Icone du marker.
@@ -69,47 +74,30 @@ Ext.define('jsProgdech.model.PointCollecte', {
         // Création de l'icone.
         icon = L.icon(icon);
 
-        var marker = L.marker([this.get('latitude'), this.get('longitude')], {icon: icon}).addTo(map);
+        if (this.marker !== null ) {
+            // Le marker existe déjà: on modifie uniquement son icone.
+            this.marker.setIcon(icon);
+            return;
+        }
+
+        // Création du marker
+        this.marker = L.marker([
+            this.get('latitude'), this.get('longitude')
+        ], {
+            icon: icon,
+            draggable: draggable
+        }).addTo(this.map);
 
         // Popup du maker.
-        marker.bindLabel(
+        this.marker.bindLabel(
             '<h4>' + this.get('nom') + '</h4>'
             + '<p>X Bacs de type ?</p>'
             + '<p>X Bacs de type ?</p>'
         );
 
-        marker.pointCollecte = this;
-
-        // Évènement: clic sur le marker.
-        marker.on('click', function() {
-            // Désélectionne le point de collecte précédement sélectionné. 
-            var pointCollecteSelected = Ext.getStore('PointsCollecte').findRecord('select', true);
-            if (pointCollecteSelected !== null) {
-                // Déselectionne le point de collecte précédement sélectionné.
-                pointCollecteSelected.set('select', false);
-
-                if (pointCollecteSelected.get('id') === marker.pointCollecte.get('id')) {
-                    // On a déselectionné le marker sélectionné.
-                    // Restaure le zoom.
-                    map.zoomPreviousRestore();
-                    return; 
-                }
-            }
-
-            // Sélectionne le marker.
-            marker.pointCollecte.set('select', true);
-
-            // Sauvegarge le zoom actuel.
-            map.zoomPreviousSave(false);    
-
-            // Zoome sur le marker.
-            map.setView([
-                marker.pointCollecte.get('latitude'),
-                marker.pointCollecte.get('longitude')
-            ], 16);
-        });
-
-        this.marker = marker;
+        // Évènement du marker.
+        this.marker.on('click', this.onMarkerClick, this);
+        this.marker.on('dragend', this.onMarkerDragEnd, this);
     },
 
     /**
@@ -125,7 +113,7 @@ Ext.define('jsProgdech.model.PointCollecte', {
     },
 
     /**
-     * Affiche le marker du point de collecte.
+     * Affiche ou supprime le marker du point de collecte.
      * Conformément à l'état de la commune liée.
      **/
     displayMarker: function() {
@@ -134,16 +122,81 @@ Ext.define('jsProgdech.model.PointCollecte', {
             return;
         }
 
-        if (commune.get('select') !== true) {
-            // Supprime le marker.
+        if (commune.get('select') === true) {
+            // Création du marker.
+            this.createMarker();
+        }
+        else {
             if (this.marker !== null) {
+                // Supprime le marker.
                 this.map.removeLayer(this.marker);
                 this.marker = null;
             }
         }
-        else {
-            // Affiche/créé le marker.
-            this.createMarker();
+    },
+
+    /**
+     * Clic sur le marker du point de collecte.
+     **/
+    onMarkerClick: function() {
+        if (this.marker.dragging.enabled() === true) {
+            return;
         }
+
+        // Désélectionne le point de collecte précédement sélectionné. 
+        var pointCollecteSelected = Ext.getStore('PointsCollecte').findRecord('select', true);
+        if (pointCollecteSelected !== null) {
+            pointCollecteSelected.set('select', false);
+            pointCollecteSelected.setDraggable(false);
+
+            if (pointCollecteSelected.get('id') === this.get('id')) {
+                // On a déselectionné le marker déjà sélectionné.
+                // Restaure le zoom.
+                this.map.zoomPreviousRestore();
+                return; 
+            }
+        }
+
+        // Sélectionne le point de collecte.
+        this.set('select', true);
+
+        // Sauvegarge le zoom actuel.
+        this.map.zoomPreviousSave(false);    
+
+        // Zoome sur le marker.
+        this.map.setView([
+            this.get('latitude'),
+            this.get('longitude')
+        ], 16);
+    },
+
+    /**
+     * Le marker du point de collecte vient d'etre déplacé.
+     **/
+    onMarkerDragEnd: function() {
+        // Récupère les coordonnées du marker dans le point de collecte.
+        this.set({
+            longitude: this.marker.getLatLng().lng,
+            latitude: this.marker.getLatLng().lat
+        });
+
+        // Enregistre le point de collecte sur le serveur.
+        //this.save();
+    },
+
+    /**
+     * Active ou non le déplacement du marker.
+     *
+     * @param state boolean True pour autoriser le déplacement du marker, false sinon.
+     **/
+    setDraggable: function(state) {
+        if (this.marker !== null) {
+            // Suppression du marker.
+            this.map.removeLayer(this.marker);
+            this.marker = null;
+        }
+
+        // Création du marker.
+        this.createMarker(state);
     }
 });

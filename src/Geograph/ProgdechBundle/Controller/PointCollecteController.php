@@ -8,6 +8,7 @@ use Doctrine\Common\Collections;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 class PointCollecteController extends Controller
@@ -39,6 +40,30 @@ class PointCollecteController extends Controller
 
         return new Response(json_encode(array(
             'pointsCollecte' => $data
+        )));
+    }
+
+    /**
+     * Modifie un point de collecte.
+     *
+     * @Route("/admin/pointCollecteUpdate")
+     **/
+    public function pointCollecteUpdateAction(Request $request)
+    {
+        $data = json_decode($request->getContent(), false);
+
+        $pointCollecte = $this->getDoctrine()
+            ->getRepository('GeographProgdechBundle:PointCollecte')
+            ->findOneById($data->id);
+        if (! $pointCollecte)
+            throw $this->createNotFoundException('The product does not exist');
+
+        $pointCollecte->setLatitude($data->latitude);
+        $pointCollecte->setLongitude($data->longitude);
+        $this->getDoctrine()->getManager()->flush();
+
+        return new Response(json_encode(array(
+            'success' => true
         )));
     }
 

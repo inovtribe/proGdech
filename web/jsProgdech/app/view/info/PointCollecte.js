@@ -29,6 +29,13 @@ Ext.define('jsProgdech.view.info.PointCollecte', {
         xtype: 'displayfield',
         fieldLabel: 'Par',
         bind: '{createur}'
+    }],
+
+    tbar: [{
+        text: 'Déplacer',
+        name: 'buttonDragging',
+        enableToggle: true,
+        handler: 'onToggleDraggable'
     }]
 });
 
