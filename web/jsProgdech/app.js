@@ -8,7 +8,8 @@ Ext.application({
 
     extend: 'jsProgdech.Application',
 
-    requires: [
+    controllers: [
+        'jsProgdech.controller.Main'
     ],
 
     appFolder: '/jsProgdech/app',

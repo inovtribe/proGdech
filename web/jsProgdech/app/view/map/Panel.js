@@ -14,7 +14,6 @@ Ext.define('jsProgdech.view.map.Panel', {
 
     listeners: {
         afterlayout: 'createMap',
-        selectOneCommune: 'doSelectCommune',
         resize: 'onResize'
     }
 });

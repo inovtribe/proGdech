@@ -102,8 +102,7 @@ Ext.define('jsProgdech.model.Commune', {
 
             // Ne sélectionne que cette commune.
             dblclick: function() {
-                var panel= Ext.getCmp('map');
-                panel.fireEvent('selectOneCommune', panel, this.get('insee'));
+                Ext.GlobalEvents.fireEvent('selectOneCommune', this);
             }
         }, this);
     }

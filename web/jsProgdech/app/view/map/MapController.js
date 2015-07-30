@@ -18,28 +18,6 @@ Ext.define('jsProgdech.view.map.MapController', {
     },
 
     /**
-     * Sélectionne d'une commune:
-     *  - Ne sélectionne que cette commune.
-     *  - Centre la carte sur la commune.
-     *
-     * @param panel jsProgdech.view.map.Panel
-     * @param insee string N° INSEE de la commune.
-     **/
-    doSelectCommune: function(panel, insee) {
-        var storeCommunes = Ext.getStore('Communes');
-        var commune = storeCommunes.findRecord('insee', insee);
-
-        // Sélectionne la commune.
-        // Déselectionne toutes les autres communes.
-        storeCommunes.each(function(record) {
-            record.set('select', record.get('insee') == insee);
-        });
-
-        // Zoome sur la commune.
-        Ext.map.fitBounds(commune.layer.getBounds());
-    },
-
-    /**
      * Créé la map Leaflet dans le panel spécifié.
      * La map est ensuite accessible dans Ext.map
      *
