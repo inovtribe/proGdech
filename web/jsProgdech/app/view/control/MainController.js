@@ -33,9 +33,7 @@ Ext.define('jsProgdech.view.control.MainController', {
      * @param reference string Référence du point de collecte à créer.
      **/
     createPointCollecte: function(reference) {
-        var mapPanel = Ext.getCmp('map');
-        var map = mapPanel.map;
-        var center = map.getCenter();
+        var center = Ext.map.getCenter();
 
         // Création du point de collecte en local.
         var pointCollecte = Ext.create('jsProgdech.model.PointCollecte', {

@@ -7,7 +7,7 @@ Ext.define('jsProgdech.view.map.Panel', {
     id: 'map',
 
     requires: [
-        'jsProgdech.view.map.MapController',
+        'jsProgdech.view.map.MapController'
     ],
 
     controller: 'map',
@@ -15,11 +15,6 @@ Ext.define('jsProgdech.view.map.Panel', {
     listeners: {
         afterlayout: 'createMap',
         selectOneCommune: 'doSelectCommune',
-        selectCommune: 'selectCommune',
-        resize: 'onResize',
-        zoomInitial: 'doZoomInitial'
-    },
-
-    map: null,	// Pas de carte à l'initialisation.
-    geojson: null
+        resize: 'onResize'
+    }
 });

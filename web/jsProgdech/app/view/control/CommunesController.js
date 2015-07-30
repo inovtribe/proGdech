@@ -71,13 +71,5 @@ Ext.define('jsProgdech.view.control.CommunesController', {
         Ext.getStore('Communes').each(function(record) {
             record.set('select', false);
         });
-    },
-
-    /**
-     * Revient au zoom initial sur la carte.
-     **/
-    onZoomInitial: function() {
-        var mapPanel = Ext.getCmp('map');
-        mapPanel.fireEvent('zoomInitial', mapPanel);
     }
 });

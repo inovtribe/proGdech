@@ -27,7 +27,9 @@ Ext.define('jsProgdech.view.control.Communes', {
         handler: 'onButtonNone'
     }, '->', {
         text: 'Zoom initial',
-        handler: 'onZoomInitial'
+        handler: function() {
+            Ext.map.doZoomInitial();
+        }
     }],
 
     listeners: {

@@ -9,7 +9,6 @@ Ext.define('jsProgdech.model.Commune', {
         {name: 'select', type: 'boolean', defaultValue: true}   // Extjs uniquement : sélectionnée ou pas.
     ],
 
-    map: null,      // Map où la commune est affichée.
     layer: null,    // Layer utilisé pour représenter la commune.
 
     schema: {
@@ -57,7 +56,7 @@ Ext.define('jsProgdech.model.Commune', {
         }
         else {
             // Pas de highlight.
-            this.map.myGeojson.resetStyle(this.layer);
+            Ext.map.myGeojson.resetStyle(this.layer);
         }
 
         // Raffraichit les markers de la commune.
@@ -69,15 +68,13 @@ Ext.define('jsProgdech.model.Commune', {
     /**
      * Assigne un layer à la commune.
      *
-     * @param map Map
      * @param layer Layer
      **/
-    setLayer: function(map, layer) {
-        if ((map  ===  null) || (layer === null)) {
+    setLayer: function(layer) {
+        if (layer === null) {
             return;
         }
 
-        this.map = map;
         this.layer = layer;
 
         layer.bindLabel(

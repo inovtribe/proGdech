@@ -19,10 +19,7 @@ Ext.define('jsProgdech.store.PointsCollecte', {
      * @param records jsProgdech.model.PointCollecte[]
      **/
     addRecords: function(store, records) {
-        var mapPanel = Ext.getCmp('map');
-
         Ext.each(records, function(record) {
-            record.map = mapPanel.map;
             record.displayMarker();
         }, this);
     },
@@ -51,10 +48,10 @@ Ext.define('jsProgdech.store.PointsCollecte', {
             }, this);
 
             // Sauvegarge le zoom actuel.
-            record.map.zoomPreviousSave(false);
+            Ext.map.zoomPreviousSave(false);
 
             // Zoome sur le marker.
-            record.map.setView([
+            Ext.map.setView([
                 record.get('latitude'),
                 record.get('longitude')
             ], 16);
@@ -67,7 +64,7 @@ Ext.define('jsProgdech.store.PointsCollecte', {
 
             if (Ext.getStore('PointsCollecte').findRecord('select', true) === null) {
                 // Aucun marker n'est sélectionné : restaure le zoom.
-                record.map.zoomPreviousRestore();
+                Ext.map.zoomPreviousRestore();
                 return; 
             }
         }

@@ -32,7 +32,7 @@ Ext.define('jsProgdech.store.Communes', {
         record.doHighlight(false);
 
         // Restaure le zoom (s'il y en avait un).
-        record.map.zoomPreviousRestore();
+        Ext.map.zoomPreviousRestore();
     },
 
     /**
@@ -44,11 +44,9 @@ Ext.define('jsProgdech.store.Communes', {
      * @param records jsProgdech.model.Commune[]
      **/
     addRecords: function(store, records) {
-        var map = Ext.getCmp('map').map;
-
         Ext.each(records, function(record) {
-            var layerCommune = map.getLayerCommuneByInsee(record.get('insee'));
-            record.setLayer(map, layerCommune);
+            var layerCommune = Ext.map.getLayerCommuneByInsee(record.get('insee'));
+            record.setLayer(layerCommune);
         }, this);
     }
 });

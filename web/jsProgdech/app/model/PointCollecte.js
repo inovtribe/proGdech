@@ -15,7 +15,6 @@ Ext.define('jsProgdech.model.PointCollecte', {
         {name: 'select', type: 'boolean', defaultValue: false}   // Extjs uniquement : sélectionnée ou pas.
     ],
 
-    map: null,      // La carte où est affiché le point de collecte.
     marker: null,   // Le marker n'est pas encore créé.
     commune: null,  // La commune liée.
 
@@ -42,10 +41,6 @@ Ext.define('jsProgdech.model.PointCollecte', {
      * @param draggable boolean True pour que le marker soit déplacable, false sinon.
      **/
     createMarker: function(draggable) {
-        if (this.map === null) {
-            return;
-        }
-
         // Icone du marker.
         var icon = this.get('volontaire') == true ?  {
             iconUrl: '/bundles/geographprogdech/images/markers/pointcollecte_volontaire.png',
@@ -84,7 +79,7 @@ Ext.define('jsProgdech.model.PointCollecte', {
         ], {
             icon: icon,
             draggable: draggable
-        }).addTo(this.map);
+        }).addTo(Ext.map);
 
         // Popup du maker.
         this.marker.bindLabel(
@@ -116,7 +111,7 @@ Ext.define('jsProgdech.model.PointCollecte', {
      **/
     displayMarker: function() {
         var commune = this.getCommune();
-        if ((commune === null) || (this.map === null)) {
+        if ((commune === null) || (Ext.map === null)) {
             return;
         }
 
@@ -127,7 +122,7 @@ Ext.define('jsProgdech.model.PointCollecte', {
         else {
             // La commune n'est pas sélectionné: on supprime le marker.
             if (this.marker !== null) {
-                this.map.removeLayer(this.marker);
+                Ext.map.removeLayer(this.marker);
                 this.marker = null;
             }
         }
@@ -157,7 +152,7 @@ Ext.define('jsProgdech.model.PointCollecte', {
         });
 
         // Centre la carte sur le marker.
-        this.map.setView([
+        Ext.map.setView([
             this.get('latitude'),
             this.get('longitude')
         ]);
@@ -176,7 +171,7 @@ Ext.define('jsProgdech.model.PointCollecte', {
             }
 
             // Suppression du marker.
-            this.map.removeLayer(this.marker);
+            Ext.map.removeLayer(this.marker);
             this.marker = null;
         }
 
