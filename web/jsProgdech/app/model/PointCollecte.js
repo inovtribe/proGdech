@@ -145,6 +145,16 @@ Ext.define('jsProgdech.model.PointCollecte', {
      * Le marker du point de collecte vient d'etre déplacé.
      **/
     onMarkerDragEnd: function() {
+        // Vérifie qu'un point de collecte n'existe pas à proximité.
+        var pointsCollecte = Ext.getStore('PointsCollecte').getPointsCollecteInsideRange(this.marker.getLatLng(), 10);
+        if (pointsCollecte.length > 0) {
+            if ((pointsCollecte.length > 1) || (pointsCollecte.getAt(0).get('id') !== this.get('id'))) {
+                // Annule le déplacement du marker.
+                this.marker.setLatLng([this.get('latitude'), this.get('longitude')]);
+                return;
+            }
+        }
+
         // Récupère les coordonnées du marker dans le point de collecte.
         this.set({
             longitude: this.marker.getLatLng().lng,

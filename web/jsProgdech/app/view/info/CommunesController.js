@@ -62,4 +62,3 @@ Ext.define('jsProgdech.view.info.CommunesController', {
         });
     }
 });
-

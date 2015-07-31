@@ -47,14 +47,14 @@ class PointCollecte
     /**
      * @var string
      *
-     * @ORM\Column(name="lat_ptcollecte", type="decimal", precision=9, scale=6, nullable=false)
+     * @ORM\Column(name="lat_ptcollecte", type="float", nullable=false)
      */
     private $latitude;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="lng_ptcollecte", type="decimal", precision=9, scale=6, nullable=false)
+     * @ORM\Column(name="lng_ptcollecte", type="float", nullable=false)
      */
     private $longitude;
 

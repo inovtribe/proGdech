@@ -11,6 +11,20 @@ Ext.define('jsProgdech.store.PointsCollecte', {
     },
 
     /**
+     * Retourne la liste des points de collecte situées à l'intérieur d'un cercle.
+     *
+     * @param center LatLng Coordonnées du centre du cercle.
+     * @param range float Rayon du cercle en mètre.
+     *
+     * @return Ext.util.Collection de jsProgdech.model.PointCollecte
+     **/
+    getPointsCollecteInsideRange(center, range) {
+        return this.queryBy(function(record) {
+            return center.distanceTo([record.get('latitude'), record.get('longitude')]) < range;
+        }, this);
+    },
+
+    /**
      * Des points de collecte ont été ajoutés au store.
      * Renseigne les points de collecte sur la map.
      * Affiche les markers.
