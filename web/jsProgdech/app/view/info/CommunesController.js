@@ -17,6 +17,7 @@ Ext.define('jsProgdech.view.info.CommunesController', {
 
         // Écoute du store des Points de collecte.
         var storePointsCollecte = Ext.getStore('PointsCollecte');
+        storePointsCollecte.on('add', this.refreshView);
         storePointsCollecte.on('load', this.refreshView);
         storePointsCollecte.on('update', this.onUpdatePointCollecte);
     },
