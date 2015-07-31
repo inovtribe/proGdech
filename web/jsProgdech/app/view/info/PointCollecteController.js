@@ -63,7 +63,6 @@ Ext.define('jsProgdech.view.info.PointCollecteController', {
 
         // Réinitialise le boutton de déplacement.
         var button = panel.down('button[name=buttonDragging]');
-        button.setText('Déplacer');
         button.setPressed(false);
     },
 
@@ -75,17 +74,6 @@ Ext.define('jsProgdech.view.info.PointCollecteController', {
         if (pointCollecte !== null) {
             // Autorise (ou interdit) le marker du point de collecte à etre déplacé.
             pointCollecte.setDraggable(button.pressed);
-
-            // Modifie le texte du bouton.
-            if (button.pressed === true) {
-                button.setText('Enregistrer');
-            }
-            else {
-                button.setText('Déplacer');
-
-                // Enregistre le point de collecte.
-                pointCollecte.save();
-            }
         }
     }
 });

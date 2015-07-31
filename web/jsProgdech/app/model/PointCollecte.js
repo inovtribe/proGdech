@@ -184,6 +184,9 @@ Ext.define('jsProgdech.model.PointCollecte', {
             this.get('latitude'),
             this.get('longitude')
         ]);
+
+        // Sauvegarde le point de collecte sur le serveur.
+        this.save();
     },
 
     /**
