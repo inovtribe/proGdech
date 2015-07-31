@@ -145,14 +145,32 @@ Ext.define('jsProgdech.model.PointCollecte', {
      * Le marker du point de collecte vient d'etre déplacé.
      **/
     onMarkerDragEnd: function() {
-        // Vérifie qu'un point de collecte n'existe pas à proximité.
-        var pointsCollecte = Ext.getStore('PointsCollecte').getPointsCollecteInsideRange(this.marker.getLatLng(), 10);
-        if (pointsCollecte.length > 0) {
-            if ((pointsCollecte.length > 1) || (pointsCollecte.getAt(0).get('id') !== this.get('id'))) {
-                // Annule le déplacement du marker.
-                this.marker.setLatLng([this.get('latitude'), this.get('longitude')]);
-                return;
+        var cancel = false; // Annuler le déplacement du marker ?
+
+        // Vérifie si le déplacement implique un changement de commune.
+        var commune = Ext.getStore('Communes').findCommuneFromPoint(this.marker.getLatLng());
+        if (commune === null) {
+            Ext.Msg.alert('Déplacement impossible', 'La destination n\'est située dans aucune commune.');
+            cancel = true;
+        }
+        else if (commune.get('id') != this.get('commune_id')) {
+            Ext.Msg.alert('Déplacement impossible', 'La destination est située dans une autre commune.');
+            cancel = true;
+        }
+        else {
+            // Vérifie qu'un point de collecte n'existe pas à proximité.
+            var pointsCollecte = Ext.getStore('PointsCollecte').getPointsCollecteInsideRange(this.marker.getLatLng(), 10);
+            if (pointsCollecte.length > 0) {
+                if ((pointsCollecte.length > 1) || (pointsCollecte.getAt(0).get('id') !== this.get('id'))) {
+                    cancel = true;
+                }
             }
+        }
+
+        if (cancel === true) {
+            // Annule le déplacement du marker.
+            this.marker.setLatLng([this.get('latitude'), this.get('longitude')]);
+            return;
         }
 
         // Récupère les coordonnées du marker dans le point de collecte.
