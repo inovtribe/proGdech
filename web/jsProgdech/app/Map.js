@@ -6,6 +6,9 @@ var ProGDechMap = L.Map.extend({
     // Le zoom sauvegardé.
     zoomPrevious: null,
 
+    // Layers: communes.
+    communes: null,
+
     /**
      * Constructeur.
      * Crée la carte avec tous les layers.
@@ -29,7 +32,7 @@ var ProGDechMap = L.Map.extend({
         L.control.layers(baseMaps, overlayMaps).addTo(this);
 
         // Calque: contour.
-        var geojson = L.geoJson(gestionnairelayer, {
+        L.geoJson(gestionnairelayer, {
             style: {
                 weight: 3,
                 opacity: 0.5,
@@ -40,7 +43,7 @@ var ProGDechMap = L.Map.extend({
         }).addTo(this);
 
         // Calques: communes.
-        geojson = L.geoJson(geometriescommunales, {
+        this.communes = L.geoJson(geometriescommunales, {
             // Style lorsque commune non sélectionnée.
             style: {
                 weight: 0.2,
@@ -50,9 +53,6 @@ var ProGDechMap = L.Map.extend({
                 fillOpacity: 0.0
             }
         }).addTo(this); 
-
-        // Mémorise les données pour accès ultérieur.
-        this.myGeojson = geojson;
     },
 
     /**
@@ -104,6 +104,23 @@ var ProGDechMap = L.Map.extend({
      * Mets le zoom par défaut sur la carte.
      **/
     doZoomInitial: function() {
-        this.fitBounds(this.myGeojson.getBounds()).setMaxBounds(this.myGeojson.getBounds());
+        this.fitBounds(this.communes.getBounds()).setMaxBounds(this.communes.getBounds());
+    },
+
+    /**
+     * Retourne la commune dont le point spécifié est à l'intérieur.
+     *
+     * @param point ([lng,lat] ou L.LatLng) Coordonnées du point.
+     *
+     * @return layer Layer de la commune (null si aucune)
+     **/
+    findLayerCommuneFromPoint(point) {
+        var layers = leafletPip.pointInLayer(point, this.communes, true);
+
+        if (layers.length == 0) {
+            return null;
+        }
+
+        return layers[0];
     }
 });

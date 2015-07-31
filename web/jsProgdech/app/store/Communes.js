@@ -48,5 +48,17 @@ Ext.define('jsProgdech.store.Communes', {
             var layerCommune = Ext.map.getLayerCommuneByInsee(record.get('insee'));
             record.setLayer(layerCommune);
         }, this);
+    },
+
+    /**
+     * Retourne la commune dont le point spécifié est à l'intérieur.
+     *
+     * @param point ([lng,lat] ou L.LatLng) Coordonnées du point.
+     *
+     * @return layer Layer de la commune (null si aucune)
+     **/
+    findCommuneFromPoint(point) {
+        var layerCommune = Ext.map.findLayerCommuneFromPoint(point);
+        return layerCommune === null ? null : layerCommune.commune;
     }
 });

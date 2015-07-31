@@ -56,7 +56,7 @@ Ext.define('jsProgdech.model.Commune', {
         }
         else {
             // Pas de highlight.
-            Ext.map.myGeojson.resetStyle(this.layer);
+            Ext.map.communes.resetStyle(this.layer);
         }
 
         // Raffraichit les markers de la commune.
@@ -76,6 +76,7 @@ Ext.define('jsProgdech.model.Commune', {
         }
 
         this.layer = layer;
+        this.layer.commune = this;
 
         layer.bindLabel(
             '<h4>' + this.get('nom') + '</h4>'
