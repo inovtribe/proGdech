@@ -107,6 +107,8 @@ class PointCollecte
      */
     protected $bacs;
     
+    private $typesbacs;
+
     private $volontaire;
     
     private $emplacements_affectes;
@@ -488,5 +490,13 @@ class PointCollecte
     }
     public function setVolontaire($type){
         $this->volontaire = $type;
+    }
+    
+    public function getTypesBacs(){
+        return $this->typesbacs;
+    }
+    
+    public function setTypesBacs($types){
+        $this->typesbacs = $types;
     }
 }

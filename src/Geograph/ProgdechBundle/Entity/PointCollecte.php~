@@ -12,7 +12,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Entity(repositoryClass="Geograph\ProgdechBundle\Repository\PointCollecteRepository")
  */
 class PointCollecte
-{
+{    
     /**
      * @var integer
      *
@@ -106,6 +106,8 @@ class PointCollecte
      * @ORM\OneToMany(targetEntity="Bac", mappedBy="pointcollecte")
      */
     protected $bacs;
+    
+    private $typesbacs;
 
     private $volontaire;
     

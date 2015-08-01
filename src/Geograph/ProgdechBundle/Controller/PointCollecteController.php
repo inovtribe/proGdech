@@ -32,17 +32,20 @@ class PointCollecteController extends Controller
                 ->getRepository('GeographProgdechBundle:PointCollecte')
                 ->findOneById($pointcollecte_id);
         
-        $markerDao = $this->get('geometrie_marker');
+        
         
         $commune = $pointCollecte->getCommune();
         $pointsCollecte = $commune->getPointsCollecte();
-
+        
+        $repository = $this->getDoctrine()->getRepository('GeographProgdechBundle:Typeflux');
+        $types = $repository->getTypeFluxDistinctPointcollecte($pointcollecte_id);
+        $pointCollecte->setTypesBacs($types);        
+        
+        
         $this->get('geograph_progdech')
                 ->setPointCollecte($pointCollecte);
         
-        $markerDao->createMarker(Marker::TYPE_POINT_COLLECTE, false);
-        
-        
+        $markerDao = $this->get('geometrie_marker');
         
         $markerDao->assignMarkerToPointsCollecte($pointsCollecte);
         

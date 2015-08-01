@@ -34,4 +34,46 @@ class TypefluxRepository extends EntityRepository
         
         return $result;
     }
+    
+    /**
+     * Retourne la liste des types de flux distincts pour un poit de collecte
+     * 
+     * @param type $id_pointcollecte
+     * @return type
+     */
+    public function getTypeFluxDistinctPointcollecte($id_pointcollecte){
+        $query = $this->_em->createQuery('
+                SELECT distinct tf
+                FROM GeographProgdechBundle:Typeflux tf
+                JOIN tf.modelesbac mb
+                JOIN mb.bacs b
+                JOIN b.pointcollecte pc
+                WHERE pc.id = ?1')
+                ->setParameter(1, $id_pointcollecte)
+            ;
+        
+        $result = $query->getResult();
+        
+        return $result;
+    }
+    
+    public function getNbrTypeFluxDistinctPointcollecte($pointcollecte_id, Collection $typesflux){
+        // Récupère les ids des types de flux dans un tableau.
+	$ids = $typesflux->map(function($entity) { return $entity->getId(); })->toArray();
+        /*
+        $query = $this->_em->createQuery('
+                SELECT COUNT(tf)
+                FROM GeographProgdechBundle:Typeflux tf
+                JOIN tf.modelesbac mb
+                JOIN mb.bacs b
+                JOIN b.pointcollecte pc
+                WHERE pc.id = ?1 AND tf.id IN (?2)')
+                ->setParameter(1, $pointcollecte_id)
+                ->setParameter(2, $ids)
+            ;
+        
+        $result = $query->getResult();
+        
+        return $result;*/
+    }
 }

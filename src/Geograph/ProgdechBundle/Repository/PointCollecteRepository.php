@@ -62,22 +62,7 @@ class PointCollecteRepository extends EntityRepository
 	foreach($volontaires as $pointcollecte)
 		$pointcollecte->setVolontaire(true);
     }
-
-    public function isVolontaire($id_pointcollecte){
-        $query = $this->_em->createQuery('
-                SELECT pc
-                FROM GeographProgdechBundle:PointCollecte pc
-                JOIN pc.bacs b
-                JOIN b.modelebac mb
-                JOIN mb.typeflux tf
-                WHERE pc.id = ?1 AND tf.volontaire = true')
-                ->setParameter(1, $id_pointcollecte)
-            ;
-        $result = $query->getResult();
-        if (!empty($result)){
-            return true;
-        }
-    }
+    
     
     
     
