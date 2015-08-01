@@ -18,7 +18,7 @@ Ext.define('jsProgdech.store.PointsCollecte', {
      *
      * @return Ext.util.Collection de jsProgdech.model.PointCollecte
      **/
-    getPointsCollecteInsideRange(center, range) {
+    getPointsCollecteInsideRange: function(center, range) {
         return this.queryBy(function(record) {
             return center.distanceTo([record.get('latitude'), record.get('longitude')]) < range;
         }, this);

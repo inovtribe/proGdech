@@ -21,7 +21,7 @@ class AdminController extends Controller
     /**
      * Admin home page controller.
      *
-     * @Route("/admin/", name="admin")
+     * @Route("/admin", name="admin")
      * @Template("GeographProgdechBundle:Backend:admin.html.twig");
      */
     public function indexAction() {

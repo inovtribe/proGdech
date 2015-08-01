@@ -57,7 +57,7 @@ Ext.define('jsProgdech.store.Communes', {
      *
      * @return layer Layer de la commune (null si aucune)
      **/
-    findCommuneFromPoint(point) {
+    findCommuneFromPoint: function(point) {
         var layerCommune = Ext.map.findLayerCommuneFromPoint(point);
         return layerCommune === null ? null : layerCommune.commune;
     }

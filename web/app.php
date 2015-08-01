@@ -14,12 +14,12 @@ $apcLoader = new ApcClassLoader(sha1(__FILE__), $loader);
 $loader->unregister();
 $apcLoader->register(true);
 */
-
 require_once __DIR__.'/../app/AppKernel.php';
 //require_once __DIR__.'/../app/AppCache.php';
 
-// Mode developpement par défaut.
+// Mode developpement par dï¿½faut.
 //$kernel = new AppKernel('prod, false);
+
 $kernel = new AppKernel('dev', true);
 $kernel->loadClassCache();
 //$kernel = new AppCache($kernel);

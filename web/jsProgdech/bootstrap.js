@@ -324,11 +324,12 @@ Ext.Boot = Ext.Boot || (function (emptyFn) {
                     state = script.readyState || null;
 
                     // If we find a script file called "ext-*.js", then the base path is that file's base path.
+                    
                     if (!baseUrl) {
                         if (re.test(src)) {
                             Boot.hasReadyState = ("readyState" in script);
                             Boot.hasAsync = ("async" in script) || !Boot.hasReadyState;
-                            baseUrl = src;
+                            baseUrl = src;;
                         }
                     }
 
@@ -347,19 +348,18 @@ Ext.Boot = Ext.Boot || (function (emptyFn) {
 
                 if (!baseUrl) {
                     script = scriptEls[scriptEls.length - 1];
-                    baseUrl = script.src;
+                    baseUrl = script.src;                
                     Boot.hasReadyState = ('readyState' in script);
                     Boot.hasAsync = ("async" in script) || !Boot.hasReadyState;
                 }
 
-                Boot.baseUrl = baseUrl.substring(0, baseUrl.lastIndexOf('/') + 1);
+                Boot.baseUrl = baseUrl.substring(0, baseUrl.lastIndexOf('/') + 1);     
                 origin = window.location.origin ||
                     window.location.protocol +
                     "//" +
                     window.location.hostname +
                     (window.location.port ? ':' + window.location.port: '');
                 Boot.origin = origin;
-
                 Boot.detectPlatformTags();
                 Ext.filterPlatform = Boot.filterPlatform;
             },
@@ -379,10 +379,17 @@ Ext.Boot = Ext.Boot || (function (emptyFn) {
              * @private
              */
             canonicalUrl: function (url) {
+                // Hack BEGIN
+                if (url.indexOf('http') !== 0) {
+                    if (url.indexOf('/') !== 0) {
+                       url = '/jsProgdech/' + url;
+                    }
+                }
+                // Hack END
+                
                 // @TODO - see if we need this fallback logic
                 // http://stackoverflow.com/questions/470832/getting-an-absolute-url-from-a-relative-one-ie6-issue
                 resolverEl.href = url;
-
                 var ret = resolverEl.href,
                     dc = _config.disableCachingParam,
                     pos = dc ? ret.indexOf(dc + '=') : -1,
@@ -1667,6 +1674,7 @@ Ext.Microloader = Ext.Microloader || (function () {
                     type: type,
                     loadFromCache: this.assetCache
                 });
+              
                 this.assetMap[assetConfig.path] = processedAsset;
                 return processedAsset;
             },
@@ -1774,7 +1782,7 @@ Ext.Microloader = Ext.Microloader || (function () {
                         content = LocalStorage.retrieveAsset(key);
 
                     // Manifest found in local storage, use this for immediate boot except in PhantomJS environments for building.
-                    if (content) {
+                    if (content) {                  
                             _debug("Manifest file, '" + url + "', was found in Local Storage");
                         manifest = new Manifest({
                             url: url,
@@ -1789,17 +1797,20 @@ Ext.Microloader = Ext.Microloader || (function () {
 
                     // Manifest is not in local storage. Fetch it from the server
                     } else {
+
                         Boot.fetch(url, function (result) {
                                 _debug("Manifest file was not found in Local Storage, loading: " + url);
                             manifest = new Manifest({
                                 url: url,
                                 content: result.content
                             });
+                                                    
 
                             manifest.cache();
                             if (postProcessor) {
                                 postProcessor(manifest);
                             }
+                            
                             Microloader.load(manifest);
                         });
                     }
