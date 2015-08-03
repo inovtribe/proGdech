@@ -62,11 +62,7 @@ var ProGDechMap = L.Map.extend({
      *   True pour écraser le zoom précédement sauvegardé.
      *   False, si un zoom a été précédement sauvegardé, alors il n'est pas écrasé.
      **/
-    zoomPreviousSave: function(overwrite) {
-        if (typeof(overwrite) === 'undefined') {
-            overwrite = false;
-        }
-
+    zoomPreviousSave: function(overwrite = false) {
         if ((overwrite === true) || (this.zoomPrevious === null)) {
             this.zoomPrevious = [
                 this.getCenter(),
@@ -118,7 +114,7 @@ var ProGDechMap = L.Map.extend({
      *
      * @return layer Layer de la commune (null si aucune)
      **/
-    findLayerCommuneFromPoint: function(point) {
+    findLayerCommuneFromPoint(point) {
         var layers = leafletPip.pointInLayer(point, this.communes, true);
 
         if (layers.length == 0) {
