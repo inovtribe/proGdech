@@ -8,6 +8,9 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 
+use Geograph\ProgdechBundle\Entity\PointCollecte;
+use Geograph\ProgdechBundle\Form\PointCollecteType;
+
 class PointCollecteController extends Controller
 {
 
@@ -56,6 +59,34 @@ class PointCollecteController extends Controller
             'aeriallayer' => $aeriallayer,
             'actif_pointcollecte' => $pointCollecte,
             'commune' =>$commune
+        );
+    }
+    
+    /**
+     * PointCollecte add page controller.
+     *
+     * @Route("/admin/pointcollecte/add", name="pointcollecteadd")
+     * @Template("GeographProgdechBundle:Backend:ajouter.html.twig");
+     */
+    public function ajouterAction(){
+        $pointcollecte = new PointCollecte;
+        
+        $form = $this->createForm(new PointCollecteType, $pointcollecte);
+        
+        $request = $this->get('request');
+        if ($request->getMethod() == 'POST') {
+            $form->bind($request);
+            if ($form->isValid()) {
+                $em = $this->getDoctrine()->getManager();
+                $em->persist($pointcollecte);
+                $em->flush();
+                
+                return $this->redirect($this->generateUrl(''));
+            }
+        }
+        
+        return array(
+            'form' => $form->createView(),
         );
     }
 }

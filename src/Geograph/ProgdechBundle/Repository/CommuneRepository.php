@@ -12,5 +12,9 @@ use Doctrine\ORM\EntityRepository;
  */
 class CommuneRepository extends EntityRepository
 {
-    
+    public function getSelectList(){
+        $qb = $this->createQueryBuilder('c')
+                ->orderBy('c.nom');
+        return $qb;
+    }
 }
